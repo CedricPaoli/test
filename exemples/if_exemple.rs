@@ -1,6 +1,6 @@
-/* Fichier d'exemple sur les condition */
+/* Fichier d'exemple sur les conditions */
 
-fn fun1 () {
+fn main () {
   let a = 10;
   let b = 20;
 
