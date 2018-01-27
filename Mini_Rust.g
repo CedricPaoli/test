@@ -49,15 +49,58 @@ instruction : ';'
             ;
 
 a : expr
-  | IDf '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
+  | IDF '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
   ;
 
-if_expr : 'if' expr_bloc ('else' (BLOC | if_expr))?
+if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
         ;
+
+expr : CST_ENT ex
+	| 'true' ex
+	| 'false' ex
+	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
+	| unaire expr ex
+	| 'vec' '!' '[' (expr(,expr)*)? ']'
+	| 'print' '!' '(' expr ')'
+	| bloc
+	| '(' expr ')'
+	;
+
+ex : '.' expr2 ex
+	| '[' expr ']' ex
+	|
+	;
+
+expr2 : IDF
+	| 'len' '(' ')'
+	;
+
+binaire : '+'
+	| '-' 
+	| '*' 
+	| '/' 
+	| '&''&' 
+	| '|''|' 
+	| '<' binaire2 
+	| '>' binaire2
+	| '=''=' 
+	| '!''='
+	;
+
+binaire2 : '='
+	 | 
+	 ;
+
+unaire : '-'
+	| '!'
+	| '*'
+	| '&'
+	;
 
 IDF : '';
 I32 : '';
 BOOL : '';
+CST_ENT : '';
 
 
 
