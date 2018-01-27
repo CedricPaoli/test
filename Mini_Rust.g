@@ -55,6 +55,47 @@ a : expr
 if_expr : 'if' expr_bloc ('else' (BLOC | if_expr))?
         ;
 
+expr : CSTE_ENT ex
+	| 'true' ex
+	| 'false' ex
+	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
+	| unaire expr ex
+	| 'vec' '!' '[' (expr(,expr)*)? ']'
+	| 'print' '!' '(' expr ')'
+	| bloc
+	| '(' expr ')'
+	;
+
+ex : '.' expr2 ex
+	| '[' expr ']' ex
+	|
+	;
+
+expr2 : IDF
+	| 'len' '(' ')'
+
+binaire : '+'
+	| '-' 
+	| '*' 
+	| '/' 
+	| '&''&' 
+	| '|''|' 
+	| '<' bianire2 
+	| '>' binaire2
+	| '=''=' 
+	| '!''='
+	;
+
+bianire2 : '='
+	 | 
+	 ;
+
+unaire : '-'
+	| '!'
+	| '*'
+	| '&'
+	;
+
 IDF : '';
 I32 : '';
 BOOL : '';
