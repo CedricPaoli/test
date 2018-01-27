@@ -1,20 +1,23 @@
 grammar Mini_Rust;
 
+options {
+k = 1;
+}
+
 @header {
 import java.util.HashMap;
 }
 
-options {
-k = 1
-}
 
 @members {
 /** Map variable name to Integer object holding value */
 HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 }
 
-fichier : decl fichier 
-        |
+prog : fichier+ ;
+
+fichier : decl fichier NEWLINE
+        | NEWLINE
         ;
 
 decl : decl_struct
@@ -60,7 +63,7 @@ expr : CST_ENT ex
 	| 'false' ex
 	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
 	| unaire expr ex
-	| 'vec' '!' '[' (expr(,expr)*)? ']'
+	| 'vec' '!' '[' ( expr (','expr)*)? ']'
 	| 'print' '!' '(' expr ')'
 	| bloc
 	| '(' expr ')'
@@ -68,6 +71,7 @@ expr : CST_ENT ex
 
 ex : '.' expr2 ex
 	| '[' expr ']' ex
+	| binaire expr ex
 	|
 	;
 
@@ -97,10 +101,10 @@ unaire : '-'
 	| '&'
 	;
 
-IDF : '';
+IDF : ('a'..'z'|'A'..'Z')+('a'..'z'|'A'..'Z'|'0'..'9')*;
 I32 : '';
-BOOL : '';
-CST_ENT : '';
-
-
+BOOL : 'true'|'false';
+CST_ENT : ('0'..'9')+','('0'..'9')+;
+NEWLINE:'\r'? '\n' ;
+WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
 
