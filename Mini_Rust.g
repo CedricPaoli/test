@@ -49,13 +49,13 @@ instruction : ';'
             ;
 
 a : expr
-  | IDf '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
+  | IDF '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
   ;
 
-if_expr : 'if' expr_bloc ('else' (BLOC | if_expr))?
+if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
         ;
 
-expr : CSTE_ENT ex
+expr : CST_ENT ex
 	| 'true' ex
 	| 'false' ex
 	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
@@ -73,6 +73,7 @@ ex : '.' expr2 ex
 
 expr2 : IDF
 	| 'len' '(' ')'
+	;
 
 binaire : '+'
 	| '-' 
@@ -80,13 +81,13 @@ binaire : '+'
 	| '/' 
 	| '&''&' 
 	| '|''|' 
-	| '<' bianire2 
+	| '<' binaire2 
 	| '>' binaire2
 	| '=''=' 
 	| '!''='
 	;
 
-bianire2 : '='
+binaire2 : '='
 	 | 
 	 ;
 
@@ -99,6 +100,7 @@ unaire : '-'
 IDF : '';
 I32 : '';
 BOOL : '';
+CST_ENT : '';
 
 
 
