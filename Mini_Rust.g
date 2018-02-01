@@ -40,8 +40,10 @@ type : 'vec' <type>
 argument : IDF ':' type
          ;
 
-bloc : '{' (instruction)* (expr)? '}'
+bloc : '{' (instruction)* (expr)?'}'
      ;
+     
+
 
 instruction : ';'
             | expr
@@ -61,7 +63,7 @@ if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
 expr : CST_ENT ex
 	| 'true' ex
 	| 'false' ex
-	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
+	| IDF ( '(' ( expr ( ',' expr)*)?)? ex ')'
 	| unaire expr ex
 	| 'vec' '!' '[' ( expr (','expr)*)? ']'
 	| 'print' '!' '(' expr ')'
