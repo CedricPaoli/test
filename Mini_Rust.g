@@ -23,37 +23,37 @@ fichier : decl fichier NEWLINE
 decl : decl_struct
      | decl_fun
      ;
-          
+
 decl_struct : 'struct' IDF '{' (IDF ':' type (',' IDF ':' type)* )? '}'
             ;
 
-decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? Br
+decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? bloc
          ;
 
-type : 'vec' <type> 
+type : 'vec' <type>
      | '&' type
-     | I32
-     | BOOL
+     | 'i32'
+     | 'bool'
      | IDF
      ;
 
 argument : IDF ':' type
          ;
-/*
-bloc : '{' (instruction)*'}'
+
+bloc : '{' (A)*'}'
      ;
 
 
 instruction : ';'
             | expr
-            | 'let' ('mut')? IDF '=' a
-            | 'while' expr bloc
+            | 'let' ('mut')? IDF '=' expr
+            | 'while' expr bloc  
             | 'return' (expr)?
-            |if_expr
+            | if_expr
             ;
-
-a : expr
-  | IDF '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
+  
+b : '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
+  | '(' ( ( expr ( ',' expr)*)?)? ex ')'
   ;
 
 if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
@@ -62,7 +62,7 @@ if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
 expr : CST_ENT ex
 	| 'true' ex
 	| 'false' ex
-	| IDF ( '(' ( expr ( ',' expr)*)?)? ex
+	| IDF b
 	| unaire expr ex
 	| 'vec' '!' '[' ( expr (','expr)*)? ']'
 	| 'print' '!' '(' expr ')'
@@ -70,6 +70,7 @@ expr : CST_ENT ex
 	| '(' expr ')'
 	;
 
+/*Boucle infinie qui cause les erreurs*/
 ex : '.' expr2 ex
 	| '[' expr ']' ex
 	| binaire expr ex
@@ -80,35 +81,50 @@ expr2 : IDF
 	| 'len' '(' ')'
 	;
 
-binaire : '+'
-	| '-' 
-	| '*' 
-	| '/' 
-	| '&''&' 
-	| '|''|' 
-	| '<' binaire2 
-	| '>' binaire2
-	| '=''=' 
-	| '!''='
+binaire : prio2
+        | prio3
 	;
+
+prio0 : '&'
+      ;	
+      
+/*prio1*/
+unaire : '!'
+      | '-'
+      | '*'
+      | prio0
+      ;	
+      
+prio2 : '*'
+      | '/'
+      ;	
+      
+prio3 : '+'
+      | '-'
+      ;	
+      
+prio4 : prio0'&'
+      | '|''|'
+      | '<' binaire2
+      | '>' binaire2
+      | '=''='
+      | '!''='
+      ;
 
 binaire2 : '='
-	 | 
+	 |
 	 ;
 
-unaire : '-'
-	| '!'
-	| '*'
-	| '&'
-	;
-*/
+
+communUB : '-'
+	 | '*'
+	 ;
 
 BOOL : 'true'|'false';
-IDF : ('a'..'z'|'A'..'Z')+('a'..'z'|'A'..'Z'|'0'..'9');
-I32 : ('-55');
+IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 CST_ENT : ('0'..'9')+','('0'..'9')+;
 NEWLINE:'\r'? '\n' ;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
-/*A   	:	'ç';*/
+A   	:	'ç';
 Br 	:	'è';
-
+C 	:	'&';
