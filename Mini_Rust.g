@@ -40,22 +40,23 @@ type : 'vec' <type>
 argument : IDF ':' type
          ;
 
-bloc : '{' (instruction)* (expr)?'}'
+bloc : '{' (instruction)* '}'
      ;
-     
-
 
 instruction : ';'
             | expr
             | 'let' ('mut')? IDF '=' a
-            | 'while' expr bloc
+            | 'while' expr bloc  | IDF '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
             | 'return' (expr)?
-            |if_expr
+            | if_expr
             ;
+            
+
 
 a : expr
   | IDF '{' (IDF ':' expr (',' IDF ':' expr)*)? '}'
   ;
+
 
 if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
         ;
@@ -63,7 +64,7 @@ if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
 expr : CST_ENT ex
 	| 'true' ex
 	| 'false' ex
-	| IDF ( '(' ( expr ( ',' expr)*)?)? ex ')'
+	| IDF '(' ( ( expr ( ',' expr)*)?)? ex ')'
 	| unaire expr ex
 	| 'vec' '!' '[' ( expr (','expr)*)? ']'
 	| 'print' '!' '(' expr ')'
@@ -103,7 +104,7 @@ unaire : '-'
 	| '&'
 	;
 
-IDF : ('a'..'z'|'A'..'Z')+('a'..'z'|'A'..'Z'|'0'..'9')*;
+IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9')*;
 I32 : '';
 BOOL : 'true'|'false';
 CST_ENT : ('0'..'9')+','('0'..'9')+;
