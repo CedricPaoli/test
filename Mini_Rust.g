@@ -27,7 +27,7 @@ decl : decl_struct
 decl_struct : 'struct' IDF '{' (IDF ':' type (',' IDF ':' type)* )? '}'
             ;
 
-decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? bloc
+decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? Br
          ;
 
 type : 'vec' <type> 
@@ -39,9 +39,10 @@ type : 'vec' <type>
 
 argument : IDF ':' type
          ;
-
-bloc : '{' (instruction)* (expr)? '}'
+/*
+bloc : '{' (instruction)*'}'
      ;
+
 
 instruction : ';'
             | expr
@@ -100,11 +101,14 @@ unaire : '-'
 	| '*'
 	| '&'
 	;
+*/
 
-IDF : ('a'..'z'|'A'..'Z')+('a'..'z'|'A'..'Z'|'0'..'9')*;
-I32 : '';
 BOOL : 'true'|'false';
+IDF : ('a'..'z'|'A'..'Z')+('a'..'z'|'A'..'Z'|'0'..'9');
+I32 : ('-55');
 CST_ENT : ('0'..'9')+','('0'..'9')+;
 NEWLINE:'\r'? '\n' ;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
+/*A   	:	'ç';*/
+Br 	:	'è';
 
