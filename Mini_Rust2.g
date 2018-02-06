@@ -40,7 +40,7 @@ type : 'vec' <type>
 argument : IDF ':' type
          ;
 
-bloc : '{' (A)*'}' //Penser a mettre instructions* ici pour debuguer les dernieres erreurs
+bloc : '{' (instruction)*'}' //Penser a mettre instructions* ici pour debuguer les dernieres erreurs
      ;
 
 
