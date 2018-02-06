@@ -45,10 +45,10 @@ bloc : '{' (instruction)*'}' //Penser a mettre instructions* ici pour debuguer l
 
 
 instruction : ';'
-            | expr
+            | expr ';'
             | 'let' ('mut')? IDF '=' b
             | 'while' expr bloc  
-            | 'return' (expr)?
+            | 'return' (expr)? ';'
             | if_expr
             ;
   
@@ -78,7 +78,7 @@ operations_prio3 : operations_prio2 (prio3 operations_prio3)?
 operations_prio2 : operations_prio1 (prio2 operations_prio2)?
                  ;
 
-operations_prio1 : unaire* operations_unaires (prio1 operations_prio1)?
+operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)?
                  ;
 
 operations_unaires : '(' operations_prio4 ')'
@@ -107,7 +107,7 @@ operations_prio3b : (prio3 operations_prio3)?
 operations_prio2b : (prio2 operations_prio2)?
                   ;
 
-operations_prio1b : unaire* operations_unairesb (prio1 operations_prio1)?
+operations_prio1b : unaire? operations_unairesb (prio1 operations_prio1)?
                   ;
 
 operations_unairesb : '(' operations_prio4 ')'
@@ -145,12 +145,12 @@ prio2 : '+'
     
 prio3 : '<' '='?
       | '>' '='?
-      | '=' '='
-      | '!' '='
+      | '=='
+      | '!='
       ;
 
-prio4 : '&''&'
-      | '|''|'
+prio4 : '&&'
+      | '||'
       ;
 
 
@@ -158,6 +158,3 @@ IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 CST_ENT : ('0'..'9')+','('0'..'9')+;
 NEWLINE:'\r'? '\n' ;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
-A   	:	'ç';
-Br 	:	'è';
-C 	:	'&';
