@@ -14,7 +14,7 @@ import java.util.HashMap;
 HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 }
 
-prog : fichier+ ;
+prog :  comm? fichier+ ;
 
 fichier : decl fichier EOF
         ;
@@ -23,47 +23,51 @@ decl : decl_struct
      | decl_fun
      ;
 
-decl_struct : 'struct' IDF '{' (IDF ':' type (',' IDF ':' type)* )? '}'
+decl_struct : 'struct' comm? IDF '{' comm? (IDF ':' comm? type (',' comm? IDF ':' comm? type)* )? '}' comm?
             ;
 
-decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? bloc
+decl_fun : 'fn' comm? IDF '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc
          ;
 
-type : 'vec' '<' type '>'
-     | '&' type
-     | 'i32'
-     | 'bool'
+type : 'vec' comm? '<' comm? type '>' comm?
+     | '&' comm? type
+     | 'i32' comm?
+     | 'bool' comm?
      | IDF
      ;
 
-argument : IDF ':' type
+argument : IDF ':' comm? type
          ;
 
-bloc : '{' (instruction)*(expr)?'}' //Penser a mettre instructions* ici pour debuguer les dernieres erreurs
+bloc : '{' comm? sous_bloc '}' comm?
      ;
 
-
-instruction : ';'
-            | expr ';'
-            | 'let' ('mut')? IDF '=' b ';'
-            | 'while' expr bloc  
-            | 'return' (expr)? ';'
+sous_bloc :
+          | instruction+(expr)?
+          | expr
+          ;
+          
+instruction : ';' comm?
+            | expr ';' comm?
+            | 'let' comm? ('mut' comm?)? IDF '=' comm? b ';' comm?
+            | 'while' comm? expr bloc  
+            | 'return' comm? (expr)? ';' comm?
             | if_expr
             ;
   
-b : IDF ('{' (IDF ':' expr (',' IDF ':' expr)*)? '}' | operation_suivante )
+b : IDF ('{' comm? (IDF ':' comm? expr (',' comm? IDF ':' comm? expr)*)? '}' comm? | operation_suivante )
   | expr_sans_idf 
   ;
 
 operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)?
                    ;
 
-if_expr : 'if' expr bloc ('else' (bloc | if_expr))?
+if_expr : 'if' comm? expr bloc ('else' comm? (bloc | if_expr))?
         ;
 
 expr : operations_prio4
-     | 'vec' '!' '[' ( expr (','expr)*)? ']'
-     | 'print' '!' '(' expr ')'
+     | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
+     | 'print' comm? '!' comm? '(' comm? expr ')' comm?
      | bloc
      ;
 
@@ -85,15 +89,15 @@ operations_unaires : '(' operations_prio4 ')'
                    ;
 
 variables : IDF fonctions_ou_vecteurs?
-          | 'true'
-          | 'false'
+          | 'true' comm?
+          | 'false' comm?
           | CST_ENT
           ;
 
 /* On dedouble le code avec une legere modification pour regler un conflit avec b (oui je sais c'est tres sale) */
 expr_sans_idf : operations_prio4b
-              | 'vec' '!' '[' ( expr (','expr)*)? ']'
-              | 'print' '!' '(' expr ')'
+              | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
+              | 'print' comm? '!' comm? '(' comm? expr ')' comm?
               | bloc
               ;
 
@@ -113,46 +117,50 @@ operations_unairesb : '(' operations_prio4 ')'
                     | variablesb
                     ;
 
-variablesb : 'true' //Tout ce code pour enlever le idf ici
-           | 'false'
+variablesb : 'true' comm? //Tout ce code pour enlever le idf ici
+           | 'false' comm?
            | CST_ENT
            ;
 /* Fin du dedoublement */
           
-fonctions_ou_vecteurs : '(' (expr ( ',' expr)*)? ')'
-                      | '[' expr ']'
-                      | '.' attribut_vecteur
+fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm?
+                      | '[' comm? expr ']' comm?
+                      | '.' comm? attribut_vecteur
                       ;
 
-attribut_vecteur : 'len''('')'
+attribut_vecteur : 'len' comm? '(' comm? ')' comm?
                  | variables
                  ;
 
-unaire : '!'
-       | '-'
-       | '*'
-       | '&'
+unaire : '!' comm?
+       | '-' comm?
+       | '*' comm?
+       | '&' comm?
        ;
 
-prio1 : '*'
-      | '/'
+prio1 : '*' comm?
+      | '/' comm?
       ;	
       
-prio2 : '+'
-      | '-'
+prio2 : '+' comm?
+      | '-' comm?
       ;	
     
-prio3 : '<' '='?
-      | '>' '='?
-      | '=='
-      | '!='
+prio3 : '<' '='? //comm?
+      | '>' '='? comm?
+      | '==' comm?
+      | '!=' comm?
       ;
 
-prio4 : '&&'
-      | '||'
+prio4 : '&&' comm?
+      | '||' comm?
       ;
 
+comm : '/*' (CAR | '*'* CAR1)* '*/'
+     ;
 
-IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-CST_ENT : ('0'..'9')+','('0'..'9')+;
+CAR : (.^'*'^EOF);
+CAR1 : (.^'/'^EOF);
+IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* comm?;
+CST_ENT : ('0'..'9')+','('0'..'9')+  comm?;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
