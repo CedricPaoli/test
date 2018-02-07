@@ -16,8 +16,7 @@ HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 
 prog : fichier+ ;
 
-fichier : decl fichier NEWLINE
-        | NEWLINE
+fichier : decl fichier EOF
         ;
 
 decl : decl_struct
@@ -30,7 +29,7 @@ decl_struct : 'struct' IDF '{' (IDF ':' type (',' IDF ':' type)* )? '}'
 decl_fun : 'fn' IDF '(' (argument (',' argument)*)? ')' ('->' type)? bloc
          ;
 
-type : 'vec' <type>
+type : 'vec' '<' type '>'
      | '&' type
      | 'i32'
      | 'bool'
@@ -40,7 +39,7 @@ type : 'vec' <type>
 argument : IDF ':' type
          ;
 
-bloc : '{' (instruction)*'}' //Penser a mettre instructions* ici pour debuguer les dernieres erreurs
+bloc : '{' (instruction)*(expr)?'}' //Penser a mettre instructions* ici pour debuguer les dernieres erreurs
      ;
 
 
