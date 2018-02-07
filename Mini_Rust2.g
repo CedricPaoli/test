@@ -2,6 +2,7 @@ grammar Mini_Rust2;
 
 options {
 k = 1;
+output=AST;
 }
 
 @header {
@@ -39,20 +40,23 @@ type : 'vec' comm? '<' comm? type '>' comm?
 argument : IDF ':' comm? type
          ;
 
+//instruction* expr?
 bloc : '{' comm? sous_bloc '}' comm?
      ;
 
-sous_bloc :
-          | instruction+(expr)?
-          | expr
-          ;
-          
-instruction : ';' comm?
-            | expr ';' comm?
-            | 'let' comm? ('mut' comm?)? IDF '=' comm? b ';' comm?
-            | 'while' comm? expr bloc  
-            | 'return' comm? (expr)? ';' comm?
-            | if_expr
+sous_bloc : instruction_sans_expr sous_bloc | expr (';' comm? sous_bloc)?
+	  |
+          ;      
+
+instruction_sans_expr : ';' comm?
+                      | 'let' comm? ('mut' comm?)? IDF '=' comm? b ';' comm?
+                      | 'while' comm? expr bloc  
+                      | 'return' comm? (expr)? ';' comm?
+                      | if_expr
+                      ;
+
+instruction : expr ';' comm?
+            | instruction_sans_expr
             ;
   
 b : IDF ('{' comm? (IDF ':' comm? expr (',' comm? IDF ':' comm? expr)*)? '}' comm? | operation_suivante )
@@ -156,11 +160,9 @@ prio4 : '&&' comm?
       | '||' comm?
       ;
 
-comm : '/*' (CAR | '*'* CAR1)* '*/'
+comm : '/*' (IDF | '/' | '*'+ IDF)* '*/'
      ;
 
-CAR : (.^'*'^EOF);
-CAR1 : (.^'/'^EOF);
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* comm?;
 CST_ENT : ('0'..'9')+','('0'..'9')+  comm?;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
