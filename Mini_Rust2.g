@@ -45,14 +45,14 @@ bloc : '{' (instruction)*(expr)?'}' //Penser a mettre instructions* ici pour deb
 
 instruction : ';'
             | expr ';'
-            | 'let' ('mut')? IDF '=' b
+            | 'let' ('mut')? IDF '=' b ';'
             | 'while' expr bloc  
             | 'return' (expr)? ';'
             | if_expr
             ;
   
-b : IDF ('{' (IDF ':' expr (',' IDF ':' expr)*)? '}' | operation_suivante)
-  | expr_sans_idf
+b : IDF ('{' (IDF ':' expr (',' IDF ':' expr)*)? '}' | operation_suivante )
+  | expr_sans_idf 
   ;
 
 operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)?
@@ -155,5 +155,4 @@ prio4 : '&&'
 
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 CST_ENT : ('0'..'9')+','('0'..'9')+;
-NEWLINE:'\r'? '\n' ;
 WS  :   (' '|'\t')+ {$channel=HIDDEN;} ;
