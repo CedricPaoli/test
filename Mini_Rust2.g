@@ -3,6 +3,7 @@ grammar Mini_Rust2;
 options {
 k = 1;
 output=AST;
+ASTLabelType=CommonTree;
 }
 
 @header {
@@ -15,7 +16,7 @@ import java.util.HashMap;
 HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 }
 
-prog :  comm? fichier EOF;
+prog :  comm? fichier EOF -> fichier;
 
 fichier : decl*
         ;
@@ -27,7 +28,7 @@ decl : decl_struct
 decl_struct : 'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm?
             ;
 
-decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc
+decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^('fn' IDF ^('(' argument*) type? bloc)
          ;
 
 type : 'Vec' comm? '<' comm? type '>' comm?
@@ -37,11 +38,11 @@ type : 'Vec' comm? '<' comm? type '>' comm?
      | IDF comm?
      ;
 
-argument : IDF ':' comm? type
+argument : IDF ':' comm? type -> IDF type
          ;
 
 //instruction* expr?
-bloc : '{' comm? sous_bloc '}' comm?
+bloc : '{' comm? sous_bloc '}' comm? -> ^('{' sous_bloc)
      ;
 
 sous_bloc : instruction_sans_expr sous_bloc | expr (';' comm? sous_bloc)?
