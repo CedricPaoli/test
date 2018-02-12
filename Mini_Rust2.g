@@ -112,21 +112,19 @@ b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)?
    | operation_suivante 
    ;
 
-operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)? (prio5 operations_prio5)?
+operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)?
                    ;
 
 if_expr : 'if' comm? expr bloc ('else' comm? (bloc | if_expr))?
         ;
 
-expr : operations_prio5
-     | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
-     | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
-     | bloc
+expr : IDF expr2
+     | expr_sans_idf
      ;
 
-/*Selon la reponse a la question posee dans le drive, il faudra faire la distinction entre les booleens et les entiers*/
-operations_prio5 : operations_prio4 (prio5 operations_prio4)?
-                 ;
+expr2 : ('=' operations_prio4)
+      | operations_prio4b
+      ;
 
 operations_prio4 : operations_prio3 (prio4 operations_prio4)?
                  ;
@@ -151,22 +149,17 @@ variables : IDF comm? fonctions_ou_vecteurs?
           ;
 
 /* On dedouble le code avec une legere modification pour regler un conflit avec b (oui je sais c'est tres sale) */
-expr_sans_idf : operations_unairesb operations_prio5b
+expr_sans_idf : operations_unairesb operations_prio4b
               | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
-              | 'print' comm? '!' comm? '(' comm? expr ')' comm?
+              | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
               | bloc
               ;
 
-operations_prio5b : (prio4 operations_prio4)?
-                  ;
-
-operations_prio4b : (prio3 operations_prio3)?
-                  ;
-
-operations_prio3b : (prio3 operations_prio3)?
-                  ;
-
-operations_prio2b : (prio2 operations_prio2)?
+operations_prio4b : prio1 operations_prio1
+                  | prio2 operations_prio2
+                  | prio3 operations_prio3
+                  | prio4 operations_prio4
+                  |
                   ;
 
 operations_prio1b : unaire? operations_unairesb (prio1 operations_prio1)?
