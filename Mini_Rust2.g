@@ -6,9 +6,46 @@ output=AST;
 ASTLabelType=CommonTree;
 }
 
+tokens
+{
+    FICHIER;
+    DECL;
+    ARGUMENT;
+    ARGUMENTS;
+    STRUCT;
+    FCT;
+    TYPE;
+    BLOC;
+    INSTRUCTION;
+    IF;
+    EXPR;
+    SOMME;
+    DIFFERENCE;
+    PRODUIT;
+    RAPPORT;
+    ET;
+    OU;
+    INF;
+    INF_E;
+    SUP;
+    SUP_E;
+    EGAL;
+    DIFF;
+    NOT;
+    POINTEUR_ADDR;
+    POINTEUR_VAL;
+    NEG;
+    WHILE;
+    FOR;
+    LEN;
+    VEC;
+    PRINT;
+}
+
 @header {
 import java.util.HashMap;
 }
+
 
 
 @members {
