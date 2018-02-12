@@ -44,6 +44,7 @@ tokens
     LEN;
     VEC;
     PRINT;
+    AFFECTATION;
 }
 
 @header {
@@ -109,11 +110,8 @@ b : IDF comm?  b2 -> ^(VALUE IDF b2)
   ;
   
 b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? 
-   | operation_suivante 
+   | operations_suivantes
    ;
-
-operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)?
-                   ;
 
 if_expr : 'if' comm? expr bloc ('else' comm? (bloc | if_expr))?
         ;
@@ -122,8 +120,14 @@ expr : IDF expr2
      | expr_sans_idf
      ;
 
-expr2 : ('=' operations_prio4)
-      | operations_prio4b
+expr_sans_idf : operations_unairesb operations_suivantes
+              | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
+              | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
+              | bloc
+              ;
+
+expr2 : '=' comm? operations_prio4 -> operations_prio4
+      | operations_suivantes
       ;
 
 operations_prio4 : operations_prio3 (prio4 operations_prio4)?
@@ -139,49 +143,41 @@ operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)?
                  ;
 
 operations_unaires : '(' operations_prio4 ')'
-                   | variables
+                   | variable
                    ;
 
-variables : IDF comm? fonctions_ou_vecteurs?
-          | 'true' comm?
-          | 'false' comm?
-          | CST_ENT comm?
-          ;
+variable : IDF comm? fonctions_ou_vecteurs?
+         | variable_sans_idf
+         ;
 
-/* On dedouble le code avec une legere modification pour regler un conflit avec b (oui je sais c'est tres sale) */
-expr_sans_idf : operations_unairesb operations_prio4b
-              | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
-              | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
-              | bloc
-              ;
-
-operations_prio4b : prio1 operations_prio1
-                  | prio2 operations_prio2
-                  | prio3 operations_prio3
-                  | prio4 operations_prio4
-                  |
+variable_sans_idf : 'true' comm?
+                  | 'false' comm?
+                  | CST_ENT comm?
                   ;
 
-operations_prio1b : unaire? operations_unairesb (prio1 operations_prio1)?
-                  ;
+operations_suivantes : prio1 operations_prio1
+                     | prio2 operations_prio2
+                     | prio3 operations_prio3
+                     | prio4 operations_prio4
+                     | acces_variable operations_suivantes
+                     |
+                     ;
 
-operations_unairesb : '(' operations_prio4 ')'
-                    | variablesb
+operations_unairesb : '(' comm? operations_prio4 ')' comm?
+                    | variable_sans_idf
                     ;
-
-variablesb : 'true' comm? //Tout ce code pour enlever le idf ici
-           | 'false' comm?
-           | CST_ENT comm?
-           ;
-/* Fin du dedoublement */
-          
+  
 fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm?
                       | '[' comm? expr ']' comm?
                       | '.' comm? attribut_vecteur
                       ;
 
+acces_variable : '[' comm? expr ']' comm? acces_variable
+               | '.' IDF acces_variable
+               ;
+
 attribut_vecteur : 'len' comm? '(' comm? ')' comm?
-                 | variables
+                 | variable_sans_idf
                  ;
 
 unaire : '!' comm?
