@@ -16,6 +16,9 @@ tokens
     FCT;
     TYPE;
     BLOC;
+    CST;
+    VAR;
+    VALUE;
     INSTRUCTION;
     IF;
     EXPR;
@@ -36,6 +39,7 @@ tokens
     POINTEUR_VAL;
     NEG;
     WHILE;
+    CONDITION;
     FOR;
     LEN;
     VEC;
@@ -53,7 +57,7 @@ import java.util.HashMap;
 HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 }
 
-prog :  comm? fichier EOF -> fichier;
+prog :  comm? fichier EOF -> ^(FICHIER fichier);
 
 fichier : decl*
         ;
@@ -65,7 +69,7 @@ decl : decl_struct
 decl_struct : 'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm?
             ;
 
-decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^('fn' IDF ^('(' argument*) type? bloc)
+decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(FCT IDF ^(ARGUMENTS argument*) type? bloc)
          ;
 
 type : 'Vec' comm? '<' comm? type '>' comm?
@@ -79,7 +83,7 @@ argument : IDF ':' comm? type -> IDF type
          ;
 
 //instruction* expr?
-bloc : '{' comm? sous_bloc '}' comm? -> ^('{' sous_bloc)
+bloc : '{' comm? sous_bloc '}' comm? -> ^(BLOC sous_bloc)
      ;
 
 sous_bloc : instruction_sans_expr sous_bloc | expr (';' comm? sous_bloc)?
@@ -87,19 +91,26 @@ sous_bloc : instruction_sans_expr sous_bloc | expr (';' comm? sous_bloc)?
           ;
 
 instruction_sans_expr : ';' comm?
-                      | 'let' comm? ('mut' comm?)? IDF comm? '=' comm? b ';' comm?
-                      | 'while' comm? expr bloc  
+                      | 'let' let2 -> let2
+                      | 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) bloc)
                       | 'return' comm? expr? ';' comm?
                       | if_expr
                       ;
+let2 : 'mut' comm? IDF comm? '=' comm? b ';' comm? -> ^(VAR IDF b )
+     | IDF comm? '=' comm? b ';' comm? -> ^(CST IDF b)
+     ; 
 
 instruction : expr ';' comm?
             | instruction_sans_expr
             ;
   
-b : IDF comm? ('{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? | operation_suivante )
-  | expr_sans_idf 
+b : IDF comm?  b2 -> ^(VALUE IDF b2)
+  | expr_sans_idf -> ^(VALUE expr_sans_idf)
   ;
+  
+b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? 
+   | operation_suivante 
+   ;
 
 operation_suivante : (fonctions_ou_vecteurs)? (prio1 operations_prio1)? (prio2 operations_prio2)? (prio3 operations_prio3)? (prio4 operations_prio4)? (prio5 operations_prio5)?
                    ;
