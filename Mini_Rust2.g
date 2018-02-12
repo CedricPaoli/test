@@ -120,7 +120,7 @@ if_expr : 'if' comm? expr bloc ('else' comm? (bloc | if_expr))?
 
 expr : operations_prio5
      | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
-     | 'print' comm? '!' comm? '(' comm? expr ')' comm?
+     | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
      | bloc
      ;
 
