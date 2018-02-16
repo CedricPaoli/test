@@ -47,6 +47,11 @@ tokens
     AFFECTATION;
     ELSE;
     OPERATION;
+    RETURN;
+    PRIO1;
+    PRIO2;
+    PRIO3;
+    PRIO4;
 }
 
 @header {
@@ -69,17 +74,17 @@ decl : decl_struct
      | decl_fun
      ;
 
-decl_struct : 'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm?
+decl_struct : 'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm? 
             ;
 
 decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(FCT IDF ^(ARGUMENTS argument*) type? bloc)
          ;
 
-type : 'Vec' comm? '<' comm? type '>' comm?
-     | '&' comm? type
-     | 'i32' comm?
-     | 'bool' comm?
-     | IDF comm?
+type : 'Vec' comm? '<' comm? type '>' comm? -> ^(TYPE VEC type)
+     | '&' comm? type -> ^(TYPE '&' type)
+     | 'i32' comm? -> 'i32'
+     | 'bool' comm? -> 'bool'
+     | IDF comm? -> IDF
      ;
 
 argument : IDF ':' comm? type -> IDF type
@@ -97,7 +102,7 @@ sous_bloc : instruction_sans_expr sous_bloc
 instruction_sans_expr : ';' comm? ->
                       | 'let' let2 -> let2
                       | 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) bloc)
-                      | 'return' comm? expr? ';' comm?
+                      | 'return' comm? expr? ';' comm? -> ^(RETURN expr?)
                       | if_expr
                       ;
 let2 : 'mut' comm? IDF comm? '=' comm? b ';' comm? -> ^(VAR IDF b )
@@ -112,7 +117,7 @@ b : IDF comm?  b2 -> ^(VALUE IDF b2)
   | expr_sans_idf -> ^(VALUE expr_sans_idf)
   ;
   
-b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? 
+b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? -> (IDF expr(IDF expr)*)?
    | operations_suivantes
    ;
 
@@ -131,7 +136,7 @@ expr : IDF expr2
      ;
 
 expr_sans_idf : operations_unairesb operations_suivantes
-              | 'vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm?
+              | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
               | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
               | bloc
               ;
@@ -140,29 +145,29 @@ expr2 : '=' comm? operations_prio4 -> ^(AFFECTATION operations_prio4)
       | operations_suivantes
       ;
 
-operations_prio4 : operations_prio3 (prio4 operations_prio4)? -> ^(OPERATION operations_prio3 (prio4 operations_prio4)?)
+operations_prio4 : operations_prio3 (prio4 operations_prio4)? //-> ^(OPERATION operations_prio3 (prio4 operations_prio4)?)
                  ;
 
-operations_prio3 : operations_prio2 (prio3 operations_prio3)? -> ^(OPERATION operations_prio2 (prio3 operations_prio3)?)
+operations_prio3 : operations_prio2 (prio3 operations_prio3)? //-> ^(OPERATION operations_prio2 (prio3 operations_prio3)?)
                  ;
 
-operations_prio2 : operations_prio1 (prio2 operations_prio2)? -> ^(OPERATION operations_prio1 (prio2 operations_prio2)?)
+operations_prio2 : operations_prio1 (prio2 operations_prio2)? //-> ^(OPERATION operations_prio1 (prio2 operations_prio2)?)
                  ;
 
-operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)? -> ^(OPERATION unaire? operations_unaires (prio1 operations_prio1)?)
+operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)? //-> ^(OPERATION unaire? operations_unaires (prio1 operations_prio1)?)
                  ;
 
-operations_unaires : '(' operations_prio4 ')'
+operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
                    | variable
                    ;
 
-variable : IDF comm? fonctions_ou_vecteurs?
+variable : IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF (fonctions_ou_vecteurs)?)
          | variable_sans_idf
          ;
 
-variable_sans_idf : 'true' comm?
-                  | 'false' comm?
-                  | CST_ENT comm?
+variable_sans_idf : 'true' comm? -> 'true'
+                  | 'false' comm? -> 'false'
+                  | CST_ENT comm? -> CST_ENT
                   ;
 
 operations_suivantes : prio1 operations_prio1
@@ -173,48 +178,50 @@ operations_suivantes : prio1 operations_prio1
                      |
                      ;
 
-operations_unairesb : '(' comm? operations_prio4 ')' comm?
+operations_unairesb : '(' comm? operations_prio4 ')' comm? -> ^(operations_prio4)
                     | variable_sans_idf
                     ;
   
-fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm?
-                      | '[' comm? expr ']' comm?
-                      | '.' comm? attribut_vecteur
+fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr (expr)*)?
+                      | '[' comm? expr ']' comm? -> expr
+                      | '.' comm? attribut_vecteur -> attribut_vecteur
                       ;
 
-acces_variable : '[' comm? expr ']' comm? acces_variable
-               | '.' IDF acces_variable
+acces_variable : '[' comm? expr ']' comm? acces_variable -> expr acces_variable
+               | '.' IDF acces_variable -> IDF acces_variable
                ;
 
-attribut_vecteur : 'len' comm? '(' comm? ')' comm?
+attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len()'
                  | variable_sans_idf
                  ;
 
-unaire : '!' comm?
-       | '-' comm?
-       | '*' comm?
-       | '&' comm?
+unaire : '!' comm? -> '!'
+       | '-' comm? -> '-'
+       | '*' comm? -> '*'
+       | '&' comm? -> '&'
        ;
 
-prio1 : '*' comm?
-      | '/' comm?
+prio1 : '*' comm? -> '*'
+      | '/' comm? -> '/'
       ;	
       
-prio2 : '+' comm?
-      | '-' comm?
+prio2 : '+' comm? -> '+'
+      | '-' comm? -> '-'
       ;	
     
-prio3 : '<' '='? comm?
-      | '>' '='? comm?
-      | '==' comm?
-      | '!=' comm?
+prio3 : '<' comm? -> '<'
+      | '>' comm? -> '>'
+      | '>=' comm? -> '>='
+      | '<=' comm? -> '<='
+      | '==' comm? -> '=='
+      | '!=' comm? -> '!='
       ;
 
-prio4 : '&&' comm?
-      | '||' comm?
+prio4 : '&&' comm? -> '&&'
+      | '||' comm? -> '||'
       ;
 
-prio5 : '=' comm?
+prio5 : '=' comm? -> '='
       ;
 
 //comm : '/*' (('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'/'|' ')  |  ('*'+ ('a'..'z'|'A'..'Z'|'0'..'9'|'_')) )* '*/'
