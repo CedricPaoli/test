@@ -191,7 +191,7 @@ acces_variable : '[' comm? expr ']' comm? acces_variable -> expr acces_variable
                | '.' IDF acces_variable -> IDF acces_variable
                ;
 
-attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len()'
+attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len'
                  | variable_sans_idf
                  ;
 
