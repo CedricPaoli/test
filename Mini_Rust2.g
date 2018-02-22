@@ -141,20 +141,20 @@ expr_sans_idf : operations_unairesb operations_suivantes
               | bloc
               ;
 
-expr2 : '=' comm? operations_prio4 -> ^(AFFECTATION operations_prio4)
+expr2 : '=' comm? operations_prio4 //-> ^(AFFECTATION operations_prio4)
       | operations_suivantes
       ;
 
-operations_prio4 : operations_prio3 (prio4 operations_prio4)? //-> ^(OPERATION operations_prio3 (prio4 operations_prio4)?)
+operations_prio4 : operations_prio3 (prio4 ^ operations_prio4)? //-> ^(OPERATION operations_prio3 (prio4 operations_prio4)?)
                  ;
 
-operations_prio3 : operations_prio2 (prio3 operations_prio3)? //-> ^(OPERATION operations_prio2 (prio3 operations_prio3)?)
+operations_prio3 : operations_prio2 (prio3 ^ operations_prio3)? //-> ^(OPERATION operations_prio2 (prio3 operations_prio3)?)
                  ;
 
-operations_prio2 : operations_prio1 (prio2 operations_prio2)? //-> ^(OPERATION operations_prio1 (prio2 operations_prio2)?)
+operations_prio2 : operations_prio1 (prio2 ^ operations_prio2)? //-> ^(OPERATION operations_prio1 (prio2 operations_prio2)?)
                  ;
 
-operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)? //-> ^(OPERATION unaire? operations_unaires (prio1 operations_prio1)?)
+operations_prio1 : unaire? operations_unaires (prio1 ^ operations_prio1)? //-> ^(OPERATION unaire? operations_unaires (prio1 operations_prio1)?)
                  ;
 
 operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
