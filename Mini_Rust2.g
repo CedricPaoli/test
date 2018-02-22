@@ -52,6 +52,8 @@ tokens
     PRIO2;
     PRIO3;
     PRIO4;
+    ATTRIBUT;
+    DECL_VAR;
 }
 
 @header {
@@ -74,8 +76,12 @@ decl : decl_struct
      | decl_fun
      ;
 
-decl_struct : 'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm? 
+//'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC 
+decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' attribut)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC (attribut (',' attribut)* )?))
             ;
+
+attribut : IDF ':' comm? type -> ^(ATTRIBUT IDF type)
+         ;
 
 decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(FCT IDF ^(ARGUMENTS argument*) type? bloc)
          ;
@@ -105,7 +111,7 @@ instruction_sans_expr : ';' comm? ->
                       | 'return' comm? expr? ';' comm? -> ^(RETURN expr?)
                       | if_expr
                       ;
-let2 : 'mut' comm? IDF comm? '=' comm? b ';' comm? -> ^(VAR IDF b )
+let2 : 'mut' comm? IDF comm? '=' comm? b ';' comm? -> ^(DECL_VAR IDF b )
      | IDF comm? '=' comm? b ';' comm? -> ^(CST IDF b)
      ; 
 
@@ -131,7 +137,7 @@ else3 : bloc
       | if_expr
       ;
 
-expr : IDF expr2
+expr : IDF (('=' ^ comm? operations_prio4) | operations_suivantes)
      | expr_sans_idf
      ;
 
@@ -141,20 +147,16 @@ expr_sans_idf : operations_unairesb operations_suivantes
               | bloc
               ;
 
-expr2 : '=' comm? operations_prio4 -> ^(AFFECTATION operations_prio4)
-      | operations_suivantes
-      ;
-
-operations_prio4 : operations_prio3 (prio4 operations_prio4)? //-> ^(OPERATION operations_prio3 (prio4 operations_prio4)?)
+operations_prio4 : operations_prio3 (prio4 ^ operations_prio4)?
                  ;
 
-operations_prio3 : operations_prio2 (prio3 operations_prio3)? //-> ^(OPERATION operations_prio2 (prio3 operations_prio3)?)
+operations_prio3 : operations_prio2 (prio3 ^ operations_prio3)?
                  ;
 
-operations_prio2 : operations_prio1 (prio2 operations_prio2)? //-> ^(OPERATION operations_prio1 (prio2 operations_prio2)?)
+operations_prio2 : operations_prio1 (prio2 ^ operations_prio2)?
                  ;
 
-operations_prio1 : unaire? operations_unaires (prio1 operations_prio1)? //-> ^(OPERATION unaire? operations_unaires (prio1 operations_prio1)?)
+operations_prio1 : unaire? operations_unaires (prio1 ^ operations_prio1)?
                  ;
 
 operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
@@ -208,7 +210,7 @@ prio1 : '*' comm? -> '*'
 prio2 : '+' comm? -> '+'
       | '-' comm? -> '-'
       ;	
-    
+
 prio3 : '<' comm? -> '<'
       | '>' comm? -> '>'
       | '>=' comm? -> '>='
@@ -225,11 +227,12 @@ prio5 : '=' comm? -> '='
       ;
 
 //comm : '/*' (('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'/'|' ')  |  ('*'+ ('a'..'z'|'A'..'Z'|'0'..'9'|'_')) )* '*/'
-comm : '/*' ( (IDF|CST_ENT|'/')  |  ('*'+ (IDF|CST_ENT)) )* '*/'
+comm : ('/*' ( (IDF|CST_ENT|'/')  |  ('*'+ (IDF|CST_ENT)) )* '*/')!
      | '//'(IDF|CST_ENT)* '\n'
      ;
 
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 CST_ENT : ('0'..'9')+('.'('0'..'9')+)?;
 WS  :   (' '|'\t'|'\n')+ {$channel=HIDDEN;} ;
+
 
