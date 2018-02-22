@@ -100,24 +100,23 @@ argument : IDF ':' comm? type -> IDF type
 bloc : '{' comm? sous_bloc '}' comm? -> ^(BLOC sous_bloc)
      ;
 
-sous_bloc : instruction_sans_expr sous_bloc
+sous_bloc : instruction_sans_expr (';' sous_bloc)?
           | expr (';' comm? sous_bloc)? -> expr sous_bloc?
+          | instruction_sans_point sous_bloc
 	  |
           ;
 
-instruction_sans_expr : ';' comm? ->
-                      | 'let' let2 -> let2
-                      | 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) bloc)
-                      | 'return' comm? expr? ';' comm? -> ^(RETURN expr?)
-                      | if_expr
+instruction_sans_expr : 'let' let2 -> let2
+                      | 'return' comm? expr?  -> ^(RETURN expr?)
                       ;
-let2 : 'mut' comm? IDF comm? '=' comm? b ';' comm? -> ^(DECL_VAR IDF b )
-     | IDF comm? '=' comm? b ';' comm? -> ^(CST IDF b)
-     ; 
 
-instruction : expr ';' comm? -> expr
-            | instruction_sans_expr
-            ;
+instruction_sans_point : 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) bloc)
+                       | if_expr
+                       ;
+
+let2 : 'mut' comm? IDF comm? '=' comm? b -> ^(DECL_VAR IDF b )
+     | IDF comm? '=' comm? b -> ^(CST IDF b)
+     ; 
   
 b : IDF comm?  b2 -> ^(VALUE IDF b2)
   | expr_sans_idf -> ^(VALUE expr_sans_idf)
@@ -176,7 +175,7 @@ operations_suivantes : prio1 operations_prio1
                      | prio2 operations_prio2
                      | prio3 operations_prio3
                      | prio4 operations_prio4
-                     | acces_variable operations_suivantes
+                     | fonctions_ou_vecteurs operations_suivantes
                      |
                      ;
 
@@ -234,5 +233,3 @@ comm : ('/*' ( (IDF|CST_ENT|'/')  |  ('*'+ (IDF|CST_ENT)) )* '*/')!
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 CST_ENT : ('0'..'9')+('.'('0'..'9')+)?;
 WS  :   (' '|'\t'|'\n')+ {$channel=HIDDEN;} ;
-
-
