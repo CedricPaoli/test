@@ -54,6 +54,7 @@ tokens
     PRIO4;
     ATTRIBUT;
     DECL_VAR;
+    DECL_FCT;
 }
 
 @header {
@@ -83,7 +84,7 @@ decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' attribut)* )? '}
 attribut : IDF ':' comm? type -> ^(ATTRIBUT IDF type)
          ;
 
-decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(FCT IDF ^(ARGUMENTS argument*) type? bloc)
+decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(DECL_FCT IDF ^(ARGUMENTS argument*) type? bloc)
          ;
 
 type : 'Vec' comm? '<' comm? type '>' comm? -> ^(TYPE VEC type)
@@ -93,17 +94,16 @@ type : 'Vec' comm? '<' comm? type '>' comm? -> ^(TYPE VEC type)
      | IDF comm? -> IDF
      ;
 
-argument : IDF ':' comm? type -> IDF type
+argument : IDF ':' comm? type -> ^(DECL_VAR IDF type)
          ;
 
 //instruction* expr?
-bloc : '{' comm? sous_bloc '}' comm? -> ^(BLOC sous_bloc)
+bloc : '{' comm? sous_bloc? '}' comm? -> ^(BLOC sous_bloc?)
      ;
 
-sous_bloc : instruction_sans_expr (';' sous_bloc)?
-          | expr (';' comm? sous_bloc)? -> expr sous_bloc?
-          | instruction_sans_point sous_bloc
-	  |
+sous_bloc : instruction_sans_expr (';' comm? sous_bloc?)?
+          | expr (';' comm? sous_bloc?)? -> expr sous_bloc?
+          | instruction_sans_point ';'? sous_bloc?
           ;
 
 instruction_sans_expr : 'let' let2 -> let2
@@ -114,11 +114,11 @@ instruction_sans_point : 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) b
                        | if_expr
                        ;
 
-let2 : 'mut' comm? IDF comm? '=' comm? b -> ^(DECL_VAR IDF b )
-     | IDF comm? '=' comm? b -> ^(CST IDF b)
+let2 : 'mut' comm? IDF comm? ('=' comm? b)? -> ^(DECL_VAR IDF b?)
+     | IDF comm? ('=' comm? b)? -> ^(CST IDF b?)
      ; 
   
-b : IDF comm?  b2 -> ^(VALUE IDF b2)
+b : IDF comm?  b2? -> ^(VALUE IDF b2?)
   | expr_sans_idf -> ^(VALUE expr_sans_idf)
   ;
   
@@ -126,7 +126,7 @@ b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)?
    | operations_suivantes
    ;
 
-if_expr : 'if' comm? expr bloc else2? -> ^(IF ^(CONDITION expr) bloc else2?)
+if_expr : 'if' comm? operations_prio4 bloc else2? -> ^(IF ^(CONDITION operations_prio4) bloc else2?)
         ;
 
 else2 : 'else' comm? else3 -> ^(ELSE else3)
@@ -136,11 +136,11 @@ else3 : bloc
       | if_expr
       ;
 
-expr : IDF (('=' ^ comm? operations_prio4) | operations_suivantes)
+expr : IDF (('=' ^ comm? operations_prio4) | operations_suivantes?)
      | expr_sans_idf
      ;
 
-expr_sans_idf : operations_unairesb operations_suivantes
+expr_sans_idf : operations_unairesb operations_suivantes?
               | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
               | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
               | bloc
@@ -175,8 +175,7 @@ operations_suivantes : prio1 operations_prio1
                      | prio2 operations_prio2
                      | prio3 operations_prio3
                      | prio4 operations_prio4
-                     | fonctions_ou_vecteurs operations_suivantes
-                     |
+                     | fonctions_ou_vecteurs operations_suivantes?
                      ;
 
 operations_unairesb : '(' comm? operations_prio4 ')' comm? -> ^(operations_prio4)
