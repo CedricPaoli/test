@@ -9,7 +9,6 @@ ASTLabelType=CommonTree;
 tokens
 {
     FICHIER;
-    DECL;
     ARGUMENT;
     ARGUMENTS;
     STRUCT;
@@ -18,43 +17,23 @@ tokens
     BLOC;
     CST;
     VAR;
-    VALUE;
-    INSTRUCTION;
     IF;
-    EXPR;
-    SOMME;
-    DIFFERENCE;
-    PRODUIT;
-    RAPPORT;
-    ET;
-    OU;
-    INF;
-    INF_E;
-    SUP;
-    SUP_E;
-    EGAL;
-    DIFF;
-    NOT;
     POINTEUR_ADDR;
     POINTEUR_VAL;
-    NEG;
+    POINTEUR;
     WHILE;
     CONDITION;
     FOR;
     LEN;
     VEC;
     PRINT;
-    AFFECTATION;
     ELSE;
-    OPERATION;
     RETURN;
-    PRIO1;
-    PRIO2;
-    PRIO3;
-    PRIO4;
     ATTRIBUT;
     DECL_VAR;
     DECL_FCT;
+    DECL_VEC;
+    VAL_ATTRIBUT;
 }
 
 @header {
@@ -77,18 +56,17 @@ decl : decl_struct
      | decl_fun
      ;
 
-//'struct' comm? IDF comm? '{' comm? (IDF comm? ':' comm? type (',' comm? IDF comm? ':' comm? type)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC 
-decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' attribut)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC (attribut (',' attribut)* )?))
+decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' comm? attribut)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC (attribut attribut* )?))
             ;
 
-attribut : IDF ':' comm? type -> ^(ATTRIBUT IDF type)
+attribut : IDF comm? ':' comm? type -> ^(ATTRIBUT type IDF)
          ;
 
-decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(DECL_FCT IDF ^(ARGUMENTS argument*) type? bloc)
+decl_fun : 'fn' comm? IDF comm? '(' comm? (argument (',' comm? argument)*)? ')' comm? ('->' comm? type)? bloc -> ^(DECL_FCT IDF ^(ARGUMENTS argument*) ^(TYPE type?) bloc)
          ;
 
-type : 'Vec' comm? '<' comm? type '>' comm? -> ^(TYPE VEC type)
-     | '&' comm? type -> ^(TYPE '&' type)
+type : 'Vec' comm? '<' comm? type '>' comm? -> ^('Vec' type)
+     | '&' comm? type -> ^(POINTEUR type)
      | 'i32' comm? -> 'i32'
      | 'bool' comm? -> 'bool'
      | IDF comm? -> IDF
@@ -97,36 +75,28 @@ type : 'Vec' comm? '<' comm? type '>' comm? -> ^(TYPE VEC type)
 argument : IDF ':' comm? type -> ^(DECL_VAR IDF type)
          ;
 
-//instruction* expr?
 bloc : '{' comm? sous_bloc? '}' comm? -> ^(BLOC sous_bloc?)
      ;
 
-sous_bloc : instruction_sans_expr (';' comm? sous_bloc?)?
-          | expr (';' comm? sous_bloc?)? -> expr sous_bloc?
-          | instruction_sans_point ';'? sous_bloc?
+sous_bloc : instruction (';' comm? sous_bloc?)? -> instruction sous_bloc?
+          | instruction_sans_point ';'? sous_bloc? -> instruction_sans_point sous_bloc?
           ;
 
-instruction_sans_expr : 'let' let2 -> let2
-                      | 'return' comm? expr?  -> ^(RETURN expr?)
-                      ;
+instruction : 'let' let2 -> let2
+            | 'return' comm? expr?  -> ^(RETURN expr?)
+            | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT expr)
+            | operations_prio4
+            ;
 
-instruction_sans_point : 'while' comm? expr bloc  -> ^(WHILE ^(CONDITION expr) bloc)
+instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(CONDITION operations_prio4b) bloc)
                        | if_expr
                        ;
 
-let2 : 'mut' comm? IDF comm? ('=' comm? b)? -> ^(DECL_VAR IDF b?)
-     | IDF comm? ('=' comm? b)? -> ^(CST IDF b?)
+let2 : 'mut' comm? IDF comm? ('=' comm? operations_prio4)? -> ^(DECL_VAR IDF operations_prio4?)
+     | accesseur ('=' comm? expr)? -> ^(CST accesseur expr?)
      ; 
-  
-b : IDF comm?  b2? -> ^(VALUE IDF b2?)
-  | expr_sans_idf -> ^(VALUE expr_sans_idf)
-  ;
-  
-b2 : '{' comm? (IDF comm? ':' comm? expr (',' comm? IDF comm? ':' comm? expr)*)? '}' comm? -> (IDF expr(IDF expr)*)?
-   | operations_suivantes
-   ;
 
-if_expr : 'if' comm? operations_prio4 bloc else2? -> ^(IF ^(CONDITION operations_prio4) bloc else2?)
+if_expr : 'if' comm? operations_prio4b bloc else2? -> ^(IF ^(CONDITION operations_prio4b) bloc else2?)
         ;
 
 else2 : 'else' comm? else3 -> ^(ELSE else3)
@@ -136,15 +106,9 @@ else3 : bloc
       | if_expr
       ;
 
-expr : IDF (('=' ^ comm? operations_prio4) | operations_suivantes?)
-     | expr_sans_idf
+expr : bloc
+     | operations_prio4
      ;
-
-expr_sans_idf : operations_unairesb operations_suivantes?
-              | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
-              | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT  expr)
-              | bloc
-              ;
 
 operations_prio4 : operations_prio3 (prio4 ^ operations_prio4)?
                  ;
@@ -162,37 +126,60 @@ operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
                    | variable
                    ;
 
-variable : IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF (fonctions_ou_vecteurs)?)
-         | variable_sans_idf
+variable : IDF comm? fonctions_ou_vecteurs_ou_struct? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_struct)?)
+         | 'true' comm? -> 'true'
+         | 'false' comm? -> 'false'
+         | CST_ENT comm? -> CST_ENT
+         | 'Vec' comm? '!' comm? '[' comm? ( operations_prio4 (',' comm? operations_prio4)*)? ']' comm? -> ^(DECL_VEC (operations_prio4 (operations_prio4)*)?)
          ;
 
-variable_sans_idf : 'true' comm? -> 'true'
-                  | 'false' comm? -> 'false'
-                  | CST_ENT comm? -> CST_ENT
-                  ;
-
-operations_suivantes : prio1 operations_prio1
-                     | prio2 operations_prio2
-                     | prio3 operations_prio3
-                     | prio4 operations_prio4
-                     | fonctions_ou_vecteurs operations_suivantes?
-                     ;
-
-operations_unairesb : '(' comm? operations_prio4 ')' comm? -> ^(operations_prio4)
-                    | variable_sans_idf
-                    ;
+accesseur : IDF acces_variable?
+          | '*' IDF acces_variable? -> ^(POINTEUR_VAL IDF acces_variable?)
+          ;
   
-fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr (expr)*)?
-                      | '[' comm? expr ']' comm? -> expr
-                      | '.' comm? attribut_vecteur -> attribut_vecteur
-                      ;
+fonctions_ou_vecteurs_ou_struct : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr expr*)?
+                                | acces_variable
+                                | '{' comm? (valeur_attribut_struct (',' comm? valeur_attribut_struct)* )? '}' comm? -> (valeur_attribut_struct (valeur_attribut_struct)*)?
+                                ;
 
-acces_variable : '[' comm? expr ']' comm? acces_variable -> expr acces_variable
-               | '.' IDF acces_variable -> IDF acces_variable
+//Debut copie pour opération sans création de variable struct
+operations_prio4b : operations_prio3b (prio4 ^ operations_prio4b)?
+                 ;
+
+operations_prio3b : operations_prio2b (prio3 ^ operations_prio3b)?
+                 ;
+
+operations_prio2b : operations_prio1b (prio2 ^ operations_prio2b)?
+                 ;
+
+operations_prio1b : unaire? operations_unairesb (prio1 ^ operations_prio1b)?
+                 ;
+
+operations_unairesb : '(' operations_prio4b ')' -> ^(operations_prio4b)
+                   | variableb
+                   ;
+
+variableb : IDF comm? fonctions_ou_vecteurs_ou_structb? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_structb)?)
+         | 'true' comm? -> 'true'
+         | 'false' comm? -> 'false'
+         | CST_ENT comm? -> CST_ENT
+         | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
+         ;
+  
+fonctions_ou_vecteurs_ou_structb : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr expr*)?
+                                 | acces_variable
+                                 ;
+//Fin copie
+
+valeur_attribut_struct : IDF ':' operations_prio4 -> ^(VAL_ATTRIBUT IDF operations_prio4)
+                       ;
+
+acces_variable : '[' comm? expr ']' comm? acces_variable? -> expr acces_variable?
+               | '.' attribut_vecteur acces_variable? -> attribut_vecteur acces_variable?
                ;
 
 attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len'
-                 | variable_sans_idf
+                 | IDF
                  ;
 
 unaire : '!' comm? -> '!'
