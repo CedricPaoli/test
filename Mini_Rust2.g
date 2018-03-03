@@ -6,8 +6,7 @@ output=AST;
 ASTLabelType=CommonTree;
 }
 
-tokens
-{
+tokens{
     FICHIER;
     ARGUMENT;
     ARGUMENTS;
@@ -85,7 +84,8 @@ sous_bloc : instruction (';' comm? sous_bloc?)? -> instruction sous_bloc?
 instruction : 'let' let2 -> let2
             | 'return' comm? expr?  -> ^(RETURN expr?)
             | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT expr)
-            | operations_prio4
+            //| operations_prio4
+            | operations_prio5 // correction pour test = test + 1 (ex while)
             ;
 
 instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(CONDITION operations_prio4b) bloc)
@@ -109,6 +109,9 @@ else3 : bloc
 expr : bloc
      | operations_prio4
      ;
+
+operations_prio5 : operations_prio4 (prio5 ^ operations_prio5)? //correction pour test = test + 1 (ex while)
+                 ;
 
 operations_prio4 : operations_prio3 (prio4 ^ operations_prio4)?
                  ;
@@ -216,6 +219,6 @@ comm : ('/*' ( (IDF|CST_ENT|'/')  |  ('*'+ (IDF|CST_ENT)) )* '*/')!
      | '//'(IDF|CST_ENT)* '\n'
      ;
 
-IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;//| ('"')(IDF)*('"');
 CST_ENT : ('0'..'9')+('.'('0'..'9')+)?;
-WS  :   (' '|'\t'|'\n')+ {$channel=HIDDEN;} ;
+WS  :   (' '|'\t'|'\n'|'\r')+ {$channel=HIDDEN;} ;
