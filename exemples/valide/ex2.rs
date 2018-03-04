@@ -13,7 +13,7 @@ fn puissance(a : i32, b : i32) -> i32 {
     return result;
 }
 
-fn factorielle(n : {
+fn factorielle(n : i32, result : & i32) {
   let mut i = 1;
   if n == 0
   {

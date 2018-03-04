@@ -14,7 +14,7 @@ tokens{
     FCT;
     TYPE;
     BLOC;
-    CST;
+    CST_OU_AFF;
     VAR;
     IF;
     POINTEUR_ADDR;
@@ -33,6 +33,8 @@ tokens{
     DECL_FCT;
     DECL_VEC;
     VAL_ATTRIBUT;
+    ACCES_VEC;
+    ACCES_ATTRIBUT;
 }
 
 @header {
@@ -46,7 +48,8 @@ import java.util.HashMap;
 HashMap<String,Integer>  memory = new HashMap<String,Integer>();
 }
 
-prog :  comm? fichier EOF -> ^(FICHIER fichier);
+prog :  comm? fichier EOF -> ^(FICHIER fichier)
+     ;
 
 fichier : decl*
         ;
@@ -93,7 +96,7 @@ instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(COND
                        ;
 
 let2 : 'mut' comm? IDF comm? ('=' comm? operations_prio4)? -> ^(DECL_VAR IDF operations_prio4?)
-     | accesseur ('=' comm? expr)? -> ^(CST accesseur expr?)
+     | accesseur ('=' comm? expr)? -> ^(CST_OU_AFF accesseur expr?)
      ; 
 
 if_expr : 'if' comm? operations_prio4b bloc else2? -> ^(IF ^(CONDITION operations_prio4b) bloc else2?)
@@ -168,7 +171,7 @@ variableb : IDF comm? fonctions_ou_vecteurs_ou_structb? -> ^(VAR IDF (fonctions_
          | CST_ENT comm? -> CST_ENT
          | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
          ;
-  
+
 fonctions_ou_vecteurs_ou_structb : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr expr*)?
                                  | acces_variable
                                  ;
@@ -177,12 +180,12 @@ fonctions_ou_vecteurs_ou_structb : '(' comm? (expr ( ',' comm? expr)*)? ')' comm
 valeur_attribut_struct : IDF ':' operations_prio4 -> ^(VAL_ATTRIBUT IDF operations_prio4)
                        ;
 
-acces_variable : '[' comm? expr ']' comm? acces_variable? -> expr acces_variable?
+acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr) acces_variable?
                | '.' attribut_vecteur acces_variable? -> attribut_vecteur acces_variable?
                ;
 
 attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len'
-                 | IDF
+                 | IDF -> ^(ACCES_ATTRIBUT IDF)
                  ;
 
 unaire : '!' comm? -> '!'
@@ -214,11 +217,10 @@ prio4 : '&&' comm? -> '&&'
 prio5 : '=' comm? -> '='
       ;
 
-//comm : '/*' (('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'/'|' ')  |  ('*'+ ('a'..'z'|'A'..'Z'|'0'..'9'|'_')) )* '*/'
-comm : ('/*' ( (IDF|CST_ENT|'/')  |  ('*'+ (IDF|CST_ENT)) )* '*/')!
-     | '//'(IDF|CST_ENT)* '\n'
+comm : '/*' .* '*/'
+     | '//'.* '\n'
      ;
 
-IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;//| ('"')(IDF)*('"');
+IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 CST_ENT : ('0'..'9')+('.'('0'..'9')+)?;
-WS  :   (' '|'\t'|'\n'|'\r')+ {$channel=HIDDEN;} ;
+WS  :   (' '|'\n'|'\t'|'\r')+ {$channel=HIDDEN;} ;
