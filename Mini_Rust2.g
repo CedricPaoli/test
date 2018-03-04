@@ -17,7 +17,6 @@ tokens{
     CST_OU_AFF;
     VAR;
     IF;
-    POINTEUR_ADDR;
     POINTEUR_VAL;
     POINTEUR;
     WHILE;
@@ -35,6 +34,7 @@ tokens{
     VAL_ATTRIBUT;
     ACCES_VEC;
     ACCES_ATTRIBUT;
+    PARAM_FCT;
 }
 
 @header {
@@ -80,22 +80,21 @@ argument : IDF ':' comm? type -> ^(DECL_VAR IDF type)
 bloc : '{' comm? sous_bloc? '}' comm? -> ^(BLOC sous_bloc?)
      ;
 
-sous_bloc : instruction (';' comm? sous_bloc?)? -> instruction sous_bloc?
-          | instruction_sans_point ';'? sous_bloc? -> instruction_sans_point sous_bloc?
+sous_bloc : instruction_avec_point (';'+ comm? sous_bloc?)? -> instruction_avec_point sous_bloc?
+          | instruction_sans_point ';'* sous_bloc? -> instruction_sans_point sous_bloc?
           ;
 
-instruction : 'let' let2 -> let2
-            | 'return' comm? expr?  -> ^(RETURN expr?)
-            | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT expr)
-            //| operations_prio4
-            | operations_prio5 // correction pour test = test + 1 (ex while)
-            ;
+instruction_avec_point : 'let' let2 -> let2
+                       | 'return' comm? expr?  -> ^(RETURN expr?)
+                       | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT expr)
+                       | operations_prio4 ('=' ^ operations_prio4)?
+                       ;
 
 instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(CONDITION operations_prio4b) bloc)
                        | if_expr
                        ;
 
-let2 : 'mut' comm? IDF comm? ('=' comm? operations_prio4)? -> ^(DECL_VAR IDF operations_prio4?)
+let2 : 'mut' comm? accesseur ('=' comm? operations_prio4)? -> ^(DECL_VAR IDF operations_prio4?)
      | accesseur ('=' comm? expr)? -> ^(CST_OU_AFF accesseur expr?)
      ; 
 
@@ -113,9 +112,6 @@ expr : bloc
      | operations_prio4
      ;
 
-operations_prio5 : operations_prio4 (prio5 ^ operations_prio5)? //correction pour test = test + 1 (ex while)
-                 ;
-
 operations_prio4 : operations_prio3 (prio4 ^ operations_prio4)?
                  ;
 
@@ -125,7 +121,7 @@ operations_prio3 : operations_prio2 (prio3 ^ operations_prio3)?
 operations_prio2 : operations_prio1 (prio2 ^ operations_prio2)?
                  ;
 
-operations_prio1 : unaire? operations_unaires (prio1 ^ operations_prio1)?
+operations_prio1 : (unaire ^)? operations_unaires (prio1 ^ operations_prio1)?
                  ;
 
 operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
@@ -133,22 +129,27 @@ operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
                    ;
 
 variable : IDF comm? fonctions_ou_vecteurs_ou_struct? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_struct)?)
-         | 'true' comm? -> 'true'
-         | 'false' comm? -> 'false'
-         | CST_ENT comm? -> CST_ENT
-         | 'Vec' comm? '!' comm? '[' comm? ( operations_prio4 (',' comm? operations_prio4)*)? ']' comm? -> ^(DECL_VEC (operations_prio4 (operations_prio4)*)?)
+         | variable2
          ;
 
-accesseur : IDF acces_variable?
-          | '*' IDF acces_variable? -> ^(POINTEUR_VAL IDF acces_variable?)
+variable2 : 'true' comm? -> 'true'
+          | 'false' comm? -> 'false'
+          | CST_ENT comm? -> CST_ENT
+          | 'Vec' comm? '!' comm? '[' comm? ( operations_prio4 (',' comm? operations_prio4)*)? ']' comm? -> ^(DECL_VEC (operations_prio4 (operations_prio4)*)?)
           ;
-  
-fonctions_ou_vecteurs_ou_struct : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr expr*)?
-                                | acces_variable
+
+accesseur : IDF acces_accesseur?
+          | '*' accesseur -> ^(POINTEUR_VAL accesseur)
+          ;
+ 
+fonctions_ou_vecteurs_ou_struct : fonctions_ou_vecteurs
                                 | '{' comm? (valeur_attribut_struct (',' comm? valeur_attribut_struct)* )? '}' comm? -> (valeur_attribut_struct (valeur_attribut_struct)*)?
                                 ;
 
-//Debut copie pour opération sans création de variable struct
+valeur_attribut_struct : IDF ':' operations_prio4 -> ^(VAL_ATTRIBUT IDF operations_prio4)
+                       ;
+
+//Debut copie pour opération sans création de variable struct (sert dans if et while)
 operations_prio4b : operations_prio3b (prio4 ^ operations_prio4b)?
                  ;
 
@@ -158,39 +159,37 @@ operations_prio3b : operations_prio2b (prio3 ^ operations_prio3b)?
 operations_prio2b : operations_prio1b (prio2 ^ operations_prio2b)?
                  ;
 
-operations_prio1b : unaire? operations_unairesb (prio1 ^ operations_prio1b)?
+operations_prio1b : (unaire ^)? operations_unairesb (prio1 ^ operations_prio1b)?
                  ;
 
 operations_unairesb : '(' operations_prio4b ')' -> ^(operations_prio4b)
                    | variableb
                    ;
 
-variableb : IDF comm? fonctions_ou_vecteurs_ou_structb? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_structb)?)
-         | 'true' comm? -> 'true'
-         | 'false' comm? -> 'false'
-         | CST_ENT comm? -> CST_ENT
-         | 'Vec' comm? '!' comm? '[' comm? ( expr (',' comm? expr)*)? ']' comm? -> ^(VEC (expr(expr)*)?)
-         ;
+variableb : IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF (fonctions_ou_vecteurs)?)
+          | variable2
+          ;
 
-fonctions_ou_vecteurs_ou_structb : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (expr expr*)?
-                                 | acces_variable
-                                 ;
+fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr) (^(PARAM_FCT expr))*)?
+                      | acces_variable
+                      ;
 //Fin copie
 
-valeur_attribut_struct : IDF ':' operations_prio4 -> ^(VAL_ATTRIBUT IDF operations_prio4)
-                       ;
-
-acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr) acces_variable?
-               | '.' attribut_vecteur acces_variable? -> attribut_vecteur acces_variable?
+acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr acces_variable?)
+               | '.' attribut_vecteur -> attribut_vecteur
                ;
 
 attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len'
-                 | IDF -> ^(ACCES_ATTRIBUT IDF)
+                 | IDF acces_variable? -> ^(ACCES_ATTRIBUT IDF acces_variable?)
                  ;
+
+acces_accesseur : '[' comm? expr ']' comm? acces_accesseur? -> ^(ACCES_VEC expr acces_accesseur?)
+                | '.' IDF acces_accesseur? -> ^(ACCES_ATTRIBUT IDF acces_accesseur?)
+                ;
 
 unaire : '!' comm? -> '!'
        | '-' comm? -> '-'
-       | '*' comm? -> '*'
+       | '*' comm? -> POINTEUR_VAL
        | '&' comm? -> '&'
        ;
 
@@ -218,7 +217,7 @@ prio5 : '=' comm? -> '='
       ;
 
 comm : '/*' .* '*/'
-     | '//'.* '\n'
+     | '//' .* '\n'
      ;
 
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
