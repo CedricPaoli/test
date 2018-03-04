@@ -3,8 +3,13 @@ fn puissance(a : i32, b : i32) -> i32 {
     return 1;
   }
   let mut i = 1;
-  let mut result while i < b
+  let result = a;
+
+  while i < b
   {
+    let result = result * a;
+    let i = i + 1;
+  }
     return result;
 }
 
