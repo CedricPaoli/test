@@ -15,5 +15,5 @@ fn main() {
 
     let test = /*sdfdg*/i /*sdfdg*/<=/*sdfdg*/ n/*sdfdg*/;/*sdfdg*/
   }
-  print!(total);/*$$!ù=)_43767764ÇÈ"À*/
+  print!(total);/*$$!ù=)_4376%ë&é"'(-è_çà)7***764ÇÈ"À***o****/
 }
