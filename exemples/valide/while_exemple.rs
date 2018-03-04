@@ -5,4 +5,4 @@ fn main (){
   while test < 10 {
     test = test + 1
   }
-}
+} 
