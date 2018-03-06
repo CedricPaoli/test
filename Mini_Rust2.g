@@ -94,7 +94,7 @@ instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(COND
                        | if_expr
                        ;
 
-let2 : 'mut' comm? accesseur ('=' comm? operations_prio4)? -> ^(DECL_VAR IDF operations_prio4?)
+let2 : 'mut' comm? accesseur ('=' comm? expr)? -> ^(DECL_VAR accesseur expr?)
      | accesseur ('=' comm? expr)? -> ^(CST_OU_AFF accesseur expr?)
      ; 
 
@@ -128,9 +128,13 @@ operations_unaires : '(' operations_prio4 ')' -> ^(operations_prio4)
                    | variable
                    ;
 
-variable : IDF comm? fonctions_ou_vecteurs_ou_struct? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_struct)?)
-         | variable2
+variable : variable2
+         | unaire_var
          ;
+
+unaire_var : unaire2 unaire_var -> ^(unaire2 unaire_var)
+           | IDF comm? fonctions_ou_vecteurs_ou_struct? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_struct)?)
+           ;
 
 variable2 : 'true' comm? -> 'true'
           | 'false' comm? -> 'false'
@@ -166,9 +170,13 @@ operations_unairesb : '(' operations_prio4b ')' -> ^(operations_prio4b)
                    | variableb
                    ;
 
-variableb : IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF (fonctions_ou_vecteurs)?)
+variableb : unaire_varb
           | variable2
           ;
+          
+unaire_varb : unaire2 unaire_varb -> ^(unaire2 unaire_varb)
+            | IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF fonctions_ou_vecteurs?)
+            ;
 
 fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr) (^(PARAM_FCT expr))*)?
                       | acces_variable
@@ -189,9 +197,11 @@ acces_accesseur : '[' comm? expr ']' comm? acces_accesseur? -> ^(ACCES_VEC expr 
 
 unaire : '!' comm? -> '!'
        | '-' comm? -> '-'
-       | '*' comm? -> POINTEUR_VAL
-       | '&' comm? -> '&'
        ;
+
+unaire2 : '*' comm? -> POINTEUR_VAL
+        | '&' comm? -> '&'
+        ;
 
 prio1 : '*' comm? -> '*'
       | '/' comm? -> '/'
