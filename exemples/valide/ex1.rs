@@ -16,4 +16,4 @@ fn main() {
     let test = i <= n;
   }
   print!(total);
-}
+  }
