@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="adler3u">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/antlr-3.3-complete (1).jar!/" />
+      <root url="jar://$PROJECT_DIR$/antlrworks-1.4 (1).jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
