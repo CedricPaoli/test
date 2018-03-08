@@ -38,4 +38,12 @@ public class TDS {
         val.add(valeur);
         depl.add(deplacement);
     }
+
+    public void  setVal(Object o,int indice){
+        val.set(indice,o);
+    }
+
+    public boolean isVariableIn (String nomVar){
+        return nom.contains(nomVar);
+    }
 }

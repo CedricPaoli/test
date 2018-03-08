@@ -23,7 +23,7 @@ public class Test {
 
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
     {
-        ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>;
+        ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
         iCreerTableSymboles(tablesDesSymboles, ast);
 
         return tablesDesSymboles;
@@ -37,6 +37,16 @@ public class Test {
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
                 break;
+            case Mini_Rust2Lexer.BLOC:
+                for (int i = 0; i < ast.getChildCount(); i++) {
+                    switch (ast.getChild(i).hashCode()){
+                        case Mini_Rust2Parser.DECL_VAR :
+                            System.out.println("Bulding");
+                            break;
+                    }
+                }
+                break;
+
         }
     }
 
