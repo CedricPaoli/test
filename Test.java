@@ -1,6 +1,7 @@
 /* Fichier de test par défaut (source : TP de CPL1) */
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
+import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) throws Exception
@@ -18,6 +19,25 @@ public class Test {
         printTree(ast,2);
 
         System.out.println(ast.toString());
+    }
+
+    static ArrayList<TDS> creerTableSymboles(CommonTree ast)
+    {
+        ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>;
+        iCreerTableSymboles(tablesDesSymboles, ast);
+
+        return tablesDesSymboles;
+    }
+
+    static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast) {
+        switch (ast.getToken().hashCode()) {
+            case Mini_Rust2Lexer.FICHIER:
+                for (int i = 0; i < ast.getChildCount(); i++)
+                    iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i));
+                break;
+            case Mini_Rust2Lexer.DECL_FCT:
+                break;
+        }
     }
 
     static public void printTree(CommonTree t, int indent) {
