@@ -10,8 +10,8 @@ tokens{
     FICHIER;
     ARGUMENT;
     ARGUMENTS;
-    STRUCT;
-    FCT;
+    DECL_STRUCT;
+    APPEL_FCT;
     TYPE;
     BLOC;
     CST_OU_AFF;
@@ -35,6 +35,7 @@ tokens{
     ACCES_VEC;
     ACCES_ATTRIBUT;
     PARAM_FCT;
+    STRUCT;
 }
 
 @header {
@@ -58,7 +59,7 @@ decl : decl_struct
      | decl_fun
      ;
 
-decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' comm? attribut)* )? '}' comm? -> ^(STRUCT IDF ^(BLOC (attribut attribut* )?))
+decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' comm? attribut)* )? '}' comm? -> ^(DECL_STRUCT IDF ^(BLOC (attribut attribut* )?))
             ;
 
 attribut : IDF comm? ':' comm? type -> ^(ATTRIBUT type IDF)
@@ -133,8 +134,25 @@ variable : variable2
          ;
 
 unaire_var : unaire2 unaire_var -> ^(unaire2 unaire_var)
-           | IDF comm? fonctions_ou_vecteurs_ou_struct? -> ^(VAR IDF (fonctions_ou_vecteurs_ou_struct)?)
+           | variable3
            ;
+
+variable3
+@init {int choix = 0;} : IDF (struct | (fonction {choix=1;}) | (acces_variable {choix=2;}) | {choix=3;}) -> {choix==1}? ^(APPEL_FCT IDF fonction)
+                                                                                                         -> {choix == 2}? ^(VAR IDF acces_variable)
+                                                                                                         -> {choix == 3}? ^(VAR IDF)
+                                                                                                         -> ^(STRUCT IDF struct)
+	               ;
+
+struct : '{' comm? (valeur_attribut_struct (',' comm? valeur_attribut_struct)* )? '}' -> (valeur_attribut_struct (valeur_attribut_struct)*)?
+       ;
+
+fonction : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr) (^(PARAM_FCT expr))*)?
+	 ;
+
+acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr acces_variable?)
+               | '.' attribut_vecteur -> attribut_vecteur
+               ;
 
 variable2 : 'true' comm? -> 'true'
           | 'false' comm? -> 'false'
@@ -145,10 +163,6 @@ variable2 : 'true' comm? -> 'true'
 accesseur : IDF acces_accesseur?
           | '*' accesseur -> ^(POINTEUR_VAL accesseur)
           ;
- 
-fonctions_ou_vecteurs_ou_struct : fonctions_ou_vecteurs
-                                | '{' comm? (valeur_attribut_struct (',' comm? valeur_attribut_struct)* )? '}' comm? -> (valeur_attribut_struct (valeur_attribut_struct)*)?
-                                ;
 
 valeur_attribut_struct : IDF ':' operations_prio4 -> ^(VAL_ATTRIBUT IDF operations_prio4)
                        ;
@@ -173,19 +187,17 @@ operations_unairesb : '(' operations_prio4b ')' -> ^(operations_prio4b)
 variableb : unaire_varb
           | variable2
           ;
-          
+
 unaire_varb : unaire2 unaire_varb -> ^(unaire2 unaire_varb)
-            | IDF comm? fonctions_ou_vecteurs? -> ^(VAR IDF fonctions_ou_vecteurs?)
+            | variable3b
             ;
 
-fonctions_ou_vecteurs : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr) (^(PARAM_FCT expr))*)?
-                      | acces_variable
-                      ;
+variable3b
+@init {int choix = 0;} : IDF (acces_variable | (fonction {choix=1;}) | {choix=2;}) -> {choix==1}? ^(APPEL_FCT fonction)
+                                                                                   -> {choix == 2}? ^(VAR IDF)
+                                                                                   -> ^(VAR acces_variable)
+	           ;
 //Fin copie
-
-acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr acces_variable?)
-               | '.' attribut_vecteur -> attribut_vecteur
-               ;
 
 attribut_vecteur : 'len' comm? '(' comm? ')' comm? -> 'len'
                  | IDF acces_variable? -> ^(ACCES_ATTRIBUT IDF acces_variable?)
