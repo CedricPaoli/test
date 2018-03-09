@@ -46,4 +46,15 @@ public class TDS {
     public boolean isVariableIn (String nomVar){
         return nom.contains(nomVar);
     }
+
+    public void displayTDS(){
+        System.out.println("------------------------  " + num_block +" -----------------------------");
+        for(String n : nom){
+            System.out.println(n);
+            System.out.print(type.get(nom.indexOf(n)));
+            System.out.print(val.get(nom.indexOf(n)));
+            System.out.print(depl.get(nom.indexOf(n)));
+        }
+        System.out.println("-----------------------------------------------------------------------");
+    }
 }
