@@ -41,6 +41,8 @@ public class Main {
                 if (tablesDesSymboles.get(0).isVariableIn(nom)) System.out.println("Erreur: Le nom '"+nom+"'est déjà attribué ligne : ");
                 else tablesDesSymboles.get(0).setLigne(nom, noeudType.toString(), 0, 0);
                 break;
+            
+            	
         }
     }
 }
