@@ -16,8 +16,8 @@ public class Main {
         Mini_Rust2Parser.prog_return r = parser.prog();
         CommonTree ast = (CommonTree)r.getTree();
 
-
         System.out.println(ast.toString());
+
     }
 
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
@@ -41,8 +41,19 @@ public class Main {
                 if (tablesDesSymboles.get(0).isVariableIn(nom)) System.out.println("Erreur: Le nom '"+nom+"'est déjà attribué ligne : ");
                 else tablesDesSymboles.get(0).setLigne(nom, noeudType.toString(), 0, 0);
                 break;
-            
-            	
+            case Mini_Rust2Lexer.DECL_VAR:
+                String nom_var = ast.getChild(0).toString();
+                if (tablesDesSymboles.get(0).isVariableIn(nom_var)) System.out.println("Erreur: Le nom '"+nom_var+"'est déjà attribué ligne : ");
+                else tablesDesSymboles.get(0).setLigne(nom_var,null, 0, 0);
+                break;
+            case Mini_Rust2Lexer.CST_OU_AFF:
+                String nom_const_ou_aff = ast.getChild(0).toString();
+                if (tablesDesSymboles.get(0).isVariableIn(nom_const_ou_aff)) System.out.println("Erreur: Le nom '"+nom_const_ou_aff+"'est déjà attribué ligne : ");
+                else tablesDesSymboles.get(0).setLigne(nom_const_ou_aff,null, 0, 0);
+                break;
+        }
+        for(TDS tds : tablesDesSymboles){
+            tds.displayTDS();
         }
     }
 }
