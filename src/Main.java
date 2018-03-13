@@ -23,34 +23,29 @@ public class Main {
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
     {
         ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
-        iCreerTableSymboles(tablesDesSymboles, ast);
+        iCreerTableSymboles(tablesDesSymboles, ast, 0, 0);
 
         return tablesDesSymboles;
     }
 
-    static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast)
+    static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast, int num_block, int fateher_region)
     {
         switch (ast.getToken().hashCode())
         {
             case Mini_Rust2Lexer.FICHIER:
-                for (int i = 0; i < ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree)ast.getChild(i));
+                for (int i = 0; i < ast.getChildCount(); i++) {
+                	num_block++;
+                	iCreerTableSymboles(tablesDesSymboles, (CommonTree)ast.getChild(i), num_block, fateher_region);
+                }
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
+            	tablesDesSymboles.add(new TDS(num_block, fateher_region));
                 String nom = ast.getChild(0).toString();
-                CommonTree noeudType = (CommonTree)ast.getChild(1);
-                if (tablesDesSymboles.get(0).isVariableIn(nom)) System.out.println("Erreur: Le nom '"+nom+"'est déjà attribué ligne : ");
-                else tablesDesSymboles.get(0).setLigne(nom, noeudType.toString(), 0, 0);
+                //CommonTree noeudType = (CommonTree)ast.getChild(1);
+                if (tablesDesSymboles.get(num_block).isVariableIn(nom)) System.out.println("Erreur: Le nom '"+nom+"'est déjà attribué ligne : ");
+                else tablesDesSymboles.get(num_block).setLigne(nom, noeudType.toString(), 0, 0);
                 break;
-            case Mini_Rust2Lexer.DECL_VAR:
-                String nom_var = ast.getChild(0).toString();
-                if (tablesDesSymboles.get(0).isVariableIn(nom_var)) System.out.println("Erreur: Le nom '"+nom_var+"'est déjà attribué ligne : ");
-                else tablesDesSymboles.get(0).setLigne(nom_var,null, 0, 0);
-                break;
-            case Mini_Rust2Lexer.CST_OU_AFF:
-                String nom_const_ou_aff = ast.getChild(0).toString();
-                if (tablesDesSymboles.get(0).isVariableIn(nom_const_ou_aff)) System.out.println("Erreur: Le nom '"+nom_const_ou_aff+"'est déjà attribué ligne : ");
-                else tablesDesSymboles.get(0).setLigne(nom_const_ou_aff,null, 0, 0);
-                break;
+            
         }
         for(TDS tds : tablesDesSymboles){
             tds.displayTDS();

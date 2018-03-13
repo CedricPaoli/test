@@ -3,13 +3,23 @@ import java.util.ArrayList;
 public class TDS {
 
     private int num_block;
+    private int father_num_block;
     private ArrayList<String> nom;
     private ArrayList<String> type;
     private ArrayList<Object> val;
     private ArrayList<Integer> depl;
 
-    public TDS (int indice){
+    public TDS (int indice, int num){
         num_block = indice;
+        father_num_block = num;
+    }
+    
+    public void setFather_num_block(int num) {
+    	father_num_block = num;
+    }
+    
+    public int getFather_num_block() {
+    	return father_num_block;
     }
 
     public String getNom(int indice){
