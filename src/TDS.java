@@ -49,8 +49,17 @@ public class TDS {
         depl.add(deplacement);
     }
 
+
     public void  setVal(Object o,int indice){
         val.set(indice,o);
+    }
+
+    public void setVal(String nomVar, String v){
+        val.set(nom.indexOf(nomVar),v);
+    }
+
+    public void setType(String nomVar, String nomType){
+        type.set(nom.indexOf(nomVar),nomType);
     }
 
     public boolean isVariableIn (String nomVar){
