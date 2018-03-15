@@ -1,3 +1,5 @@
+import org.antlr.runtime.tree.CommonTree;
+
 import java.util.ArrayList;
 
 public class TDS {
@@ -5,7 +7,7 @@ public class TDS {
     private int num_block;
     private int father_num_block;
     private ArrayList<String> nom;
-    private ArrayList<String> type;
+    private ArrayList<Type> type;
     private ArrayList<Object> val;
     private ArrayList<Integer> depl;
 
@@ -42,15 +44,22 @@ public class TDS {
         return num_block;
     }
 
-    public void setLigne(String nomVar, String typeVar, Object valeur,Integer deplacement){
+    public void setLigne(String nomVar, Type typeVar, Object valeur,Integer deplacement){
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
         depl.add(deplacement);
     }
 
+    public void initialiser(String nomVar, Type typeVar, Object valeur)
+    {
+        nom.add(nomVar);
+        type.add(typeVar);
+        val.add(valeur);
+        depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+    }
 
-    public void  setVal(Object o,int indice){
+    public void setVal(Object o,int indice){
         val.set(indice,o);
     }
 
