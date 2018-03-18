@@ -45,8 +45,8 @@ public class Main {
                 //Contrôles sémantiques
                 if (!tablesDesSymboles.get(num_block).isVariableIn(nom)) //Verification du nom
                     System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : ");
-                else if (!Type.isExiste(type)) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
-                else tablesDesSymboles.get(num_block).initialiser(nom, noeudType, 0);
+                else if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                else tablesDesSymboles.get(num_block).initialiser(nom, type, 0);
 
                 iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(3), num_block, father_region);
                 break;
@@ -67,6 +67,8 @@ public class Main {
                     }
                 }
                 break;
+            case Mini_Rust2Lexer.DECL_VEC:
+                break;
             case Mini_Rust2Lexer.BLOC:
                 father_region = num_block;
                 num_block++;
@@ -75,7 +77,13 @@ public class Main {
 
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
-
+            case Mini_Rust2Lexer.APPEL_FCT:
+                break;
+            case Mini_Rust2Lexer.VEC:
+                break;
+            default:
+                for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
+                break;
         }
         for(TDS tds : tablesDesSymboles){
             tds.displayTDS();

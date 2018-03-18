@@ -1,12 +1,15 @@
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
-public class Type extends CommonTree{
+public class Type extends CommonTree
+{
+    boolean isValide; //Est-ce que le type est valide
 
     Type common_tree;
 
     public Type (CommonTree tree){
         common_tree = dupTree(tree);
+        isValide = true;
     }
 
     public Type dupTree(CommonTree tree){
@@ -30,6 +33,18 @@ public class Type extends CommonTree{
             }
         }
         return i;
+    }
+
+    public String toString()
+    {
+        String res = "";
+
+        return res;
+    }
+
+    public boolean gIsValide()
+    {
+        return isValide;
     }
 
     public CommonTree getCommon_tree() {
