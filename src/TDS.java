@@ -67,8 +67,10 @@ public class TDS {
         val.set(indice,o);
     }
 
-    public void setVal(String nomVar, String v) {
-        val.set(nom.indexOf(nomVar), v);
+
+    public void setType(String nomVar, Type nomType){
+        type.set(nom.indexOf(nomVar),nomType);
+
     }
 
     public boolean isVariableIn (String nomVar){

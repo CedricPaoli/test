@@ -24,13 +24,13 @@ public class Type extends CommonTree
         int i = 0;
         for (int j = 0; j < this.common_tree.getChildCount(); j++) {
             switch (this.common_tree.getChild(i).hashCode()){
-                case Mini_Rust2Lexer.T__49 : // i32
+                case Mini_Rust2Lexer.T__50 : // i32
                     i += 4;
                     break;
-                case Mini_Rust2Lexer.T__50 : // bool
+                case Mini_Rust2Lexer.T__51 : // bool
                     i += 1;
                     break;
-                case Mini_Rust2Lexer.T__48 : // pointeur
+                case Mini_Rust2Lexer.T__49 : // pointeur
                     i += 6;
                     break;
                 default:
@@ -43,9 +43,11 @@ public class Type extends CommonTree
 
     public String toString()
     {
-        String res = "";
-
-        return res;
+        if (common_tree.isNil()){
+            return "void";
+        } else {
+            return common_tree.toString();
+        }
     }
 
 
