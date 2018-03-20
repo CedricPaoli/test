@@ -56,7 +56,11 @@ public class TDS {
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
-        depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+        if (depl.size()>0) {
+            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+        } else {
+            depl.add(typeVar.getTaille());
+        }
     }
 
     public void setVal(Object o,int indice){
@@ -67,7 +71,7 @@ public class TDS {
         val.set(nom.indexOf(nomVar),v);
     }
 
-    public void setType(String nomVar, String nomType){
+    public void setType(String nomVar, Type nomType){
         type.set(nom.indexOf(nomVar),nomType);
     }
 
