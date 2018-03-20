@@ -75,13 +75,23 @@ public class TDS {
         return nom.contains(nomVar);
     }
 
+    public Type getType(int i)
+    {
+        return type.get(i);
+    }
+
+    public int getLigne(String nomVar)
+    {
+        return nom.indexOf(nomVar);
+    }
+
     public void displayTDS(){
         System.out.println("------------------------  " + num_block +" -----------------------------");
         for(String n : nom){
-            System.out.println(n);
-            System.out.print(type.get(nom.indexOf(n)));
-            System.out.print(val.get(nom.indexOf(n)));
-            System.out.print(depl.get(nom.indexOf(n)));
+            System.out.print("nom : "+n);
+            System.out.print(", type : "+type.get(nom.indexOf(n)));
+            System.out.print(", valeur : "+val.get(nom.indexOf(n)));
+            System.out.println(", déplacement : "+depl.get(nom.indexOf(n)));
         }
         System.out.println("-----------------------------------------------------------------------");
     }

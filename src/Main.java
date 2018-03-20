@@ -16,8 +16,6 @@ public class Main {
         Mini_Rust2Parser.prog_return r = parser.prog();
         CommonTree ast = (CommonTree)r.getTree();
 
-        System.out.println(ast.toString());
-
         ArrayList<TDS> tablesDesSymboles = creerTableSymboles(ast);
         for (int i=0; i<tablesDesSymboles.size(); i++) tablesDesSymboles.get(i).displayTDS();
     }
@@ -30,37 +28,42 @@ public class Main {
         return tablesDesSymboles;
     }
 
-    //il faut implémenter le changement de valeur de num_block
     static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast, int num_block, int father_region)
     {
         Type type;
+        Type type2;
+        String nom_var;
         TDS tableDesSymboles;
+
         if (tablesDesSymboles.isEmpty()) tablesDesSymboles.add(new TDS(0, 0));
         tableDesSymboles = tablesDesSymboles.get(num_block);
 
-        switch (ast.getToken().hashCode()) {
+        switch (ast.getToken().getType()) {
             case Mini_Rust2Lexer.FICHIER:
                 for (int i = 0; i < ast.getChildCount(); i++) {
                     iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 }
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
-                tablesDesSymboles.add(new TDS(num_block, father_region));
                 String nom = ast.getChild(0).toString();
                 type = new Type((CommonTree)ast.getChild(1));
 
                 //Contrôles sémantiques
-                if (!tablesDesSymboles.get(num_block).isVariableIn(nom)) //Verification du nom
+                if (tableDesSymboles.isVariableIn(nom)) //Verification du nom
                     System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : ");
                 else if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
                 else tableDesSymboles.ajouter(nom, type, 0);
 
+                father_region = num_block;
+                num_block++;
+
+                tablesDesSymboles.add(new TDS(num_block, father_region));
                 iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(3), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.DECL_VAR: //Declaration de variable dans les parametres d'une fonction
-                String nom_var = ast.getChild(0).toString();
+                nom_var = ast.getChild(0).toString();
 
-                if (!tableDesSymboles.isVariableIn(nom_var))
+                if (tableDesSymboles.isVariableIn(nom_var))
                     System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : ");
                 else {
                     type = new Type((CommonTree)ast.getChild(1));
@@ -70,6 +73,32 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.DECL_VAR_MUT:
+                nom_var = ast.getChild(0).toString();
+
+                if (tableDesSymboles.isVariableIn(nom_var))
+                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : ");
+                else {
+                    type = new Type((CommonTree)ast.getChild(1), true);
+
+                    if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                    else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
+                }
+                break;
+            case Mini_Rust2Lexer.CST_OU_AFF:
+                nom_var = ast.getChild(0).toString();
+
+                if (tableDesSymboles.isVariableIn(nom_var))
+                {
+                    type = tableDesSymboles.getType(tableDesSymboles.getLigne(nom_var));
+                    type2 = new Type((CommonTree)ast.getChild(1), true);
+                    if (!type.isEqual(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : ");
+                }
+                else {
+                    type = new Type((CommonTree)ast.getChild(1), true);
+
+                    if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                    else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
+                }
                 break;
             case Mini_Rust2Lexer.DECL_VEC:
                 break;
