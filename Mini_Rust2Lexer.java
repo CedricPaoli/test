@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-03-06 14:44:26
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-03-08 16:09:36
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class Mini_Rust2Lexer extends Lexer {
     public static final int EOF=-1;
-    public static final int T__35=35;
     public static final int T__36=36;
     public static final int T__37=37;
     public static final int T__38=38;
@@ -52,11 +51,12 @@ public class Mini_Rust2Lexer extends Lexer {
     public static final int T__77=77;
     public static final int T__78=78;
     public static final int T__79=79;
+    public static final int T__80=80;
     public static final int FICHIER=4;
     public static final int ARGUMENT=5;
     public static final int ARGUMENTS=6;
-    public static final int STRUCT=7;
-    public static final int FCT=8;
+    public static final int DECL_STRUCT=7;
+    public static final int APPEL_FCT=8;
     public static final int TYPE=9;
     public static final int BLOC=10;
     public static final int CST_OU_AFF=11;
@@ -80,9 +80,10 @@ public class Mini_Rust2Lexer extends Lexer {
     public static final int ACCES_VEC=29;
     public static final int ACCES_ATTRIBUT=30;
     public static final int PARAM_FCT=31;
-    public static final int IDF=32;
-    public static final int CST_ENT=33;
-    public static final int WS=34;
+    public static final int STRUCT=32;
+    public static final int IDF=33;
+    public static final int CST_ENT=34;
+    public static final int WS=35;
 
     // delegates
     // delegators
@@ -97,36 +98,16 @@ public class Mini_Rust2Lexer extends Lexer {
     }
     public String getGrammarFileName() { return "Mini_Rust2.g"; }
 
-    // $ANTLR start "T__35"
-    public final void mT__35() throws RecognitionException {
+    // $ANTLR start "T__36"
+    public final void mT__36() throws RecognitionException {
         try {
-            int _type = T__35;
+            int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
             // Mini_Rust2.g:3:7: ( 'struct' )
             // Mini_Rust2.g:3:9: 'struct'
             {
             match("struct"); 
 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__35"
-
-    // $ANTLR start "T__36"
-    public final void mT__36() throws RecognitionException {
-        try {
-            int _type = T__36;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:4:7: ( '{' )
-            // Mini_Rust2.g:4:9: '{'
-            {
-            match('{'); 
 
             }
 
@@ -143,10 +124,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:5:7: ( ',' )
-            // Mini_Rust2.g:5:9: ','
+            // Mini_Rust2.g:4:7: ( '{' )
+            // Mini_Rust2.g:4:9: '{'
             {
-            match(','); 
+            match('{'); 
 
             }
 
@@ -163,10 +144,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:6:7: ( '}' )
-            // Mini_Rust2.g:6:9: '}'
+            // Mini_Rust2.g:5:7: ( ',' )
+            // Mini_Rust2.g:5:9: ','
             {
-            match('}'); 
+            match(','); 
 
             }
 
@@ -183,10 +164,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:7:7: ( ':' )
-            // Mini_Rust2.g:7:9: ':'
+            // Mini_Rust2.g:6:7: ( '}' )
+            // Mini_Rust2.g:6:9: '}'
             {
-            match(':'); 
+            match('}'); 
 
             }
 
@@ -203,11 +184,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:8:7: ( 'fn' )
-            // Mini_Rust2.g:8:9: 'fn'
+            // Mini_Rust2.g:7:7: ( ':' )
+            // Mini_Rust2.g:7:9: ':'
             {
-            match("fn"); 
-
+            match(':'); 
 
             }
 
@@ -224,10 +204,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:9:7: ( '(' )
-            // Mini_Rust2.g:9:9: '('
+            // Mini_Rust2.g:8:7: ( 'fn' )
+            // Mini_Rust2.g:8:9: 'fn'
             {
-            match('('); 
+            match("fn"); 
+
 
             }
 
@@ -244,10 +225,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__42;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:10:7: ( ')' )
-            // Mini_Rust2.g:10:9: ')'
+            // Mini_Rust2.g:9:7: ( '(' )
+            // Mini_Rust2.g:9:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -264,11 +245,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__43;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:11:7: ( '->' )
-            // Mini_Rust2.g:11:9: '->'
+            // Mini_Rust2.g:10:7: ( ')' )
+            // Mini_Rust2.g:10:9: ')'
             {
-            match("->"); 
-
+            match(')'); 
 
             }
 
@@ -285,10 +265,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__44;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:12:7: ( 'Vec' )
-            // Mini_Rust2.g:12:9: 'Vec'
+            // Mini_Rust2.g:11:7: ( '->' )
+            // Mini_Rust2.g:11:9: '->'
             {
-            match("Vec"); 
+            match("->"); 
 
 
             }
@@ -306,10 +286,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__45;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:13:7: ( '<' )
-            // Mini_Rust2.g:13:9: '<'
+            // Mini_Rust2.g:12:7: ( 'Vec' )
+            // Mini_Rust2.g:12:9: 'Vec'
             {
-            match('<'); 
+            match("Vec"); 
+
 
             }
 
@@ -326,10 +307,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__46;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:14:7: ( '>' )
-            // Mini_Rust2.g:14:9: '>'
+            // Mini_Rust2.g:13:7: ( '<' )
+            // Mini_Rust2.g:13:9: '<'
             {
-            match('>'); 
+            match('<'); 
 
             }
 
@@ -346,10 +327,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__47;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:15:7: ( '&' )
-            // Mini_Rust2.g:15:9: '&'
+            // Mini_Rust2.g:14:7: ( '>' )
+            // Mini_Rust2.g:14:9: '>'
             {
-            match('&'); 
+            match('>'); 
 
             }
 
@@ -366,11 +347,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__48;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:16:7: ( 'i32' )
-            // Mini_Rust2.g:16:9: 'i32'
+            // Mini_Rust2.g:15:7: ( '&' )
+            // Mini_Rust2.g:15:9: '&'
             {
-            match("i32"); 
-
+            match('&'); 
 
             }
 
@@ -387,10 +367,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__49;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:17:7: ( 'bool' )
-            // Mini_Rust2.g:17:9: 'bool'
+            // Mini_Rust2.g:16:7: ( 'i32' )
+            // Mini_Rust2.g:16:9: 'i32'
             {
-            match("bool"); 
+            match("i32"); 
 
 
             }
@@ -408,10 +388,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__50;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:18:7: ( ';' )
-            // Mini_Rust2.g:18:9: ';'
+            // Mini_Rust2.g:17:7: ( 'bool' )
+            // Mini_Rust2.g:17:9: 'bool'
             {
-            match(';'); 
+            match("bool"); 
+
 
             }
 
@@ -428,11 +409,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__51;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:19:7: ( 'let' )
-            // Mini_Rust2.g:19:9: 'let'
+            // Mini_Rust2.g:18:7: ( ';' )
+            // Mini_Rust2.g:18:9: ';'
             {
-            match("let"); 
-
+            match(';'); 
 
             }
 
@@ -449,10 +429,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__52;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:20:7: ( 'return' )
-            // Mini_Rust2.g:20:9: 'return'
+            // Mini_Rust2.g:19:7: ( 'let' )
+            // Mini_Rust2.g:19:9: 'let'
             {
-            match("return"); 
+            match("let"); 
 
 
             }
@@ -470,10 +450,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__53;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:21:7: ( 'print' )
-            // Mini_Rust2.g:21:9: 'print'
+            // Mini_Rust2.g:20:7: ( 'return' )
+            // Mini_Rust2.g:20:9: 'return'
             {
-            match("print"); 
+            match("return"); 
 
 
             }
@@ -491,10 +471,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__54;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:22:7: ( '!' )
-            // Mini_Rust2.g:22:9: '!'
+            // Mini_Rust2.g:21:7: ( 'print' )
+            // Mini_Rust2.g:21:9: 'print'
             {
-            match('!'); 
+            match("print"); 
+
 
             }
 
@@ -511,10 +492,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__55;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:23:7: ( '=' )
-            // Mini_Rust2.g:23:9: '='
+            // Mini_Rust2.g:22:7: ( '!' )
+            // Mini_Rust2.g:22:9: '!'
             {
-            match('='); 
+            match('!'); 
 
             }
 
@@ -531,11 +512,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__56;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:24:7: ( 'while' )
-            // Mini_Rust2.g:24:9: 'while'
+            // Mini_Rust2.g:23:7: ( '=' )
+            // Mini_Rust2.g:23:9: '='
             {
-            match("while"); 
-
+            match('='); 
 
             }
 
@@ -552,10 +532,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__57;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:25:7: ( 'mut' )
-            // Mini_Rust2.g:25:9: 'mut'
+            // Mini_Rust2.g:24:7: ( 'while' )
+            // Mini_Rust2.g:24:9: 'while'
             {
-            match("mut"); 
+            match("while"); 
 
 
             }
@@ -573,10 +553,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__58;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:26:7: ( 'if' )
-            // Mini_Rust2.g:26:9: 'if'
+            // Mini_Rust2.g:25:7: ( 'mut' )
+            // Mini_Rust2.g:25:9: 'mut'
             {
-            match("if"); 
+            match("mut"); 
 
 
             }
@@ -594,10 +574,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__59;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:27:7: ( 'else' )
-            // Mini_Rust2.g:27:9: 'else'
+            // Mini_Rust2.g:26:7: ( 'if' )
+            // Mini_Rust2.g:26:9: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -615,10 +595,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__60;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:28:7: ( 'true' )
-            // Mini_Rust2.g:28:9: 'true'
+            // Mini_Rust2.g:27:7: ( 'else' )
+            // Mini_Rust2.g:27:9: 'else'
             {
-            match("true"); 
+            match("else"); 
 
 
             }
@@ -636,11 +616,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__61;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:29:7: ( 'false' )
-            // Mini_Rust2.g:29:9: 'false'
+            // Mini_Rust2.g:28:7: ( '[' )
+            // Mini_Rust2.g:28:9: '['
             {
-            match("false"); 
-
+            match('['); 
 
             }
 
@@ -657,10 +636,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__62;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:30:7: ( '[' )
-            // Mini_Rust2.g:30:9: '['
+            // Mini_Rust2.g:29:7: ( ']' )
+            // Mini_Rust2.g:29:9: ']'
             {
-            match('['); 
+            match(']'); 
 
             }
 
@@ -677,10 +656,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__63;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:31:7: ( ']' )
-            // Mini_Rust2.g:31:9: ']'
+            // Mini_Rust2.g:30:7: ( '.' )
+            // Mini_Rust2.g:30:9: '.'
             {
-            match(']'); 
+            match('.'); 
 
             }
 
@@ -697,10 +676,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__64;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:32:7: ( '*' )
-            // Mini_Rust2.g:32:9: '*'
+            // Mini_Rust2.g:31:7: ( 'true' )
+            // Mini_Rust2.g:31:9: 'true'
             {
-            match('*'); 
+            match("true"); 
+
 
             }
 
@@ -717,10 +697,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__65;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:33:7: ( '.' )
-            // Mini_Rust2.g:33:9: '.'
+            // Mini_Rust2.g:32:7: ( 'false' )
+            // Mini_Rust2.g:32:9: 'false'
             {
-            match('.'); 
+            match("false"); 
+
 
             }
 
@@ -737,11 +718,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:34:7: ( 'len' )
-            // Mini_Rust2.g:34:9: 'len'
+            // Mini_Rust2.g:33:7: ( '*' )
+            // Mini_Rust2.g:33:9: '*'
             {
-            match("len"); 
-
+            match('*'); 
 
             }
 
@@ -758,10 +738,11 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:35:7: ( '-' )
-            // Mini_Rust2.g:35:9: '-'
+            // Mini_Rust2.g:34:7: ( 'len' )
+            // Mini_Rust2.g:34:9: 'len'
             {
-            match('-'); 
+            match("len"); 
+
 
             }
 
@@ -778,10 +759,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:36:7: ( '/' )
-            // Mini_Rust2.g:36:9: '/'
+            // Mini_Rust2.g:35:7: ( '-' )
+            // Mini_Rust2.g:35:9: '-'
             {
-            match('/'); 
+            match('-'); 
 
             }
 
@@ -798,10 +779,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:37:7: ( '+' )
-            // Mini_Rust2.g:37:9: '+'
+            // Mini_Rust2.g:36:7: ( '/' )
+            // Mini_Rust2.g:36:9: '/'
             {
-            match('+'); 
+            match('/'); 
 
             }
 
@@ -818,11 +799,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:38:7: ( '>=' )
-            // Mini_Rust2.g:38:9: '>='
+            // Mini_Rust2.g:37:7: ( '+' )
+            // Mini_Rust2.g:37:9: '+'
             {
-            match(">="); 
-
+            match('+'); 
 
             }
 
@@ -839,10 +819,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:39:7: ( '<=' )
-            // Mini_Rust2.g:39:9: '<='
+            // Mini_Rust2.g:38:7: ( '>=' )
+            // Mini_Rust2.g:38:9: '>='
             {
-            match("<="); 
+            match(">="); 
 
 
             }
@@ -860,10 +840,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:40:7: ( '==' )
-            // Mini_Rust2.g:40:9: '=='
+            // Mini_Rust2.g:39:7: ( '<=' )
+            // Mini_Rust2.g:39:9: '<='
             {
-            match("=="); 
+            match("<="); 
 
 
             }
@@ -881,10 +861,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:41:7: ( '!=' )
-            // Mini_Rust2.g:41:9: '!='
+            // Mini_Rust2.g:40:7: ( '==' )
+            // Mini_Rust2.g:40:9: '=='
             {
-            match("!="); 
+            match("=="); 
 
 
             }
@@ -902,10 +882,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:42:7: ( '&&' )
-            // Mini_Rust2.g:42:9: '&&'
+            // Mini_Rust2.g:41:7: ( '!=' )
+            // Mini_Rust2.g:41:9: '!='
             {
-            match("&&"); 
+            match("!="); 
 
 
             }
@@ -923,10 +903,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:43:7: ( '||' )
-            // Mini_Rust2.g:43:9: '||'
+            // Mini_Rust2.g:42:7: ( '&&' )
+            // Mini_Rust2.g:42:9: '&&'
             {
-            match("||"); 
+            match("&&"); 
 
 
             }
@@ -944,10 +924,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:44:7: ( '/*' )
-            // Mini_Rust2.g:44:9: '/*'
+            // Mini_Rust2.g:43:7: ( '||' )
+            // Mini_Rust2.g:43:9: '||'
             {
-            match("/*"); 
+            match("||"); 
 
 
             }
@@ -965,10 +945,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__77;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:45:7: ( '*/' )
-            // Mini_Rust2.g:45:9: '*/'
+            // Mini_Rust2.g:44:7: ( '/*' )
+            // Mini_Rust2.g:44:9: '/*'
             {
-            match("*/"); 
+            match("/*"); 
 
 
             }
@@ -986,10 +966,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__78;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:46:7: ( '//' )
-            // Mini_Rust2.g:46:9: '//'
+            // Mini_Rust2.g:45:7: ( '*/' )
+            // Mini_Rust2.g:45:9: '*/'
             {
-            match("//"); 
+            match("*/"); 
 
 
             }
@@ -1007,6 +987,27 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // Mini_Rust2.g:46:7: ( '//' )
+            // Mini_Rust2.g:46:9: '//'
+            {
+            match("//"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__79"
+
+    // $ANTLR start "T__80"
+    public final void mT__80() throws RecognitionException {
+        try {
+            int _type = T__80;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // Mini_Rust2.g:47:7: ( '\\n' )
             // Mini_Rust2.g:47:9: '\\n'
             {
@@ -1020,15 +1021,15 @@ public class Mini_Rust2Lexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__79"
+    // $ANTLR end "T__80"
 
     // $ANTLR start "IDF"
     public final void mIDF() throws RecognitionException {
         try {
             int _type = IDF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:233:5: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // Mini_Rust2.g:233:7: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // Mini_Rust2.g:245:5: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // Mini_Rust2.g:245:7: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -1039,7 +1040,7 @@ public class Mini_Rust2Lexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // Mini_Rust2.g:233:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // Mini_Rust2.g:245:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -1088,10 +1089,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = CST_ENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:234:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? )
-            // Mini_Rust2.g:234:11: ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )?
+            // Mini_Rust2.g:246:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? )
+            // Mini_Rust2.g:246:11: ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )?
             {
-            // Mini_Rust2.g:234:11: ( '0' .. '9' )+
+            // Mini_Rust2.g:246:11: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -1105,7 +1106,7 @@ public class Mini_Rust2Lexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Mini_Rust2.g:234:12: '0' .. '9'
+            	    // Mini_Rust2.g:246:12: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1121,7 +1122,7 @@ public class Mini_Rust2Lexer extends Lexer {
                 cnt2++;
             } while (true);
 
-            // Mini_Rust2.g:234:22: ( '.' ( '0' .. '9' )+ )?
+            // Mini_Rust2.g:246:22: ( '.' ( '0' .. '9' )+ )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -1130,10 +1131,10 @@ public class Mini_Rust2Lexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // Mini_Rust2.g:234:23: '.' ( '0' .. '9' )+
+                    // Mini_Rust2.g:246:23: '.' ( '0' .. '9' )+
                     {
                     match('.'); 
-                    // Mini_Rust2.g:234:26: ( '0' .. '9' )+
+                    // Mini_Rust2.g:246:26: ( '0' .. '9' )+
                     int cnt3=0;
                     loop3:
                     do {
@@ -1147,7 +1148,7 @@ public class Mini_Rust2Lexer extends Lexer {
 
                         switch (alt3) {
                     	case 1 :
-                    	    // Mini_Rust2.g:234:27: '0' .. '9'
+                    	    // Mini_Rust2.g:246:27: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
 
@@ -1185,10 +1186,10 @@ public class Mini_Rust2Lexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mini_Rust2.g:235:5: ( ( ' ' | '\\n' | '\\t' | '\\r' )+ )
-            // Mini_Rust2.g:235:9: ( ' ' | '\\n' | '\\t' | '\\r' )+
+            // Mini_Rust2.g:247:5: ( ( ' ' | '\\n' | '\\t' | '\\r' )+ )
+            // Mini_Rust2.g:247:9: ( ' ' | '\\n' | '\\t' | '\\r' )+
             {
-            // Mini_Rust2.g:235:9: ( ' ' | '\\n' | '\\t' | '\\r' )+
+            // Mini_Rust2.g:247:9: ( ' ' | '\\n' | '\\t' | '\\r' )+
             int cnt5=0;
             loop5:
             do {
@@ -1239,322 +1240,322 @@ public class Mini_Rust2Lexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // Mini_Rust2.g:1:8: ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | IDF | CST_ENT | WS )
+        // Mini_Rust2.g:1:8: ( T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | IDF | CST_ENT | WS )
         int alt6=48;
         alt6 = dfa6.predict(input);
         switch (alt6) {
             case 1 :
-                // Mini_Rust2.g:1:10: T__35
-                {
-                mT__35(); 
-
-                }
-                break;
-            case 2 :
-                // Mini_Rust2.g:1:16: T__36
+                // Mini_Rust2.g:1:10: T__36
                 {
                 mT__36(); 
 
                 }
                 break;
-            case 3 :
-                // Mini_Rust2.g:1:22: T__37
+            case 2 :
+                // Mini_Rust2.g:1:16: T__37
                 {
                 mT__37(); 
 
                 }
                 break;
-            case 4 :
-                // Mini_Rust2.g:1:28: T__38
+            case 3 :
+                // Mini_Rust2.g:1:22: T__38
                 {
                 mT__38(); 
 
                 }
                 break;
-            case 5 :
-                // Mini_Rust2.g:1:34: T__39
+            case 4 :
+                // Mini_Rust2.g:1:28: T__39
                 {
                 mT__39(); 
 
                 }
                 break;
-            case 6 :
-                // Mini_Rust2.g:1:40: T__40
+            case 5 :
+                // Mini_Rust2.g:1:34: T__40
                 {
                 mT__40(); 
 
                 }
                 break;
-            case 7 :
-                // Mini_Rust2.g:1:46: T__41
+            case 6 :
+                // Mini_Rust2.g:1:40: T__41
                 {
                 mT__41(); 
 
                 }
                 break;
-            case 8 :
-                // Mini_Rust2.g:1:52: T__42
+            case 7 :
+                // Mini_Rust2.g:1:46: T__42
                 {
                 mT__42(); 
 
                 }
                 break;
-            case 9 :
-                // Mini_Rust2.g:1:58: T__43
+            case 8 :
+                // Mini_Rust2.g:1:52: T__43
                 {
                 mT__43(); 
 
                 }
                 break;
-            case 10 :
-                // Mini_Rust2.g:1:64: T__44
+            case 9 :
+                // Mini_Rust2.g:1:58: T__44
                 {
                 mT__44(); 
 
                 }
                 break;
-            case 11 :
-                // Mini_Rust2.g:1:70: T__45
+            case 10 :
+                // Mini_Rust2.g:1:64: T__45
                 {
                 mT__45(); 
 
                 }
                 break;
-            case 12 :
-                // Mini_Rust2.g:1:76: T__46
+            case 11 :
+                // Mini_Rust2.g:1:70: T__46
                 {
                 mT__46(); 
 
                 }
                 break;
-            case 13 :
-                // Mini_Rust2.g:1:82: T__47
+            case 12 :
+                // Mini_Rust2.g:1:76: T__47
                 {
                 mT__47(); 
 
                 }
                 break;
-            case 14 :
-                // Mini_Rust2.g:1:88: T__48
+            case 13 :
+                // Mini_Rust2.g:1:82: T__48
                 {
                 mT__48(); 
 
                 }
                 break;
-            case 15 :
-                // Mini_Rust2.g:1:94: T__49
+            case 14 :
+                // Mini_Rust2.g:1:88: T__49
                 {
                 mT__49(); 
 
                 }
                 break;
-            case 16 :
-                // Mini_Rust2.g:1:100: T__50
+            case 15 :
+                // Mini_Rust2.g:1:94: T__50
                 {
                 mT__50(); 
 
                 }
                 break;
-            case 17 :
-                // Mini_Rust2.g:1:106: T__51
+            case 16 :
+                // Mini_Rust2.g:1:100: T__51
                 {
                 mT__51(); 
 
                 }
                 break;
-            case 18 :
-                // Mini_Rust2.g:1:112: T__52
+            case 17 :
+                // Mini_Rust2.g:1:106: T__52
                 {
                 mT__52(); 
 
                 }
                 break;
-            case 19 :
-                // Mini_Rust2.g:1:118: T__53
+            case 18 :
+                // Mini_Rust2.g:1:112: T__53
                 {
                 mT__53(); 
 
                 }
                 break;
-            case 20 :
-                // Mini_Rust2.g:1:124: T__54
+            case 19 :
+                // Mini_Rust2.g:1:118: T__54
                 {
                 mT__54(); 
 
                 }
                 break;
-            case 21 :
-                // Mini_Rust2.g:1:130: T__55
+            case 20 :
+                // Mini_Rust2.g:1:124: T__55
                 {
                 mT__55(); 
 
                 }
                 break;
-            case 22 :
-                // Mini_Rust2.g:1:136: T__56
+            case 21 :
+                // Mini_Rust2.g:1:130: T__56
                 {
                 mT__56(); 
 
                 }
                 break;
-            case 23 :
-                // Mini_Rust2.g:1:142: T__57
+            case 22 :
+                // Mini_Rust2.g:1:136: T__57
                 {
                 mT__57(); 
 
                 }
                 break;
-            case 24 :
-                // Mini_Rust2.g:1:148: T__58
+            case 23 :
+                // Mini_Rust2.g:1:142: T__58
                 {
                 mT__58(); 
 
                 }
                 break;
-            case 25 :
-                // Mini_Rust2.g:1:154: T__59
+            case 24 :
+                // Mini_Rust2.g:1:148: T__59
                 {
                 mT__59(); 
 
                 }
                 break;
-            case 26 :
-                // Mini_Rust2.g:1:160: T__60
+            case 25 :
+                // Mini_Rust2.g:1:154: T__60
                 {
                 mT__60(); 
 
                 }
                 break;
-            case 27 :
-                // Mini_Rust2.g:1:166: T__61
+            case 26 :
+                // Mini_Rust2.g:1:160: T__61
                 {
                 mT__61(); 
 
                 }
                 break;
-            case 28 :
-                // Mini_Rust2.g:1:172: T__62
+            case 27 :
+                // Mini_Rust2.g:1:166: T__62
                 {
                 mT__62(); 
 
                 }
                 break;
-            case 29 :
-                // Mini_Rust2.g:1:178: T__63
+            case 28 :
+                // Mini_Rust2.g:1:172: T__63
                 {
                 mT__63(); 
 
                 }
                 break;
-            case 30 :
-                // Mini_Rust2.g:1:184: T__64
+            case 29 :
+                // Mini_Rust2.g:1:178: T__64
                 {
                 mT__64(); 
 
                 }
                 break;
-            case 31 :
-                // Mini_Rust2.g:1:190: T__65
+            case 30 :
+                // Mini_Rust2.g:1:184: T__65
                 {
                 mT__65(); 
 
                 }
                 break;
-            case 32 :
-                // Mini_Rust2.g:1:196: T__66
+            case 31 :
+                // Mini_Rust2.g:1:190: T__66
                 {
                 mT__66(); 
 
                 }
                 break;
-            case 33 :
-                // Mini_Rust2.g:1:202: T__67
+            case 32 :
+                // Mini_Rust2.g:1:196: T__67
                 {
                 mT__67(); 
 
                 }
                 break;
-            case 34 :
-                // Mini_Rust2.g:1:208: T__68
+            case 33 :
+                // Mini_Rust2.g:1:202: T__68
                 {
                 mT__68(); 
 
                 }
                 break;
-            case 35 :
-                // Mini_Rust2.g:1:214: T__69
+            case 34 :
+                // Mini_Rust2.g:1:208: T__69
                 {
                 mT__69(); 
 
                 }
                 break;
-            case 36 :
-                // Mini_Rust2.g:1:220: T__70
+            case 35 :
+                // Mini_Rust2.g:1:214: T__70
                 {
                 mT__70(); 
 
                 }
                 break;
-            case 37 :
-                // Mini_Rust2.g:1:226: T__71
+            case 36 :
+                // Mini_Rust2.g:1:220: T__71
                 {
                 mT__71(); 
 
                 }
                 break;
-            case 38 :
-                // Mini_Rust2.g:1:232: T__72
+            case 37 :
+                // Mini_Rust2.g:1:226: T__72
                 {
                 mT__72(); 
 
                 }
                 break;
-            case 39 :
-                // Mini_Rust2.g:1:238: T__73
+            case 38 :
+                // Mini_Rust2.g:1:232: T__73
                 {
                 mT__73(); 
 
                 }
                 break;
-            case 40 :
-                // Mini_Rust2.g:1:244: T__74
+            case 39 :
+                // Mini_Rust2.g:1:238: T__74
                 {
                 mT__74(); 
 
                 }
                 break;
-            case 41 :
-                // Mini_Rust2.g:1:250: T__75
+            case 40 :
+                // Mini_Rust2.g:1:244: T__75
                 {
                 mT__75(); 
 
                 }
                 break;
-            case 42 :
-                // Mini_Rust2.g:1:256: T__76
+            case 41 :
+                // Mini_Rust2.g:1:250: T__76
                 {
                 mT__76(); 
 
                 }
                 break;
-            case 43 :
-                // Mini_Rust2.g:1:262: T__77
+            case 42 :
+                // Mini_Rust2.g:1:256: T__77
                 {
                 mT__77(); 
 
                 }
                 break;
-            case 44 :
-                // Mini_Rust2.g:1:268: T__78
+            case 43 :
+                // Mini_Rust2.g:1:262: T__78
                 {
                 mT__78(); 
 
                 }
                 break;
-            case 45 :
-                // Mini_Rust2.g:1:274: T__79
+            case 44 :
+                // Mini_Rust2.g:1:268: T__79
                 {
                 mT__79(); 
+
+                }
+                break;
+            case 45 :
+                // Mini_Rust2.g:1:274: T__80
+                {
+                mT__80(); 
 
                 }
                 break;
@@ -1588,48 +1589,48 @@ public class Mini_Rust2Lexer extends Lexer {
     protected DFA6 dfa6 = new DFA6(this);
     static final String DFA6_eotS =
         "\1\uffff\1\42\4\uffff\1\42\2\uffff\1\51\1\42\1\54\1\56\1\60\2\42"+
-        "\1\uffff\3\42\1\70\1\72\4\42\2\uffff\1\100\1\uffff\1\103\2\uffff"+
-        "\1\104\3\uffff\1\42\1\106\1\42\2\uffff\1\42\6\uffff\1\42\1\112\4"+
-        "\42\4\uffff\4\42\6\uffff\1\42\1\uffff\1\42\1\126\1\127\1\uffff\1"+
-        "\42\1\131\1\132\3\42\1\136\4\42\2\uffff\1\143\2\uffff\3\42\1\uffff"+
+        "\1\uffff\3\42\1\70\1\72\3\42\3\uffff\1\42\1\100\1\103\2\uffff\1"+
+        "\104\3\uffff\1\42\1\106\1\42\2\uffff\1\42\6\uffff\1\42\1\112\4\42"+
+        "\4\uffff\4\42\6\uffff\1\42\1\uffff\1\42\1\126\1\127\1\uffff\1\42"+
+        "\1\131\1\132\3\42\1\136\4\42\2\uffff\1\143\2\uffff\3\42\1\uffff"+
         "\1\147\1\150\1\42\1\152\1\uffff\1\42\1\154\1\155\2\uffff\1\156\1"+
         "\uffff\1\157\4\uffff";
     static final String DFA6_eofS =
         "\160\uffff";
     static final String DFA6_minS =
         "\1\11\1\164\4\uffff\1\141\2\uffff\1\76\1\145\2\75\1\46\1\63\1\157"+
-        "\1\uffff\2\145\1\162\2\75\1\150\1\165\1\154\1\162\2\uffff\1\57\1"+
-        "\uffff\1\52\2\uffff\1\11\3\uffff\1\162\1\60\1\154\2\uffff\1\143"+
-        "\6\uffff\1\62\1\60\1\157\1\156\1\164\1\151\4\uffff\1\151\1\164\1"+
-        "\163\1\165\6\uffff\1\165\1\uffff\1\163\2\60\1\uffff\1\154\2\60\1"+
-        "\165\1\156\1\154\1\60\2\145\1\143\1\145\2\uffff\1\60\2\uffff\1\162"+
-        "\1\164\1\145\1\uffff\2\60\1\164\1\60\1\uffff\1\156\2\60\2\uffff"+
-        "\1\60\1\uffff\1\60\4\uffff";
+        "\1\uffff\2\145\1\162\2\75\1\150\1\165\1\154\3\uffff\1\162\1\57\1"+
+        "\52\2\uffff\1\11\3\uffff\1\162\1\60\1\154\2\uffff\1\143\6\uffff"+
+        "\1\62\1\60\1\157\1\156\1\164\1\151\4\uffff\1\151\1\164\1\163\1\165"+
+        "\6\uffff\1\165\1\uffff\1\163\2\60\1\uffff\1\154\2\60\1\165\1\156"+
+        "\1\154\1\60\2\145\1\143\1\145\2\uffff\1\60\2\uffff\1\162\1\164\1"+
+        "\145\1\uffff\2\60\1\164\1\60\1\uffff\1\156\2\60\2\uffff\1\60\1\uffff"+
+        "\1\60\4\uffff";
     static final String DFA6_maxS =
         "\1\175\1\164\4\uffff\1\156\2\uffff\1\76\1\145\2\75\1\46\1\146\1"+
-        "\157\1\uffff\2\145\1\162\2\75\1\150\1\165\1\154\1\162\2\uffff\1"+
-        "\57\1\uffff\1\57\2\uffff\1\40\3\uffff\1\162\1\172\1\154\2\uffff"+
-        "\1\143\6\uffff\1\62\1\172\1\157\2\164\1\151\4\uffff\1\151\1\164"+
-        "\1\163\1\165\6\uffff\1\165\1\uffff\1\163\2\172\1\uffff\1\154\2\172"+
-        "\1\165\1\156\1\154\1\172\2\145\1\143\1\145\2\uffff\1\172\2\uffff"+
-        "\1\162\1\164\1\145\1\uffff\2\172\1\164\1\172\1\uffff\1\156\2\172"+
-        "\2\uffff\1\172\1\uffff\1\172\4\uffff";
+        "\157\1\uffff\2\145\1\162\2\75\1\150\1\165\1\154\3\uffff\1\162\2"+
+        "\57\2\uffff\1\40\3\uffff\1\162\1\172\1\154\2\uffff\1\143\6\uffff"+
+        "\1\62\1\172\1\157\2\164\1\151\4\uffff\1\151\1\164\1\163\1\165\6"+
+        "\uffff\1\165\1\uffff\1\163\2\172\1\uffff\1\154\2\172\1\165\1\156"+
+        "\1\154\1\172\2\145\1\143\1\145\2\uffff\1\172\2\uffff\1\162\1\164"+
+        "\1\145\1\uffff\2\172\1\164\1\172\1\uffff\1\156\2\172\2\uffff\1\172"+
+        "\1\uffff\1\172\4\uffff";
     static final String DFA6_acceptS =
-        "\2\uffff\1\2\1\3\1\4\1\5\1\uffff\1\7\1\10\7\uffff\1\20\11\uffff"+
-        "\1\34\1\35\1\uffff\1\37\1\uffff\1\43\1\51\1\uffff\1\56\1\57\1\60"+
-        "\3\uffff\1\11\1\41\1\uffff\1\45\1\13\1\44\1\14\1\50\1\15\6\uffff"+
-        "\1\47\1\24\1\46\1\25\4\uffff\1\53\1\36\1\52\1\54\1\42\1\55\1\uffff"+
-        "\1\6\3\uffff\1\30\13\uffff\1\12\1\16\1\uffff\1\21\1\40\3\uffff\1"+
-        "\27\4\uffff\1\17\3\uffff\1\31\1\32\1\uffff\1\33\1\uffff\1\23\1\26"+
-        "\1\1\1\22";
+        "\2\uffff\1\2\1\3\1\4\1\5\1\uffff\1\7\1\10\7\uffff\1\20\10\uffff"+
+        "\1\32\1\33\1\34\3\uffff\1\43\1\51\1\uffff\1\56\1\57\1\60\3\uffff"+
+        "\1\11\1\41\1\uffff\1\45\1\13\1\44\1\14\1\50\1\15\6\uffff\1\47\1"+
+        "\24\1\46\1\25\4\uffff\1\53\1\37\1\52\1\54\1\42\1\55\1\uffff\1\6"+
+        "\3\uffff\1\30\13\uffff\1\12\1\16\1\uffff\1\21\1\40\3\uffff\1\27"+
+        "\4\uffff\1\17\3\uffff\1\31\1\35\1\uffff\1\36\1\uffff\1\23\1\26\1"+
+        "\1\1\22";
     static final String DFA6_specialS =
         "\160\uffff}>";
     static final String[] DFA6_transitionS = {
             "\1\44\1\41\2\uffff\1\44\22\uffff\1\44\1\24\4\uffff\1\15\1\uffff"+
-            "\1\7\1\10\1\34\1\37\1\3\1\11\1\35\1\36\12\43\1\5\1\20\1\13\1"+
-            "\25\1\14\2\uffff\25\42\1\12\4\42\1\32\1\uffff\1\33\3\uffff\1"+
+            "\1\7\1\10\1\35\1\37\1\3\1\11\1\33\1\36\12\43\1\5\1\20\1\13\1"+
+            "\25\1\14\2\uffff\25\42\1\12\4\42\1\31\1\uffff\1\32\3\uffff\1"+
             "\42\1\17\2\42\1\30\1\6\2\42\1\16\2\42\1\21\1\27\2\42\1\23\1"+
-            "\42\1\22\1\1\1\31\2\42\1\26\3\42\1\2\1\40\1\4",
+            "\42\1\22\1\1\1\34\2\42\1\26\3\42\1\2\1\40\1\4",
             "\1\45",
             "",
             "",
@@ -1654,11 +1655,11 @@ public class Mini_Rust2Lexer extends Lexer {
             "\1\73",
             "\1\74",
             "\1\75",
+            "",
+            "",
+            "",
             "\1\76",
-            "",
-            "",
             "\1\77",
-            "",
             "\1\101\4\uffff\1\102",
             "",
             "",
@@ -1773,7 +1774,7 @@ public class Mini_Rust2Lexer extends Lexer {
             this.transition = DFA6_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | IDF | CST_ENT | WS );";
+            return "1:1: Tokens : ( T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | IDF | CST_ENT | WS );";
         }
     }
  
