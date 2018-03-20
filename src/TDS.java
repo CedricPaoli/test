@@ -67,7 +67,7 @@ public class TDS {
         val.set(nom.indexOf(nomVar),v);
     }
 
-    public void setType(String nomVar, String nomType){
+    public void setType(String nomVar, Type nomType){
         type.set(nom.indexOf(nomVar),nomType);
     }
 
