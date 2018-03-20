@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="204e6e21-28f6-439c-a809-7d19c9e5a147" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/adler3u.iml" afterPath="$PROJECT_DIR$/adler3u.iml" />
+      <change beforePath="$PROJECT_DIR$/Mini_Rust2.g" afterPath="$PROJECT_DIR$/Mini_Rust2.g" />
+      <change beforePath="$PROJECT_DIR$/Mini_Rust2.tokens" afterPath="$PROJECT_DIR$/Mini_Rust2.tokens" />
+      <change beforePath="$PROJECT_DIR$/Mini_Rust2Lexer.java" afterPath="$PROJECT_DIR$/Mini_Rust2Lexer.java" />
+      <change beforePath="$PROJECT_DIR$/Mini_Rust2Parser.java" afterPath="$PROJECT_DIR$/Mini_Rust2Parser.java" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
       <change beforePath="$PROJECT_DIR$/src/TDS.java" afterPath="$PROJECT_DIR$/src/TDS.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1071">
-              <caret line="91" column="9" lean-forward="true" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
+            <state relative-caret-position="657">
+              <caret line="69" column="17" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -31,12 +34,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TDS.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TDS.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TDS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="882">
-              <caret line="65" column="2" lean-forward="false" selection-start-line="65" selection-start-column="2" selection-end-line="65" selection-end-column="2" />
-              <folding />
+            <state relative-caret-position="476">
+              <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+              <folding>
+                <element signature="e#1810#1811#0" expanded="true" />
+                <element signature="e#1853#1854#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,11 +90,9 @@
       <file leaf-file-name="Mini_Rust2Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mini_Rust2Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35280">
-              <caret line="1975" column="13" lean-forward="false" selection-start-line="1975" selection-start-column="13" selection-end-line="1975" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="35406">
+              <caret line="1976" column="13" lean-forward="false" selection-start-line="1976" selection-start-column="13" selection-end-line="1976" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -442,7 +446,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="882">
           <caret line="65" column="2" lean-forward="true" selection-start-line="65" selection-start-column="2" selection-end-line="65" selection-end-column="2" />
-          <folding />
+          <folding>
+            <element signature="e#1810#1811#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -482,9 +489,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="35550">
           <caret line="1975" column="13" lean-forward="false" selection-start-line="1975" selection-start-column="13" selection-end-line="1975" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -502,7 +507,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="69" column="44" lean-forward="false" selection-start-line="69" selection-start-column="44" selection-end-line="69" selection-end-column="44" />
-          <folding />
+          <folding>
+            <element signature="e#1810#1811#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -542,9 +550,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="35550">
           <caret line="1975" column="13" lean-forward="false" selection-start-line="1975" selection-start-column="13" selection-end-line="1975" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -577,9 +583,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="35550">
           <caret line="1975" column="13" lean-forward="false" selection-start-line="1975" selection-start-column="13" selection-end-line="1975" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -593,11 +597,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Mini_Rust2Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35280">
-          <caret line="1975" column="13" lean-forward="false" selection-start-line="1975" selection-start-column="13" selection-end-line="1975" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="35406">
+          <caret line="1976" column="13" lean-forward="false" selection-start-line="1976" selection-start-column="13" selection-end-line="1976" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -640,20 +642,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TDS.java">
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="65" column="2" lean-forward="false" selection-start-line="65" selection-start-column="2" selection-end-line="65" selection-end-column="2" />
-          <folding />
+        <state relative-caret-position="657">
+          <caret line="69" column="17" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/TDS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="91" column="9" lean-forward="true" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
+        <state relative-caret-position="476">
+          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1810#1811#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
           </folding>
         </state>
       </provider>

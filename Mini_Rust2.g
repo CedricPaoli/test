@@ -29,6 +29,7 @@ tokens{
     RETURN;
     ATTRIBUT;
     DECL_VAR;
+    DECL_VAR_MUT;
     DECL_FCT;
     DECL_VEC;
     VAL_ATTRIBUT;
@@ -95,7 +96,7 @@ instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(COND
                        | if_expr
                        ;
 
-let2 : 'mut' comm? accesseur ('=' comm? expr)? -> ^(DECL_VAR accesseur expr?)
+let2 : 'mut' comm? accesseur ('=' comm? expr)? -> ^(DECL_VAR_MUT accesseur expr?)
      | accesseur ('=' comm? expr)? -> ^(CST_OU_AFF accesseur expr?)
      ; 
 
