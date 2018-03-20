@@ -38,7 +38,7 @@ public class Main {
         if (tablesDesSymboles.isEmpty()) tablesDesSymboles.add(new TDS(0, 0));
         tableDesSymboles = tablesDesSymboles.get(num_block);
 
-        switch (ast.getToken().hashCode()) {
+        switch (ast.getToken().getType()) {
             case Mini_Rust2Lexer.FICHIER:
                 for (int i = 0; i < ast.getChildCount(); i++) {
                     iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
@@ -90,4 +90,5 @@ public class Main {
                 break;
         }
     }
+
 }
