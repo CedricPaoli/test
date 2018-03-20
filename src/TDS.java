@@ -27,11 +27,11 @@ public class TDS {
     public String getNom(int indice){
         return nom.get(indice);
     }
-
+/*
     public String getType(int indice){
         return type.get(indice);
     }
-
+*/
     public Integer getDepl(int indice){
         return depl.get(indice);
     }
