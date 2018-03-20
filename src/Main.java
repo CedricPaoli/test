@@ -89,8 +89,5 @@ public class Main {
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
         }
-        for(TDS tds : tablesDesSymboles){
-            tds.displayTDS();
-        }
     }
 }

@@ -6,10 +6,10 @@ public class TDS {
 
     private int num_block;
     private int father_num_block;
-    private ArrayList<String> nom;
-    private ArrayList<Type> type;
-    private ArrayList<Object> val;
-    private ArrayList<Integer> depl;
+    private ArrayList<String> nom = new ArrayList<String>();
+    private ArrayList<Type> type = new ArrayList<Type>();
+    private ArrayList<Object> val = new ArrayList<>();
+    private ArrayList<Integer> depl = new ArrayList<Integer>();
 
     public TDS (int indice, int num){
         num_block = indice;
@@ -56,7 +56,11 @@ public class TDS {
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
-        depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+        if (depl.size()>0) {
+            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+        } else {
+            depl.add(typeVar.getTaille());
+        }
     }
 
     public void setVal(Object o,int indice){
