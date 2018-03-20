@@ -18,6 +18,8 @@ public class Main {
 
         System.out.println(ast.toString());
 
+        ArrayList<TDS> tablesDesSymboles = creerTableSymboles(ast);
+        for (int i=0; i<tablesDesSymboles.size(); i++) tablesDesSymboles.get(i).displayTDS();
     }
 
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
