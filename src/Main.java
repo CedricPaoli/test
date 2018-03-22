@@ -91,7 +91,7 @@ public class Main {
                 {
                     type = tableDesSymboles.getType(tableDesSymboles.getLigne(nom_var));
                     type2 = new Type((CommonTree)ast.getChild(1), true);
-                    if (!type.isEqual(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : ");
+                    if (!type.isEgal(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : ");
                 }
                 else {
                     type = new Type((CommonTree)ast.getChild(1), true);
