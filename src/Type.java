@@ -12,6 +12,19 @@ public class Type extends CommonTree
         isValide = true;
     }
 
+    public Type(CommonTree tree, boolean transformation){
+        common_tree = abracadabra(tree);
+        isValide = true;
+    }
+
+    public CommonTree abracadabra(CommonTree tree){
+        for (int i = 0; i < tree.getChildCount(); i++) {
+            switch (tree.getChild(i).getText()){
+                case
+            }
+        }
+    }
+
     public CommonTree dupTree(CommonTree tree){
         CommonTree ct = new CommonTree();
         for (int i = 0; i < tree.getChildCount(); i++) {
