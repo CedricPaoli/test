@@ -20,9 +20,11 @@ public class Type extends CommonTree
     public CommonTree abracadabra(CommonTree tree){
         for (int i = 0; i < tree.getChildCount(); i++) {
             switch (tree.getChild(i).getText()){
-                case
+                default:
+                	return tree;
             }
         }
+        return tree;
     }
 
     public CommonTree dupTree(CommonTree tree){
@@ -71,5 +73,9 @@ public class Type extends CommonTree
 
     public CommonTree getCommon_tree() {
         return common_tree;
+    }
+    
+    public boolean isEqual(Type type2) {
+    	return this.equals(type2);
     }
 }
