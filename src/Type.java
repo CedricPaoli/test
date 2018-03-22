@@ -1,7 +1,7 @@
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
-public class Type extends CommonTree
+public class Type
 {
     boolean isValide; //Est-ce que le type est valide
 
