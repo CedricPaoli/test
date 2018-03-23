@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 public class TDS {
 
+    // Travail Ced :
+    // Tableau des structure static à contrôler
+    // Verif si le type/ la struct est valide
+
     private int num_block;
     private int father_num_block;
     private ArrayList<String> nom = new ArrayList<String>();
     private ArrayList<Type> type = new ArrayList<Type>();
+    private ArrayList<ArrayList<Type>> argument = new ArrayList<>();
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
 
@@ -48,6 +53,7 @@ public class TDS {
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
+        argument.add(null);
         depl.add(deplacement);
     }
 
@@ -56,6 +62,20 @@ public class TDS {
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
+        argument.add(null);
+        if (depl.size()>0) {
+            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
+        } else {
+            depl.add(typeVar.getTaille());
+        }
+    }
+
+    public void ajouter(String nomVar, Type typeVar, ArrayList<Type> arguments, Object valeur)
+    {
+        nom.add(nomVar);
+        type.add(typeVar);
+        val.add(valeur);
+        argument.add(arguments);
         if (depl.size()>0) {
             depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
         } else {

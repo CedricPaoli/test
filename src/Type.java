@@ -1,7 +1,7 @@
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
-public class Type extends CommonTree
+public class Type
 {
     boolean isValide; //Est-ce que le type est valide
 
@@ -13,16 +13,16 @@ public class Type extends CommonTree
     }
 
     public Type(CommonTree tree, boolean transformation){
-        common_tree = abracadabra(tree);
+        common_tree = valToType(tree);
         isValide = true;
     }
 
-    public CommonTree abracadabra(CommonTree tree){
+    public CommonTree valToType(CommonTree tree){
         for (int i = 0; i < tree.getChildCount(); i++) {
             switch (tree.getChild(i).getText()){
-                case
             }
         }
+        return tree;
     }
 
     public CommonTree dupTree(CommonTree tree){
@@ -46,6 +46,7 @@ public class Type extends CommonTree
                 case Mini_Rust2Lexer.T__49 : // pointeur
                     i += 6;
                     break;
+                // Manque les struct ?
                 default:
                     i += (new Type((CommonTree) this.common_tree.getChild(i))).getTaille();
                     break;
