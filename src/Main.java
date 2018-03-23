@@ -23,6 +23,7 @@ public class Main {
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
     {
         ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
+        tablesDesSymboles.add(new TDS(0, -1));
         iCreerTableSymboles(tablesDesSymboles, ast, 0, 0);
 
         return tablesDesSymboles;
@@ -33,10 +34,7 @@ public class Main {
         Type type;
         Type type2;
         String nom_var;
-        TDS tableDesSymboles;
-
-        if (tablesDesSymboles.isEmpty()) tablesDesSymboles.add(new TDS(0, 0));
-        tableDesSymboles = tablesDesSymboles.get(num_block);
+        TDS tableDesSymboles = tablesDesSymboles.get(num_block);
 
         switch (ast.getToken().getType()) {
             case Mini_Rust2Lexer.FICHIER:
@@ -49,22 +47,18 @@ public class Main {
                 type = new Type((CommonTree)ast.getChild(1));
 
                 //Contrôles sémantiques
-                if (tableDesSymboles.isVariableIn(nom)) //Verification du nom
-                    System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : ");
+                if (tdsOuVariableIn(nom, tablesDesSymboles, num_block) != null) //Verification du nom
+                    System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : "+ast.getLine());
                 else if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
                 else tableDesSymboles.ajouter(nom, type, 0);
 
-                father_region = num_block;
-                num_block++;
-
-                tablesDesSymboles.add(new TDS(num_block, father_region));
                 iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(3), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.DECL_VAR: //Declaration de variable dans les parametres d'une fonction
                 nom_var = ast.getChild(0).toString();
-
-                if (tableDesSymboles.isVariableIn(nom_var))
-                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : ");
+                System.out.println(nom_var);
+                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
+                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : "+ast.getLine());
                 else {
                     type = new Type((CommonTree)ast.getChild(1));
 
@@ -75,8 +69,8 @@ public class Main {
             case Mini_Rust2Lexer.DECL_VAR_MUT:
                 nom_var = ast.getChild(0).toString();
 
-                if (tableDesSymboles.isVariableIn(nom_var))
-                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : ");
+                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
+                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : "+ast.getLine());
                 else {
                     type = new Type((CommonTree)ast.getChild(1), true);
 
@@ -87,11 +81,12 @@ public class Main {
             case Mini_Rust2Lexer.CST_OU_AFF:
                 nom_var = ast.getChild(0).toString();
 
-                if (tableDesSymboles.isVariableIn(nom_var))
+                TDS tds = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
+                if (tds != null)
                 {
-                    type = tableDesSymboles.getType(tableDesSymboles.getLigne(nom_var));
+                    type = tds.getType(tds.getLigne(nom_var));
                     type2 = new Type((CommonTree)ast.getChild(1), true);
-                    if (!type.isEqual(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : ");
+                    if (!type.isEgal(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : "+ast.getLine());
                 }
                 else {
                     type = new Type((CommonTree)ast.getChild(1), true);
@@ -105,7 +100,6 @@ public class Main {
             case Mini_Rust2Lexer.BLOC:
                 father_region = num_block;
                 num_block++;
-
                 tablesDesSymboles.add(new TDS(num_block, father_region));
 
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
@@ -120,4 +114,25 @@ public class Main {
         }
     }
 
+    static public TDS tdsOuVariableIn(String nom, ArrayList<TDS> tablesDesSymboles, int nTableDesSymboles)
+    {
+        int i=0;
+        boolean res = false;
+
+        for (i=0; i<tablesDesSymboles.size(); i++)
+        {
+            if (tablesDesSymboles.get(i).getNum_block() == nTableDesSymboles)
+            {
+                if (tablesDesSymboles.get(i).isVariableIn(nom))
+                {
+                    res = true;
+                }
+                break;
+            }
+        }
+
+        if (res) return tablesDesSymboles.get(i);
+        else if (nTableDesSymboles == 0) return null;
+        else return tdsOuVariableIn(nom, tablesDesSymboles, tablesDesSymboles.get(i).getFather_num_block());
+    }
 }

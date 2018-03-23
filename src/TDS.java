@@ -16,9 +16,9 @@ public class TDS {
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
 
-    public TDS (int indice, int num){
+    public TDS (int indice, int nPere){
         num_block = indice;
-        father_num_block = num;
+        father_num_block = nPere;
     }
     
     public void setFather_num_block(int num) {
@@ -32,11 +32,7 @@ public class TDS {
     public String getNom(int indice){
         return nom.get(indice);
     }
-/*
-    public String getType(int indice){
-        return type.get(indice);
-    }
-*/
+
     public Integer getDepl(int indice){
         return depl.get(indice);
     }
@@ -57,6 +53,17 @@ public class TDS {
         depl.add(deplacement);
     }
 
+    public void setVal(Object o,int indice){
+        val.set(indice,o);
+    }
+
+
+    public void setType(String nomVar, Type nomType){
+        type.set(nom.indexOf(nomVar),nomType);
+
+    }
+
+    //Fonctions reellements utiles
     public void ajouter(String nomVar, Type typeVar, Object valeur)
     {
         nom.add(nomVar);
@@ -83,16 +90,6 @@ public class TDS {
         }
     }
 
-    public void setVal(Object o,int indice){
-        val.set(indice,o);
-    }
-
-
-    public void setType(String nomVar, Type nomType){
-        type.set(nom.indexOf(nomVar),nomType);
-
-    }
-
     public boolean isVariableIn (String nomVar){
         return nom.contains(nomVar);
     }
@@ -108,7 +105,7 @@ public class TDS {
     }
 
     public void displayTDS(){
-        System.out.println("------------------------  " + num_block +" -----------------------------");
+        System.out.println("------------------------  " + num_block +" parent: " +father_num_block+" -----------------------");
         for(String n : nom){
             System.out.print("nom : "+n);
             System.out.print(", type : "+type.get(nom.indexOf(n)));

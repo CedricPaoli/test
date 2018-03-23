@@ -64,6 +64,25 @@ public class Type
         }
     }
 
+    public boolean isEgal(Type type)
+    {
+        return iIsEgal(common_tree, type.common_tree);
+    }
+
+    public boolean iIsEgal(CommonTree type1, CommonTree type2)
+    {
+        if (type1.getChildCount() != type2.getChildCount() && type1.getToken().getType() != type2.getToken().getType()) return false;
+
+        boolean res;
+
+        for (int i=0; i<type1.getChildCount(); i++)
+        {
+            res = iIsEgal((CommonTree)type1.getChild(i), (CommonTree)type2.getChild(i));
+            if (!res) return false;
+        }
+
+        return true;
+    }
 
     public boolean gIsValide()
     {
@@ -72,5 +91,9 @@ public class Type
 
     public CommonTree getCommon_tree() {
         return common_tree;
+    }
+    
+    public boolean isEqual(Type type2) {
+    	return this.equals(type2);
     }
 }
