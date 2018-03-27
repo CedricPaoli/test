@@ -105,6 +105,20 @@ public class Main {
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.APPEL_FCT:
+                String nom_fn = ast.getChild(0).toString();
+                //contrôle sem : vérifier que la fonction existe
+                boolean exist = false;
+                int current = num_block;
+                while (!exist || current>=0){
+                    exist=tablesDesSymboles.get(current).isVariableIn(nom_fn);
+                    current = tablesDesSymboles.get(current).getFather_num_block();
+                }
+                if(!exist){
+                    System.out.println("Erreur ligne " + ast.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
+                }
+                for(int i=0; i<ast.getChild(1).getChildCount();i++){
+
+                }
                 break;
             case Mini_Rust2Lexer.VEC:
                 break;

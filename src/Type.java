@@ -27,6 +27,7 @@ public class Type
        }
     }
 
+/*
     public CommonTree valToType(CommonTree tree){
         for (int i = 0; i < tree.getChildCount(); i++) {
         	System.out.println("chat0 " + tree.getChild(i).getText());
@@ -45,6 +46,16 @@ public class Type
         }
         return tree;
     }
+*/
+
+    public CommonTree valToType(CommonTree tree){
+        for (int i = 0; i < tree.getChildCount(); i++) {
+            switch (tree.getChild(i).getText()){
+            }
+        }
+        return tree;
+    }
+
 
     public CommonTree dupTree(CommonTree tree){
         CommonTree ct = new CommonTree();
