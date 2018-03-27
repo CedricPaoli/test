@@ -105,13 +105,14 @@ public class TDS {
     }
 
     public void displayTDS(){
-        System.out.println("------------------------  " + num_block +" parent: " +father_num_block+" -----------------------");
+        System.out.printf("--------------------------------- TDS n°%-2s parent: %-2s --------------------------------\n", num_block, father_num_block);
         for(String n : nom){
-            System.out.print("nom : "+n);
-            System.out.print(", type : "+type.get(nom.indexOf(n)));
-            System.out.print(", valeur : "+val.get(nom.indexOf(n)));
-            System.out.println(", déplacement : "+depl.get(nom.indexOf(n)));
+            System.out.printf("| nom : %-20s", n);
+            System.out.printf("  type : %-10s", type.get(nom.indexOf(n)));
+            System.out.printf ("  valeur : %-5s", val.get(nom.indexOf(n)));
+            System.out.printf("  déplacement : %-5s | \n", depl.get(nom.indexOf(n)));
         }
-        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("");
     }
 }
