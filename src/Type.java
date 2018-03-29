@@ -1,19 +1,51 @@
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
+import java.util.ArrayList;
+
 public class Type
 {
-    boolean isValide; //Est-ce que le type est valide
+    private int token = -1;
+    private boolean isValide; //Est-ce que le type est valide
+    private ArrayList<Type> fils = new ArrayList<Type>();
 
-    CommonTree common_tree;
+    public Type(CommonTree tree){
+        if (tree.getChildCount() == 0) token = -1;
+        else
+        {
+            tree = (CommonTree)tree.getChild(0);
+            token = tree.getToken().getType();
 
-    public Type (CommonTree tree){
-        common_tree = dupTree(tree);
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                fils.add(new Type((CommonTree)tree.getChild(i)));
+            }
+        }
         isValide = true;
     }
 
     public Type(CommonTree tree, boolean transformation){
-        common_tree = valToType(tree);
+        switch (tree.getToken().getType()) {
+            case Mini_Rust2Lexer.T__65: //True
+            case Mini_Rust2Lexer.T__66: //False
+            case Mini_Rust2Lexer.T__76: //&&
+            case Mini_Rust2Lexer.T__77: //||
+            case Mini_Rust2Lexer.T__47: //<
+            case Mini_Rust2Lexer.T__48: //>
+            case Mini_Rust2Lexer.T__73: //<=
+            case Mini_Rust2Lexer.T__72: //>=
+                token = Mini_Rust2Lexer.T__51;
+                break;
+            case Mini_Rust2Lexer.CST_ENT: //CST_ENT
+            case Mini_Rust2Lexer.T__71: //+
+            case Mini_Rust2Lexer.T__69: //-
+            case Mini_Rust2Lexer.T__67: //-
+                token = Mini_Rust2Lexer.T__50;
+            default:
+                for (int i=0; i<tree.getChildCount(); i++) {
+                    fils.add(new Type((CommonTree) tree.getChild(i), true));
+                }
+                break;
+        }
         isValide = true;
     }
     
@@ -27,48 +59,10 @@ public class Type
        }
     }
 
-/*
-    public CommonTree valToType(CommonTree tree){
-        for (int i = 0; i < tree.getChildCount(); i++) {
-        	System.out.println("chat0 " + tree.getChild(i).getText());
-            if ( isInteger(tree.getChild(i).getText()) == false){
-            	if (tree.getChild(i).getText()=="false" || tree.getChild(i).getText()=="true") { //boolean
-            		System.out.println("chat1 : " + tree.getChild(i).toString());
-            	}else { //autre
-            		if(tree.getChild(i).getText() == "VAR") {
-            			System.out.println("val de var : " + tree.getChild(i).getChild(0) + "=" +tree.getChild(i).getChild(1));
-            		}
-            		System.out.println("chat2 : " + tree.getChild(i).toString());
-            	}
-            }else { //entier
-            	System.out.println("chat3 : " + tree.getChild(i).toString());
-            }
-        }
-        return tree;
-    }
-*/
-
-    public CommonTree valToType(CommonTree tree){
-        for (int i = 0; i < tree.getChildCount(); i++) {
-            switch (tree.getChild(i).getText()){
-            }
-        }
-        return tree;
-    }
-
-
-    public CommonTree dupTree(CommonTree tree){
-        CommonTree ct = new CommonTree();
-        for (int i = 0; i < tree.getChildCount(); i++) {
-            ct.addChild(tree.getChild(i));
-        }
-        return ct;
-    }
-
     public int getTaille(){
         int i = 0;
-        for (int j = 0; j < this.common_tree.getChildCount(); j++) {
-            switch (this.common_tree.getChild(i).hashCode()){
+        for (int j = 0; j < fils.size(); j++) {
+            switch (fils.get(i).token){
                 case Mini_Rust2Lexer.T__50 : // i32
                     i += 4;
                     break;
@@ -80,7 +74,7 @@ public class Type
                     break;
                 // Manque les struct ?
                 default:
-                    i += (new Type((CommonTree) this.common_tree.getChild(i))).getTaille();
+                    i += fils.get(i).getTaille();
                     break;
             }
         }
@@ -89,27 +83,35 @@ public class Type
 
     public String toString()
     {
-        if (common_tree.isNil()){
-            return "void";
-        } else {
-            return common_tree.toString();
+        switch (token)
+        {
+            case -1:
+                return "void";
+            case Mini_Rust2Lexer.T__50:
+                return "i32";
+            case Mini_Rust2Lexer.T__51:
+                return "bool";
+            case Mini_Rust2Lexer.T__49:
+                return "*";
+            default:
+                return "erreur: "+Mini_Rust2Lexer.T__49;
         }
     }
 
     public boolean isEgal(Type type)
     {
-        return iIsEgal(common_tree, type.common_tree);
+        return iIsEgal(this, type);
     }
 
-    public boolean iIsEgal(CommonTree type1, CommonTree type2)
+    public boolean iIsEgal(Type type1, Type type2)
     {
-        if (type1.getChildCount() != type2.getChildCount() && type1.getToken().getType() != type2.getToken().getType()) return false;
+        if (type1.fils.size() != type2.fils.size() && type1.token != type2.token) return false;
 
         boolean res;
 
-        for (int i=0; i<type1.getChildCount(); i++)
+        for (int i=0; i<type1.fils.size(); i++)
         {
-            res = iIsEgal((CommonTree)type1.getChild(i), (CommonTree)type2.getChild(i));
+            res = iIsEgal(type1.fils.get(i), type2.fils.get(i));
             if (!res) return false;
         }
 
@@ -120,12 +122,9 @@ public class Type
     {
         return isValide;
     }
-
+/*
     public CommonTree getCommon_tree() {
         return common_tree;
     }
-    
-    public boolean isEqual(Type type2) {
-    	return this.equals(type2);
-    }
+  */
 }
