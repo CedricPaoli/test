@@ -116,10 +116,15 @@ public class Main {
                 if(!exist){
                     System.out.println("Erreur ligne " + ast.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
                 }
+                TDS fn_tds = tablesDesSymboles.get(current);
                 for(int i=0; i<ast.getChild(1).getChildCount();i++){
-
+                    Type tested_type = new Type((CommonTree)ast.getChild(i),true);
+                    if(!tested_type.equals(fn_tds.getArgOf(nom_fn).get(i))){
+                        System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i));
+                    }
                 }
                 break;
+
             case Mini_Rust2Lexer.VEC:
                 break;
             default:
