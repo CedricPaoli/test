@@ -33,6 +33,7 @@ public class TDS {
         return nom.get(indice);
     }
 
+
     public Integer getDepl(int indice){
         return depl.get(indice);
     }
@@ -102,6 +103,11 @@ public class TDS {
     public int getLigne(String nomVar)
     {
         return nom.indexOf(nomVar);
+    }
+
+    public ArrayList<Type> getArgOf(String nom_fn){
+        int ligne = this.getLigne(nom_fn);
+        return argument.get(ligne);
     }
 
     public void displayTDS(){
