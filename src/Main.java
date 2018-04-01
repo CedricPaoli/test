@@ -124,6 +124,21 @@ public class Main {
                     }
                 }
                 break;
+            case Mini_Rust2Lexer.DECL_STRUCT:
+                String nom_struct = ast.getChild(0).toString();
+                if (tdsOuVariableIn(nom_struct, tablesDesSymboles, num_block) != null){
+                    System.out.println("Erreur ligne " + ast.getLine() + " La structure " + nom_struct + "existe déjà ");
+                }else{
+                    ArrayList<String> champs = new ArrayList<>();
+                    ArrayList<String> types = new ArrayList<>();
+                    for(int i=0; i<ast.getChild(1).getChildCount();i++){
+                        types.add(ast.getChild(1).getChild(i).getChild(0).toString());
+                        champs.add(ast.getChild(1).getChild(i).getChild(1).toString());
+                    }
+                    //ajouter nom_struct et ses champs ainsi que leurs types à la liste des types valides
+                    // (je sais pas où c'est censé aller ^^)
+                }
+                break;
 
             case Mini_Rust2Lexer.VEC:
                 break;

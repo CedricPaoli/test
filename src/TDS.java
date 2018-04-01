@@ -91,6 +91,7 @@ public class TDS {
         }
     }
 
+
     public boolean isVariableIn (String nomVar){
         return nom.contains(nomVar);
     }
