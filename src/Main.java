@@ -105,7 +105,41 @@ public class Main {
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.APPEL_FCT:
+                String nom_fn = ast.getChild(0).toString();
+                //contrôle sem : vérifier que la fonction existe
+                boolean exist = false;
+                int current = num_block;
+                while (!exist || current>=0){
+                    exist=tablesDesSymboles.get(current).isVariableIn(nom_fn);
+                    current = tablesDesSymboles.get(current).getFather_num_block();
+                }
+                if(!exist){
+                    System.out.println("Erreur ligne " + ast.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
+                }
+                TDS fn_tds = tablesDesSymboles.get(current);
+                for(int i=0; i<ast.getChild(1).getChildCount();i++){
+                    Type tested_type = new Type((CommonTree)ast.getChild(i),true);
+                    if(!tested_type.equals(fn_tds.getArgOf(nom_fn).get(i))){
+                        System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i));
+                    }
+                }
                 break;
+            case Mini_Rust2Lexer.DECL_STRUCT:
+                String nom_struct = ast.getChild(0).toString();
+                if (tdsOuVariableIn(nom_struct, tablesDesSymboles, num_block) != null){
+                    System.out.println("Erreur ligne " + ast.getLine() + " La structure " + nom_struct + "existe déjà ");
+                }else{
+                    ArrayList<String> champs = new ArrayList<>();
+                    ArrayList<String> types = new ArrayList<>();
+                    for(int i=0; i<ast.getChild(1).getChildCount();i++){
+                        types.add(ast.getChild(1).getChild(i).getChild(0).toString());
+                        champs.add(ast.getChild(1).getChild(i).getChild(1).toString());
+                    }
+                    //ajouter nom_struct et ses champs ainsi que leurs types à la liste des types valides
+                    // (je sais pas où c'est censé aller ^^)
+                }
+                break;
+
             case Mini_Rust2Lexer.VEC:
                 break;
             default:
