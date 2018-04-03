@@ -29,18 +29,18 @@ public class Type
 
     public CommonTree valToType(CommonTree tree){
         for (int i = 0; i < tree.getChildCount(); i++) {
-        	System.out.println("chat0 " + tree.getChild(i).getText());
+        	//System.out.println("chat0 " + tree.getChild(i).getText());
             if ( isInteger(tree.getChild(i).getText()) == false){
             	if (tree.getChild(i).getText()=="false" || tree.getChild(i).getText()=="true") { //boolean
-            		System.out.println("chat1 : " + tree.getChild(i).toString());
+            		//System.out.println("chat1 : " + tree.getChild(i).toString());
             	}else { //autre
             		if(tree.getChild(i).getText() == "VAR") {
-            			System.out.println("val de var : " + tree.getChild(i).getChild(0) + "=" +tree.getChild(i).getChild(1));
+            			//System.out.println("val de var : " + tree.getChild(i).getChild(0) + "=" +tree.getChild(i).getChild(1));
             		}
-            		System.out.println("chat2 : " + tree.getChild(i).toString());
+            		//System.out.println("chat2 : " + tree.getChild(i).toString());
             	}
             }else { //entier
-            	System.out.println("chat3 : " + tree.getChild(i).toString());
+            	//System.out.println("chat3 : " + tree.getChild(i).toString());
             }
         }
         return tree;
