@@ -10,16 +10,16 @@ public class Type
     private ArrayList<Type> fils = new ArrayList<Type>();
 
     public Type(CommonTree tree){
-        if (tree.getChildCount() == 0) token = -1;
-        else
-        {
-            tree = (CommonTree)tree.getChild(0);
-            token = tree.getToken().getType();
+        token = tree.getToken().getType();
 
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                fils.add(new Type((CommonTree)tree.getChild(i)));
-            }
+        for (int i = 0; i < tree.getChildCount(); i++) {
+            fils.add(new Type((CommonTree) tree.getChild(i)));
         }
+        isValide = true;
+    }
+
+    public Type(){
+        token = -1;
         isValide = true;
     }
 
@@ -40,6 +40,11 @@ public class Type
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //-
                 token = Mini_Rust2Lexer.T__50;
+                break;
+            case Mini_Rust2Lexer.IDF: //IDF
+                token = Mini_Rust2Lexer.T__50;
+                System.out.println("corriger dans type");
+                break;
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
                     fils.add(new Type((CommonTree) tree.getChild(i), true));

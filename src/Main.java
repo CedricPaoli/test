@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception
     {
-        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex1.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex2.rs");
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         Mini_Rust2Parser parser = new Mini_Rust2Parser(tokens);
@@ -44,25 +44,38 @@ public class Main {
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
                 String nom = ast.getChild(0).toString();
-                type = new Type((CommonTree)ast.getChild(1));
+                if (ast.getChild(2).getChildCount() > 0) type = new Type((CommonTree) ast.getChild(2).getChild(0));
+                else type = new Type();
 
                 //Contrôles sémantiques
                 if (tdsOuVariableIn(nom, tablesDesSymboles, num_block) != null) //Verification du nom
-                    System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : "+ast.getLine());
-                else if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
-                else tableDesSymboles.ajouter(nom, type, 0);
+                    System.out.println("Erreur: Le nom '" + nom + "'est déjà attribué ligne : " + ast.getLine());
+                else if (!type.gIsValide())
+                    System.out.println("Erreur: Le type '" + type + " n'existe pas"); //Verification du type
+                else
+                {
+                    ArrayList<Type> arguments = new ArrayList<Type>();
 
+                    for (int i=0; i<ast.getChild(1).getChildCount(); i++)
+                    {
+                        arguments.add(new Type((CommonTree)(ast.getChild(1).getChild(i).getChild(1))));
+                    }
+                    tableDesSymboles.ajouter(nom, type, arguments, 0);
+                }
+
+                //iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(1), num_block, father_region);
                 iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(3), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.DECL_VAR: //Declaration de variable dans les parametres d'une fonction
                 nom_var = ast.getChild(0).toString();
                 System.out.println(nom_var);
                 if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
-                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : "+ast.getLine());
+                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : " + ast.getLine());
                 else {
-                    type = new Type((CommonTree)ast.getChild(1));
+                    type = new Type((CommonTree) ast.getChild(1));
 
-                    if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                    if (!type.gIsValide())
+                        System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
                     else tableDesSymboles.ajouter(nom_var, type, 0);
                 }
                 break;
@@ -70,11 +83,12 @@ public class Main {
                 nom_var = ast.getChild(0).toString();
 
                 if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
-                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : "+ast.getLine());
+                    System.out.println("Erreur: Le nom '" + nom_var + "'est déjà attribué ligne : " + ast.getLine());
                 else {
-                    type = new Type((CommonTree)ast.getChild(1), true);
+                    type = new Type((CommonTree) ast.getChild(1), true);
 
-                    if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                    if (!type.gIsValide())
+                        System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
                 }
                 break;
@@ -82,16 +96,16 @@ public class Main {
                 nom_var = ast.getChild(0).toString();
 
                 TDS tds = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
-                if (tds != null)
-                {
+                if (tds != null) {
                     type = tds.getType(tds.getLigne(nom_var));
-                    type2 = new Type((CommonTree)ast.getChild(1), true);
-                    if (!type.isEgal(type2)) System.out.println("Les types "+type+" et "+type2+" ne correspondent pas, ligne : "+ast.getLine());
-                }
-                else {
-                    type = new Type((CommonTree)ast.getChild(1), true);
+                    type2 = new Type((CommonTree) ast.getChild(1), true);
+                    if (!type.isEgal(type2))
+                        System.out.println("Les types " + type + " et " + type2 + " ne correspondent pas, ligne : " + ast.getLine());
+                } else {
+                    type = new Type((CommonTree) ast.getChild(1), true);
 
-                    if (!type.gIsValide()) System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
+                    if (!type.gIsValide())
+                        System.out.println("Erreur: Le type '" + type + "n'existe pas"); //Verification du type
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
                 }
                 break;
@@ -102,25 +116,35 @@ public class Main {
                 num_block++;
                 tablesDesSymboles.add(new TDS(num_block, father_region));
 
-                for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
+                for (int i = 0; i < ast.getChildCount(); i++)
+                    iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.APPEL_FCT:
                 String nom_fn = ast.getChild(0).toString();
                 //contrôle sem : vérifier que la fonction existe
                 boolean exist = false;
                 int current = num_block;
+                /*
                 while (!exist || current>=0){
                     exist=tablesDesSymboles.get(current).isVariableIn(nom_fn);
                     current = tablesDesSymboles.get(current).getFather_num_block();
-                }
-                if(!exist){
+                }*/
+                TDS fn_tds = tdsOuVariableIn(nom_fn, tablesDesSymboles, num_block);
+
+                if (fn_tds == null) {
                     System.out.println("Erreur ligne " + ast.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
                 }
-                TDS fn_tds = tablesDesSymboles.get(current);
-                for(int i=0; i<ast.getChild(1).getChildCount();i++){
-                    Type tested_type = new Type((CommonTree)ast.getChild(i),true);
-                    if(!tested_type.equals(fn_tds.getArgOf(nom_fn).get(i))){
-                        System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i));
+                else
+                {
+                    //TDS fn_tds = tablesDesSymboles.get(current);
+                    if (ast.getChildCount()-1 != fn_tds.getArgOf(nom_fn).size()) System.out.println("Erreur ligne " + ast.getLine()+" : Le nombre de paramètres est erroné");
+                    else {
+                        for (int i = 1; i < ast.getChildCount(); i++) {
+                            Type tested_type = new Type((CommonTree) ast.getChild(i).getChild(0), true);
+                            if (!tested_type.isEgal(fn_tds.getArgOf(nom_fn).get(i-1))) {
+                                System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i-1));
+                            }
+                        }
                     }
                 }
                 break;
