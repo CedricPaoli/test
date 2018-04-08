@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-03-20 14:32:11
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-03-27 15:21:28
 
 import java.util.HashMap;
 
@@ -625,7 +625,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: attribut, attribut, IDF
+            // elements: attribut, IDF, attribut
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1131,7 +1131,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, IDF, bloc, argument
+            // elements: IDF, argument, bloc, type
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1720,7 +1720,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, IDF
+            // elements: IDF, type
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2084,7 +2084,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: sous_bloc, instruction_avec_point
+                    // elements: instruction_avec_point, sous_bloc
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2171,7 +2171,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: sous_bloc, instruction_sans_point
+                    // elements: instruction_sans_point, sous_bloc
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2943,7 +2943,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: accesseur, expr
+                    // elements: expr, accesseur
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3187,7 +3187,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: operations_prio4b, else2, bloc
+            // elements: bloc, else2, operations_prio4b
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4351,7 +4351,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDF, struct, IDF, acces_variable, IDF, IDF, fonction
+            // elements: IDF, IDF, fonction, IDF, acces_variable, IDF, struct
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5015,7 +5015,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: acces_variable, expr
+                    // elements: expr, acces_variable
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -6618,7 +6618,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDF, acces_variable, fonction
+            // elements: acces_variable, fonction, IDF
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7143,7 +7143,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: IDF, acces_accesseur
+                    // elements: acces_accesseur, IDF
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
