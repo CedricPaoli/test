@@ -110,6 +110,9 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.DECL_VEC:
+            	if(true) {
+            		
+            	}
                 break;
             case Mini_Rust2Lexer.BLOC:
                 father_region = num_block;
