@@ -110,10 +110,17 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.DECL_VEC:
-            	if(true) {
-            		
-            	}
                 break;
+            case Mini_Rust2Lexer.ACCES_VEC:
+            	nom_var = ast.getChild(0).toString();
+            	type = new Type((CommonTree) ast.getChild(1), true);
+            	
+            	if(!type.gIsValide()) {
+            		System.out.println("Erreur: Les types ne sont pas corrects, ligne : "+ ast.getLine());
+            	}else {
+            		  tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
+            	}
+            	break;
             case Mini_Rust2Lexer.BLOC:
                 father_region = num_block;
                 num_block++;
