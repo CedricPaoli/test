@@ -14,23 +14,23 @@ public class Type
      * @param tree prend la partie de l'abre correspondant au type à construire
      */
     public Type(CommonTree tree){
-        // Si c'est un type "simple", càd une feuille, on laisse token à -1
-        if (tree.getChildCount() == 0) token = -1;
 
-        // Si non
-        else
-        {
-            // On caste le premier fils en Common Tree
-            tree = (CommonTree)tree.getChild(0);
-            // On stock le nouveau type (représenté par l'entier correspondant) dans token
-            token = tree.getToken().getType();
-            // On place tous les fils suivant dans fils
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                fils.add(new Type((CommonTree)tree.getChild(i)));
-            }
+        token = tree.getToken().getType();
+
+        for (int i = 0; i < tree.getChildCount(); i++) {
+            fils.add(new Type((CommonTree) tree.getChild(i)));
         }
 
         // Nous sommes bien dans le cas d'un type
+        isValide = true;
+    }
+
+
+    /**
+     * Crée un type vide
+     */
+    public Type(){
+        token = -1;
         isValide = true;
     }
 
@@ -56,6 +56,11 @@ public class Type
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //-
                 token = Mini_Rust2Lexer.T__50;
+                break;
+            case Mini_Rust2Lexer.IDF: //IDF
+                token = Mini_Rust2Lexer.T__50;
+                System.out.println("corriger dans type");
+                break;
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
                     fils.add(new Type((CommonTree) tree.getChild(i), true));
@@ -122,6 +127,10 @@ public class Type
                 return "bool";
             case Mini_Rust2Lexer.T__49:
                 return "*";
+            case Mini_Rust2Lexer.STRUCT:
+            	return "struct";
+            case Mini_Rust2Lexer.VEC:
+            	return "vec";
             default:
                 return "erreur: "+Mini_Rust2Lexer.T__49;
         }
