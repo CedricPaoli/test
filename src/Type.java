@@ -9,20 +9,36 @@ public class Type
     private boolean isValide; //Est-ce que le type est valide
     private ArrayList<Type> fils = new ArrayList<Type>();
 
+    /**
+     * Constructeur simple
+     * @param tree prend la partie de l'abre correspondant au type à construire
+     */
     public Type(CommonTree tree){
+        // Si c'est un type "simple", càd une feuille, on laisse token à -1
         if (tree.getChildCount() == 0) token = -1;
+
+        // Si non
         else
         {
+            // On caste le premier fils en Common Tree
             tree = (CommonTree)tree.getChild(0);
+            // On stock le nouveau type (représenté par l'entier correspondant) dans token
             token = tree.getToken().getType();
-
+            // On place tous les fils suivant dans fils
             for (int i = 0; i < tree.getChildCount(); i++) {
                 fils.add(new Type((CommonTree)tree.getChild(i)));
             }
         }
+
+        // Nous sommes bien dans le cas d'un type
         isValide = true;
     }
 
+    /**
+     * Permet la création d'un type avec convertion et typage dynamique
+     * @param tree arbre à analyser
+     * @param transformation param. de
+     */
     public Type(CommonTree tree, boolean transformation){
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
@@ -48,7 +64,12 @@ public class Type
         }
         isValide = true;
     }
-    
+
+    /**
+     * Fonction pour tester si la valeur du type est un entier
+     * @param input une chaine de caractère
+     * @return true si entier, false sinon
+     */
     public boolean isInteger( String input ){
        try{
           Integer.parseInt( input );
@@ -59,6 +80,10 @@ public class Type
        }
     }
 
+    /**
+     * Fonction donnant l'espace mémoire requis / occupé par le type courant
+     * @return un entier correspondant à la taille du type en octet
+     */
     public int getTaille(){
         int i = 0;
         for (int j = 0; j < fils.size(); j++) {
@@ -81,6 +106,10 @@ public class Type
         return i;
     }
 
+    /**
+     * Fonction transformant le type courant en une chaine de caractère
+     * @return le type sous forme string
+     */
     public String toString()
     {
         switch (token)
@@ -98,11 +127,22 @@ public class Type
         }
     }
 
+    /**
+     * Vérifie que deux types sont bien identique
+     * @param type type à comparé avec le type courant
+     * @return true si c'est le même type, false sinon
+     */
     public boolean isEgal(Type type)
     {
         return iIsEgal(this, type);
     }
 
+    /**
+     * Vérifie que deux types sont bien identique
+     * @param type1 premier type à comparer
+     * @param type2 second type à comparer
+     * @return true si les types sont identique, false sinon
+     */
     public boolean iIsEgal(Type type1, Type type2)
     {
         if (type1.fils.size() != type2.fils.size() && type1.token != type2.token) return false;
@@ -118,6 +158,10 @@ public class Type
         return true;
     }
 
+    /**
+     * Fonction contrôlant si le type est un type valide
+     * @return true si le type est correct, false sinon
+     */
     public boolean gIsValide()
     {
         return isValide;

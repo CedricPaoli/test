@@ -20,6 +20,11 @@ public class Main {
         for (int i=0; i<tablesDesSymboles.size(); i++) tablesDesSymboles.get(i).displayTDS();
     }
 
+    /**
+     * Contient l'intégralité des TDS
+     * @param ast AST à partir duquel les TDS sont construite
+     * @return l'ensemble des TDS sous la forme d'une ArrayList<TDS>
+     */
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
     {
         ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
@@ -29,6 +34,13 @@ public class Main {
         return tablesDesSymboles;
     }
 
+    /**
+     * Fonction permettant de créer récursivement l'ensemble des TDS associée à un AST
+     * @param tablesDesSymboles contient l'ensemble des TDS déjà créée
+     * @param ast AST à partis duquel l'on construit les TDS
+     * @param num_block numéro du block courant
+     * @param father_region numéro de région englobante
+     */
     static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast, int num_block, int father_region)
     {
         Type type;
@@ -147,6 +159,7 @@ public class Main {
                 break;
         }
     }
+
 
     static public TDS tdsOuVariableIn(String nom, ArrayList<TDS> tablesDesSymboles, int nTableDesSymboles)
     {
