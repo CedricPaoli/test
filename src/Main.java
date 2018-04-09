@@ -27,9 +27,14 @@ public class Main {
      */
     static ArrayList<TDS> creerTableSymboles(CommonTree ast)
     {
+        // liste des TDS
         ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
+        // on pose la 1er TDS
         tablesDesSymboles.add(new TDS(0, -1));
-        iCreerTableSymboles(tablesDesSymboles, ast, 0, 0);
+        // On initialise les type valides particuliers
+        ArrayList<Type> typesValide = new ArrayList<>();
+        // On crée récursivement les TDS
+        iCreerTableSymboles(tablesDesSymboles,typesValide, ast, 0, 0);
 
         return tablesDesSymboles;
     }
@@ -37,11 +42,12 @@ public class Main {
     /**
      * Fonction permettant de créer récursivement l'ensemble des TDS associée à un AST
      * @param tablesDesSymboles contient l'ensemble des TDS déjà créée
+     * @param typesValides contient l'ensemble des type valide courant
      * @param ast AST à partis duquel l'on construit les TDS
      * @param num_block numéro du block courant
      * @param father_region numéro de région englobante
      */
-    static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles, CommonTree ast, int num_block, int father_region)
+    static void iCreerTableSymboles(ArrayList<TDS> tablesDesSymboles,ArrayList<Type> typesValides, CommonTree ast, int num_block, int father_region)
     {
         Type type;
         Type type2;
@@ -51,7 +57,7 @@ public class Main {
         switch (ast.getToken().getType()) {
             case Mini_Rust2Lexer.FICHIER:
                 for (int i = 0; i < ast.getChildCount(); i++) {
-                    iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
+                    iCreerTableSymboles(tablesDesSymboles,typesValides, (CommonTree) ast.getChild(i), num_block, father_region);
                 }
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
@@ -76,7 +82,7 @@ public class Main {
                 }
 
                 //iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(1), num_block, father_region);
-                iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(3), num_block, father_region);
+                iCreerTableSymboles(tablesDesSymboles,typesValides, (CommonTree) ast.getChild(3), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.DECL_VAR: //Declaration de variable dans les parametres d'une fonction
                 nom_var = ast.getChild(0).toString();
@@ -139,7 +145,7 @@ public class Main {
                 tablesDesSymboles.add(new TDS(num_block, father_region));
 
                 for (int i = 0; i < ast.getChildCount(); i++)
-                    iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
+                    iCreerTableSymboles(tablesDesSymboles,typesValides, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.APPEL_FCT:
                 String nom_fn = ast.getChild(0).toString();
@@ -173,14 +179,19 @@ public class Main {
             case Mini_Rust2Lexer.DECL_STRUCT:
                 String nom_struct = ast.getChild(0).toString();
                 if (tdsOuVariableIn(nom_struct, tablesDesSymboles, num_block) != null){
+                    // Cas où le type existe déjà dans la TDS
                     System.out.println("Erreur ligne " + ast.getLine() + " La structure " + nom_struct + "existe déjà ");
                 }else{
+                    // Cas o l'on rencontre le type pour la première fois
                     ArrayList<String> champs = new ArrayList<>();
                     ArrayList<String> types = new ArrayList<>();
+                    Type nouveau_type = new Type((CommonTree)ast);
                     for(int i=0; i<ast.getChild(1).getChildCount();i++){
                         types.add(ast.getChild(1).getChild(i).getChild(0).toString());
                         champs.add(ast.getChild(1).getChild(i).getChild(1).toString());
                     }
+                    // ajout de la nouvelle structure aux types valides
+                    typesValides.add(nouveau_type);
                     //ajouter nom_struct et ses champs ainsi que leurs types à la liste des types valides
                     // (je sais pas où c'est censé aller ^^)
                 }
@@ -189,7 +200,7 @@ public class Main {
             case Mini_Rust2Lexer.VEC:
                 break;
             default:
-                for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles, (CommonTree) ast.getChild(i), num_block, father_region);
+                for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(tablesDesSymboles,typesValides, (CommonTree) ast.getChild(i), num_block, father_region);
                 break;
         }
     }
