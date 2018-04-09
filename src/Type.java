@@ -37,9 +37,10 @@ public class Type
     /**
      * Permet la création d'un type avec convertion et typage dynamique
      * @param tree arbre à analyser
+     * @param types_valides ArrayList contenant les types valides spéciaux (les structures déclarées)
      * @param transformation param. de
      */
-    public Type(CommonTree tree, boolean transformation){
+    public Type(CommonTree tree, ArrayList<Type> types_valides, boolean transformation){
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
             case Mini_Rust2Lexer.T__66: //False
@@ -63,11 +64,27 @@ public class Type
                 break;
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
-                    fils.add(new Type((CommonTree) tree.getChild(i), true));
+                    fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
+                    // On vérifie que les types des fils sont valides
+                    for (int j = 0; j < types_valides.size(); j++) {
+                        if (!fils.get(i).isEgal(types_valides.get(j))){
+                            isValide = false;
+                        }
+                    }
                 }
                 break;
         }
-        isValide = true;
+
+        // Si tout c'est bien passé jusque là, on vérifie si le type final est valide
+        if (isValide){
+            isValide = false;
+            for (int i = 0; i < types_valides.size(); i++) {
+                // Si le type est découvert (et qu'il existe donc) on valide
+                if (this.isEgal(types_valides.get(i))){
+                    isValide = true;
+                }
+            }
+        }
     }
 
     /**
