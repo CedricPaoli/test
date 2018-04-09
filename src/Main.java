@@ -158,6 +158,7 @@ public class Main {
             	}
             	break;
             case Mini_Rust2Lexer.ACCES_VEC:
+            	//vérifier que c'est bien i32
             	nom_var = ast.getChild(0).toString();
             	type = new Type((CommonTree) ast.getChild(1), structures, num_block);
             	
@@ -165,6 +166,27 @@ public class Main {
             		System.out.println("Erreur: Les types ne sont pas corrects, ligne : "+ ast.getLine());
             	}else {
             		  tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
+            	}
+            	
+            	//Vérifier que c'est bien un vec
+            	TDS tedeess = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
+            	if(tedeess != null) {
+            		if(tedeess.getType(tedeess.getLigne(nom_var)).getToken() != Mini_Rust2Lexer.VEC) {
+            			System.out.println("La variable n'est pas un vecteur");
+            		}
+            	}else {
+            		System.out.println("Variable non définie");
+            	}
+            	break;
+            case Mini_Rust2Lexer.LEN:
+            	nom_var = ast.getChild(0).toString();
+            	TDS tedeess2 = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
+            	if(tedeess2 != null) {
+            		if(tedeess2.getType(tedeess2.getLigne(nom_var)).getToken() != Mini_Rust2Lexer.VEC) {
+            			System.out.println("La variable n'est pas un vecteur");
+            		}
+            	}else {
+            		System.out.println("Variable non définie");
             	}
             	break;
             case Mini_Rust2Lexer.BLOC:

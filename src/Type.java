@@ -9,6 +9,8 @@ public class Type
     private int token = -1;
     private String structure = "";
     private boolean isValide = false; //Est-ce que le type est valide
+    private int taille = 0;
+
     private ArrayList<Type> fils = new ArrayList<Type>();
 
     /**
@@ -17,25 +19,46 @@ public class Type
      */
     public Type(CommonTree tree){ //Definition d'un type "statiquement"
 
-        if (tree.getToken().getType() == Mini_Rust2Lexer.IDF)
-        {
+        if (tree.getToken().getType() == Mini_Rust2Lexer.IDF) {
             structure = tree.toString();
             token = -2;
             isValide = true;
         }
         else {
-
             token = tree.getToken().getType();
 
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                fils.add(new Type((CommonTree) tree.getChild(i)));
+            switch (token) {
+                case Mini_Rust2Lexer.T__50: // i32
+                    taille += 4;
+                    break;
+                case Mini_Rust2Lexer.T__51: // bool
+                    taille += 1;
+                    break;
+                case Mini_Rust2Lexer.POINTEUR: // pointeur
+                case Mini_Rust2Lexer.POINTEUR_VAL: // pointeur de pointeur
+                case Mini_Rust2Lexer.T__49: //&
+                    taille = 6;
+                    break;
             }
 
-            // Nous sommes bien dans le cas d'un type
-            isValide = true;
+            if (tree.getChildCount() == 2 && (tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR_VAL || tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR || tree.getChild(0).getType() == Mini_Rust2Lexer.T__49)) {
+                taille = 6;
+            } else {
+                token = tree.getToken().getType();
+
+                for (int i = 0; i < tree.getChildCount(); i++) {
+                    fils.add(new Type((CommonTree) tree.getChild(i)));
+                }
+
+                // Nous sommes bien dans le cas d'un type
+                isValide = true;
+            }
         }
     }
 
+    public Type(boolean isPointeur){
+        taille = 6;
+    }
 
     /**
      * Crée un type vide
@@ -43,6 +66,7 @@ public class Type
     public Type(){
         token = -1;
         isValide = true;
+        taille = 0;
     }
 
 
@@ -56,121 +80,130 @@ public class Type
 
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
-            	token = Mini_Rust2Lexer.T__51;
+                token = Mini_Rust2Lexer.T__51;
                 isValide = true;
+                taille += 1;
                 break;
             case Mini_Rust2Lexer.T__66: //False
-            	token = Mini_Rust2Lexer.T__51;
+                token = Mini_Rust2Lexer.T__51;
                 isValide = true;
+                taille += 1;
                 break;
             case Mini_Rust2Lexer.T__76: //&&
-            	token = Mini_Rust2Lexer.T__51;
-                isValide = true;
-                break;
             case Mini_Rust2Lexer.T__77: //||
-            	token = Mini_Rust2Lexer.T__51;
+                Type type_gauche = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
+                Type type_droit = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
+                if ((type_gauche.token != Mini_Rust2Lexer.T__50 && type_droit.token != Mini_Rust2Lexer.T__50) &&
+                        (type_gauche.token != Mini_Rust2Lexer.T__51 && type_droit.token != Mini_Rust2Lexer.T__51)) {
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type " + type_gauche + " et " + type_droit);
+                }
+                token = Mini_Rust2Lexer.T__51;
                 isValide = true;
+                taille += 1;
                 break;
             case Mini_Rust2Lexer.T__47: //<
             case Mini_Rust2Lexer.T__48: //>
             case Mini_Rust2Lexer.T__73: //<=
             case Mini_Rust2Lexer.T__72: //>=
             case Mini_Rust2Lexer.T__74: //==
-                Type type_gauche_supe = new Type((CommonTree)tree.getChild(0),structures,nTableDesSymboles);
-                Type type_droit_supe = new Type((CommonTree)tree.getChild(1),structures,nTableDesSymboles);
-                if(type_gauche_supe.token != Mini_Rust2Lexer.T__50 || type_droit_supe.token != Mini_Rust2Lexer.T__50){
-                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type "+type_gauche_supe+" et "+type_droit_supe);
+                Type type_gauche_supe = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
+                Type type_droit_supe = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
+                if (type_gauche_supe.token != Mini_Rust2Lexer.T__50 || type_droit_supe.token != Mini_Rust2Lexer.T__50) {
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type " + type_gauche_supe + " et " + type_droit_supe);
                 }
-                token = Mini_Rust2Lexer.T__51;
+                token = Mini_Rust2Lexer.T__51; // bool
                 isValide = true;
+                taille += 1;
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
-            	token = Mini_Rust2Lexer.T__50;
+                token = Mini_Rust2Lexer.T__50;
                 isValide = true;
-            	break;
+                taille += 4;
+                break;
+
             case Mini_Rust2Lexer.T__71: //+
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //*
-                Type type_gauche_moins = new Type((CommonTree)tree.getChild(0),structures,nTableDesSymboles);
-                Type type_droit_moins = new Type((CommonTree)tree.getChild(1),structures,nTableDesSymboles);
-                if(type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50){
+                Type type_gauche_moins = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
+                Type type_droit_moins = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
+                if (type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32");
                 }
-                token = Mini_Rust2Lexer.T__50;
+                token = Mini_Rust2Lexer.T__50; // i32
                 isValide = true;
+                taille += 4;
                 break;
             case Mini_Rust2Lexer.VAR: //VAR
                 table = Main.tdsOuVariableIn(tree.getChild(0).toString(), TDS.tablesDesSymboles, nTableDesSymboles);
 
-                if (table == null) System.out.println(tree.getChild(0)+" n'est pas déclaré ligne : "+tree.getChild(0).getLine());
-                else
-                {
+                if (table == null)
+                    System.out.println(tree.getChild(0) + " n'est pas déclaré ligne : " + tree.getChild(0).getLine());
+                else {
                     Type typeVar = table.getType(table.getLigne(tree.getChild(0).toString()));
 
-                    if (tree.getChildCount() == 2 && tree.getChild(1).getType() == Mini_Rust2Lexer.T__68)
-                    {
-                        if (typeVar.token == Mini_Rust2Lexer.T__46)
-                        {
-                            token = Mini_Rust2Lexer.T__50;;
+                    if (tree.getChildCount() == 2 && tree.getChild(1).getType() == Mini_Rust2Lexer.T__68) {
+                        if (typeVar.token == Mini_Rust2Lexer.T__46) {
+                            token = Mini_Rust2Lexer.T__50;
+                            ;
                             isValide = true;
-                        }
-                        else System.out.println(typeVar+" n'a pas de méthode len() ligne : "+tree.getLine());
-                    }
-                    else {
+                        } else System.out.println(typeVar + " n'a pas de méthode len() ligne : " + tree.getLine());
+                    } else {
                         token = typeVar.token;
                         fils = typeVar.fils;
                         isValide = true;
+                        taille = typeVar.taille;
+                        structure = typeVar.structure;
                     }
                 }
                 break;
+            case Mini_Rust2Lexer.POINTEUR: // pointeur
+            case Mini_Rust2Lexer.POINTEUR_VAL: // pointeur de pointeur
             case Mini_Rust2Lexer.T__49: //&
                 token = Mini_Rust2Lexer.POINTEUR;
                 fils.add(new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles));
                 isValide = true;
+                taille += 6;
                 break;
             case Mini_Rust2Lexer.DECL_VEC:
-            	  token = Mini_Rust2Lexer.T__46;
-            	  for(int i=0; i<tree.getChildCount(); i++){
-            	  	  fils.add(new Type((CommonTree) tree.getChild(i), structures, nTableDesSymboles));
-	              }
-                  isValide = true;
-	              break;
+                token = Mini_Rust2Lexer.T__46;
+                for (int i = 0; i < tree.getChildCount(); i++) {
+                    fils.add(new Type((CommonTree) tree.getChild(i), structures, nTableDesSymboles));
+                }
+                isValide = true;
+                break;
             case Mini_Rust2Lexer.STRUCT:
+                isValide = false;
                 tree = (CommonTree)tree.getChild(0);
 
-                isValide = false;
-
-                for (int i=0; i<structures.size(); i++)
-                {
-                    if (structures.get(i).getStruct_name().equals(tree.toString()))
-                    {
+                for (int i = 0; i < structures.size(); i++) {
+                    if (structures.get(i).getStruct_name().equals(tree.toString())) {
                         token = -2;
                         structure = tree.toString();
                         isValide = true;
                     }
                 }
-              break;
+                break;
             case Mini_Rust2Lexer.APPEL_FCT:
                 String nom_fn = tree.getChild(0).toString();
                 table = Main.tdsOuVariableIn(nom_fn, TDS.tablesDesSymboles, nTableDesSymboles);
 
-                if (table == null)
-                {
+                if (table == null) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
                     break;
-                }
-                else
-                {
+                } else {
                     Type type = table.getType(table.getLigne(nom_fn));
                     token = type.token;
+                    structure = type.structure;
                     fils = type.fils;
                     isValide = true;
                 }
                 break;
-
             default:
                 isValide = false;
                 break;
+        }
+        if(tree.getChildCount() == 2 && (tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR_VAL || tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR || tree.getChild(0).getType() == Mini_Rust2Lexer.T__49)) {
+            taille = 6;
         }
     }
 
@@ -193,11 +226,13 @@ public class Type
      * Fonction donnant l'espace mémoire requis / occupé par le type courant
      * @return un entier correspondant à la taille du type en octet
      */
-    public int getTaille(){
+    public int getTaille1(){
         int i = 0;
         for (int j = 0; j < fils.size(); j++) {
-            switch (fils.get(i).token){
+            System.out.println(fils.get(j));
+            switch (fils.get(j).token){
                 case Mini_Rust2Lexer.T__50 : // i32
+                    System.out.println("c'est un int ! ligne :");
                     i += 4;
                     break;
                 case Mini_Rust2Lexer.T__51 : // bool
@@ -206,13 +241,18 @@ public class Type
                 case Mini_Rust2Lexer.T__49 : // pointeur
                     i += 6;
                     break;
-                // Manque les struct ?
-                default:
-                    i += fils.get(i).getTaille();
+                default: // le reste
+                    i += fils.get(j).getTaille1();
                     break;
             }
         }
+        System.out.println(i);
         return i;
+    }
+
+
+    public int getTaille(){
+        return taille;
     }
 
     /**
@@ -236,7 +276,9 @@ public class Type
             case Mini_Rust2Lexer.STRUCT:
             	return "struct";
             case Mini_Rust2Lexer.T__46:
-            	return "Vec<"+fils.get(0).toString()+">";
+            	String res = "Vec<"+fils.get(0);
+                for (int i=1; i<fils.size(); i++) res += ", "+fils.get(i);
+            	return res+">";
             default:
                 return "erreur: "+token;
         }
@@ -293,8 +335,27 @@ public class Type
     
     /**
      * Pour vérifier condition boucle
+     * @return true si c'est une condition
      */
     public boolean isCondition() {
         return (token == Mini_Rust2Lexer.T__50 || token == Mini_Rust2Lexer.T__51);
+    }
+
+
+    /**
+     * Permet d'obtenir les fils du type
+     * @return les fils du type
+     */
+    public  ArrayList<Type> getFils(){
+        return fils;
+    }
+
+
+    
+    /**
+     * Récupérer le token du type (int)
+     */
+    public int getToken() {
+    	return this.token;
     }
 }
