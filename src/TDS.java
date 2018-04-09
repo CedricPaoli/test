@@ -193,18 +193,20 @@ public class TDS {
      * Permet d'avoir un affichage en console de la TDS
      */
     public void displayTDS(){
-        System.out.printf("--------------------------------- TDS n°%-2s parent: %-2s --------------------------------\n", num_block, father_num_block);
+        System.out.printf("-------------------------------------------------- TDS n°%-2s parent: %-2s -------------------------------------------------\n", num_block, father_num_block);
         for(String n : nom){
             System.out.printf("| nom : %-20s", n);
             System.out.printf("  type : %-10s", type.get(nom.indexOf(n)));
             System.out.printf ("  valeur : %-5s", val.get(nom.indexOf(n)));
-            System.out.printf("  déplacement : %-5s | \n", depl.get(nom.indexOf(n)));
+            System.out.printf("  déplacement : %-5s ", depl.get(nom.indexOf(n)));
             if (argument.get(nom.indexOf(n)) != null) {
             	//System.out.println(argument.get(nom.indexOf(n)).toString());
-            	System.out.printf("| paramètres : %-69s |\n", argument.get(nom.indexOf(n)).toString());
+            	System.out.printf("   paramètres :   %-15s |\n", argument.get(nom.indexOf(n)).toString());
+            }else {
+            	System.out.printf("                                  |\n");
             }
         }
-        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
     }
 
