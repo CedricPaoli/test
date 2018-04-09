@@ -308,6 +308,7 @@ public class Type
         return (token == Mini_Rust2Lexer.T__50 || token == Mini_Rust2Lexer.T__51);
     }
 
+
     /**
      * Permet d'obtenir les fils du type
      * @return les fils du type
@@ -316,4 +317,12 @@ public class Type
         return fils;
     }
 
+
+    
+    /**
+     * Récupérer le token du type (int)
+     */
+    public int getToken() {
+    	return this.token;
+    }
 }
