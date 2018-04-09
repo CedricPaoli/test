@@ -43,13 +43,47 @@ public class Type
     public Type(CommonTree tree, ArrayList<Type> types_valides, boolean transformation){
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
+            	token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__66: //False
+            	token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__76: //&&
+            	token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__77: //||
+            	token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__47: //<
+            	Type type_gauche_inf = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_inf = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_inf.isEgal(type_droit_inf)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
+                token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__48: //>
+            	Type type_gauche_sup = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_sup = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_sup.isEgal(type_droit_sup)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
+                token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__73: //<=
+            	Type type_gauche_infe = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_infe = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_infe.isEgal(type_droit_infe)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
+                token = Mini_Rust2Lexer.T__51;
+                break;
             case Mini_Rust2Lexer.T__72: //>=
+            	Type type_gauche_supe = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_supe = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_supe.isEgal(type_droit_supe)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
                 token = Mini_Rust2Lexer.T__51;
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
@@ -78,8 +112,6 @@ public class Type
             	  	  fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
 	              }
 	              break;
-            case Mini_Rust2Lexer.
-            
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
                     fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
@@ -227,19 +259,6 @@ public class Type
     		}
     	}else if(this.token == Mini_Rust2Lexer.T__51){
     		//Cas du boolean
-    		//on regarde que l'on compare correctement deux même types
-    		switch(this.token) {
-	    		case Mini_Rust2Lexer.T__47: //<
-	    			
-	    			break;
-	            case Mini_Rust2Lexer.T__48: //>
-	            	break;
-	            case Mini_Rust2Lexer.T__73: //<=
-	            	break;
-	            case Mini_Rust2Lexer.T__72: //>=
-	            	break;
-    		}
-    	
     		return true;
     	}else if(true) {
     		
