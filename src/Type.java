@@ -1,3 +1,4 @@
+package src;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
@@ -62,6 +63,13 @@ public class Type
                 token = Mini_Rust2Lexer.T__50;
                 System.out.println("corriger dans type");
                 break;
+            case Mini_Rust2Lexer.DECL_VEC:
+            	  token = Mini_Rust2Lexer.DECL_VEC;
+            	  for(int i=0; i<tree.getChildCount(); i++){
+            	  	  fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
+	              }
+	              break;
+            
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
                     fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
@@ -75,7 +83,7 @@ public class Type
                 break;
         }
 
-        // Si tout c'est bien passé jusque là, on vérifie si le type final est valide
+        // Si tout s'est bien passé jusque là, on vérifie si le type final est valide
         if (isValide){
             isValide = false;
             for (int i = 0; i < types_valides.size(); i++) {
