@@ -253,8 +253,16 @@ public class Type
     
     /**
      * Pour vérifier condition boucle
+     * return boolean
      */
     public boolean isCondition() {
         return (token == Mini_Rust2Lexer.T__50 || token == Mini_Rust2Lexer.T__51);
+    }
+    
+    /**
+     * Récupérer le token du type (int)
+     */
+    public int getToken() {
+    	return this.token;
     }
 }
