@@ -1,4 +1,4 @@
-package src;
+//package src;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
@@ -55,8 +55,18 @@ public class Type
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
             case Mini_Rust2Lexer.T__71: //+
+                Type type_gauche_plus = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_plus = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_plus.isEgal(type_droit_plus)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
             case Mini_Rust2Lexer.T__69: //-
-            case Mini_Rust2Lexer.T__67: //-
+                Type type_gauche_moins = new Type((CommonTree)tree.getChild(0),types_valides,transformation);
+                Type type_droit_moins = new Type((CommonTree)tree.getChild(1),types_valides,transformation);
+                if(!type_gauche_moins.isEgal(type_droit_moins)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : l'oppération doit se faire entre deux expressions de même type");
+                }
+            case Mini_Rust2Lexer.T__67: //*
                 token = Mini_Rust2Lexer.T__50;
                 break;
             case Mini_Rust2Lexer.IDF: //IDF
