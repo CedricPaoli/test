@@ -36,27 +36,53 @@ public class Type
     }
 
     /**
-     * Permet la création d'un type avec convertion et typage dynamique
+     * Permet la création d'un type avec conversion et typage dynamique
      * @param tree arbre à analyser
      * @param types_valides ArrayList contenant les types valides spéciaux (les structures déclarées)
      */
     public Type(CommonTree tree, ArrayList<Type> types_valides, int nTableDesSymboles){
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
+            	token = Mini_Rust2Lexer.T__51;
+                isValide = true;
+                break;
             case Mini_Rust2Lexer.T__66: //False
+            	token = Mini_Rust2Lexer.T__51;
+                isValide = true;
+                break;
             case Mini_Rust2Lexer.T__76: //&&
+            	token = Mini_Rust2Lexer.T__51;
+                isValide = true;
+                break;
             case Mini_Rust2Lexer.T__77: //||
+            	token = Mini_Rust2Lexer.T__51;
+                isValide = true;
+                break;
             case Mini_Rust2Lexer.T__47: //<
             case Mini_Rust2Lexer.T__48: //>
             case Mini_Rust2Lexer.T__73: //<=
             case Mini_Rust2Lexer.T__72: //>=
+            case Mini_Rust2Lexer.T__74: //==
+                Type type_gauche_supe = new Type((CommonTree)tree.getChild(0),types_valides,nTableDesSymboles);
+                Type type_droit_supe = new Type((CommonTree)tree.getChild(1),types_valides,nTableDesSymboles);
+                if(type_gauche_supe.token != Mini_Rust2Lexer.T__50 || type_droit_supe.token != Mini_Rust2Lexer.T__50){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type "+type_gauche_supe+" et "+type_droit_supe);
+                }
                 token = Mini_Rust2Lexer.T__51;
                 isValide = true;
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
+            	token = Mini_Rust2Lexer.T__50;
+                isValide = true;
+            	break;
             case Mini_Rust2Lexer.T__71: //+
             case Mini_Rust2Lexer.T__69: //-
-            case Mini_Rust2Lexer.T__67: //-
+            case Mini_Rust2Lexer.T__67: //*
+                Type type_gauche_moins = new Type((CommonTree)tree.getChild(0),types_valides,nTableDesSymboles);
+                Type type_droit_moins = new Type((CommonTree)tree.getChild(1),types_valides,nTableDesSymboles);
+                if(type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32");
+                }
                 token = Mini_Rust2Lexer.T__50;
                 isValide = true;
                 break;
@@ -78,6 +104,13 @@ public class Type
                 fils.add(new Type((CommonTree) tree.getChild(0), types_valides, nTableDesSymboles));
                 isValide = true;
                 break;
+            case Mini_Rust2Lexer.DECL_VEC:
+            	  token = Mini_Rust2Lexer.DECL_VEC;
+            	  for(int i=0; i<tree.getChildCount(); i++){
+            	  	  fils.add(new Type((CommonTree) tree.getChild(i), types_valides, nTableDesSymboles));
+	              }
+                  isValide = true;
+	              break;
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
                     fils.add(new Type((CommonTree) tree.getChild(i), types_valides, nTableDesSymboles));
@@ -98,6 +131,7 @@ public class Type
                             isValide = true;
                         }
                     }
+
                 }
                 break;
         }
@@ -145,7 +179,7 @@ public class Type
     }
 
     /**
-     * Fonction transformant le type courant en une chaine de caractère
+     * Fonction transformant le type courant en une chaine de caractères
      * @return le type sous forme string
      */
     public String toString()
@@ -170,8 +204,8 @@ public class Type
     }
 
     /**
-     * Vérifie que deux types sont bien identique
-     * @param type type à comparé avec le type courant
+     * Vérifie que deux types sont bien identiques
+     * @param type type à comparer avec le type courant
      * @return true si c'est le même type, false sinon
      */
     public boolean isEgal(Type type)
@@ -180,10 +214,10 @@ public class Type
     }
 
     /**
-     * Vérifie que deux types sont bien identique
+     * Vérifie que deux types sont bien identiques
      * @param type1 premier type à comparer
      * @param type2 second type à comparer
-     * @return true si les types sont identique, false sinon
+     * @return true si les types sont identiques, false sinon
      */
     public boolean iIsEgal(Type type1, Type type2)
     {
@@ -213,4 +247,11 @@ public class Type
         return common_tree;
     }
   */
+    
+    /**
+     * Pour vérifier condition boucle
+     */
+    public boolean isCondition() {
+        return (token == Mini_Rust2Lexer.T__50 || token == Mini_Rust2Lexer.T__51);
+    }
 }
