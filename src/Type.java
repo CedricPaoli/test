@@ -1,6 +1,7 @@
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.BaseTreeAdaptor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Type
@@ -38,9 +39,8 @@ public class Type
      * Permet la création d'un type avec convertion et typage dynamique
      * @param tree arbre à analyser
      * @param types_valides ArrayList contenant les types valides spéciaux (les structures déclarées)
-     * @param transformation param. de
      */
-    public Type(CommonTree tree, ArrayList<Type> types_valides, boolean transformation){
+    public Type(CommonTree tree, ArrayList<Type> types_valides, int nTableDesSymboles){
         switch (tree.getToken().getType()) {
             case Mini_Rust2Lexer.T__65: //True
             case Mini_Rust2Lexer.T__66: //False
@@ -51,20 +51,36 @@ public class Type
             case Mini_Rust2Lexer.T__73: //<=
             case Mini_Rust2Lexer.T__72: //>=
                 token = Mini_Rust2Lexer.T__51;
+                isValide = true;
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
             case Mini_Rust2Lexer.T__71: //+
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //-
                 token = Mini_Rust2Lexer.T__50;
+                isValide = true;
                 break;
-            case Mini_Rust2Lexer.IDF: //IDF
-                token = Mini_Rust2Lexer.T__50;
-                System.out.println("corriger dans type");
+            case Mini_Rust2Lexer.VAR: //IDF
+                tree = (CommonTree)tree.getChild(0);
+
+                TDS table = Main.tdsOuVariableIn(tree.toString(), TDS.tablesDesSymboles, nTableDesSymboles);
+                if (table == null) System.out.println(tree+" n'est pas déclaré ligne : "+tree.getLine());
+                else
+                {
+                    Type typeVar = table.getType(table.getLigne(tree.toString()));
+                    token = typeVar.token;
+                    fils = typeVar.fils;
+                }
+                isValide = true;
+                break;
+            case Mini_Rust2Lexer.T__49: //&
+                token = Mini_Rust2Lexer.POINTEUR;
+                fils.add(new Type((CommonTree) tree.getChild(0), types_valides, nTableDesSymboles));
+                isValide = true;
                 break;
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
-                    fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
+                    fils.add(new Type((CommonTree) tree.getChild(i), types_valides, nTableDesSymboles));
                     // On vérifie que les types des fils sont valides
                     for (int j = 0; j < types_valides.size(); j++) {
                         if (!fils.get(i).isEgal(types_valides.get(j))){
@@ -72,18 +88,18 @@ public class Type
                         }
                     }
                 }
-                break;
-        }
 
-        // Si tout c'est bien passé jusque là, on vérifie si le type final est valide
-        if (isValide){
-            isValide = false;
-            for (int i = 0; i < types_valides.size(); i++) {
-                // Si le type est découvert (et qu'il existe donc) on valide
-                if (this.isEgal(types_valides.get(i))){
-                    isValide = true;
+                // Si tout c'est bien passé jusque là, on vérifie si le type final est valide
+                if (isValide){
+                    isValide = false;
+                    for (int i = 0; i < types_valides.size(); i++) {
+                        // Si le type est découvert (et qu'il existe donc) on valide
+                        if (this.isEgal(types_valides.get(i))){
+                            isValide = true;
+                        }
+                    }
                 }
-            }
+                break;
         }
     }
 
@@ -142,14 +158,14 @@ public class Type
                 return "i32";
             case Mini_Rust2Lexer.T__51:
                 return "bool";
-            case Mini_Rust2Lexer.T__49:
-                return "*";
+            case Mini_Rust2Lexer.POINTEUR:
+                return "&"+fils.get(0).toString();
             case Mini_Rust2Lexer.STRUCT:
             	return "struct";
             case Mini_Rust2Lexer.VEC:
             	return "vec";
             default:
-                return "erreur: "+Mini_Rust2Lexer.T__49;
+                return "erreur: "+token;
         }
     }
 
@@ -171,7 +187,7 @@ public class Type
      */
     public boolean iIsEgal(Type type1, Type type2)
     {
-        if (type1.fils.size() != type2.fils.size() && type1.token != type2.token) return false;
+        if (type1.fils.size() != type2.fils.size() || type1.token != type2.token) return false;
 
         boolean res;
 

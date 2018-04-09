@@ -16,6 +16,8 @@ public class TDS {
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
 
+    static public ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
+
     public TDS (int indice, int nPere){
         num_block = indice;
         father_num_block = nPere;
@@ -201,5 +203,14 @@ public class TDS {
         }
         System.out.println("--------------------------------------------------------------------------------------");
         System.out.println("");
+    }
+
+    static public TDS getTDS(int numBloc)
+    {
+        for (int i=0; i<tablesDesSymboles.size(); i++)
+        {
+            if (tablesDesSymboles.get(i).getNum_block() == numBloc) return tablesDesSymboles.get(i);
+        }
+        return null;
     }
 }
