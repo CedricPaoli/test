@@ -2,7 +2,6 @@ import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.CommonTree;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -42,10 +41,10 @@ public class Main {
     }
 
     /**
-     * Fonction permettant de créer récursivement l'ensemble des TDS associée à un AST
-     * @param tablesDesSymboles contient l'ensemble des TDS déjà créée
-     * @param types_valides contient l'ensemble des type valide courant
-     * @param ast AST à partis duquel l'on construit les TDS
+     * Fonction permettant de créer récursivement l'ensemble des TDS associées à un AST
+     * @param tablesDesSymboles contient l'ensemble des TDS déjà créées
+     * @param types_valides contient l'ensemble des types valides courants
+     * @param ast AST à partir duquel on construit les TDS
      * @param num_block numéro du block courant
      * @param father_region numéro de région englobante
      */
