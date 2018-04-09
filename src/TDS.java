@@ -124,8 +124,13 @@ public class TDS {
         val.add(valeur);
         argument.add(null);
         if (depl.size()>0) {
+            ///System.out.println(nomVar + " " + typeVar.getTaille());
+            //int n1 = (depl.get(depl.size()-1));
+            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
+            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
             depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
         } else {
+            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  "Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
             depl.add(typeVar.getTaille());
         }
     }
@@ -144,8 +149,13 @@ public class TDS {
         val.add(valeur);
         argument.add(arguments);
         if (depl.size()>0) {
+            //System.out.println(nomVar + " " + typeVar.getTaille());
+            //int n1 = (depl.get(depl.size()-1));
+            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
+            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
             depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
         } else {
+            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
             depl.add(typeVar.getTaille());
         }
     }
@@ -210,6 +220,11 @@ public class TDS {
         System.out.println("");
     }
 
+    /**
+     * Permet d'obtenir une TDS
+     * @param numBloc le numéro de la TDS voulue
+     * @return la TDS associée à numBloc
+     */
     static public TDS getTDS(int numBloc)
     {
         for (int i=0; i<tablesDesSymboles.size(); i++)
