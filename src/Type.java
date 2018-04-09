@@ -204,4 +204,35 @@ public class Type
         return common_tree;
     }
   */
+    
+    /**
+     * Pour vérifier condition boucle
+     */
+    public boolean isCondition() {
+    	if((this.fils).size() == 1){
+    		if (this.token == Mini_Rust2Lexer.T__50) {
+    			//cas du i32
+    			return true;
+    		}
+    	}else if(this.token == Mini_Rust2Lexer.T__51){
+    		//Cas du boolean
+    		//on regarde que l'on compare correctement deux même types
+    		switch(this.token) {
+	    		case Mini_Rust2Lexer.T__47: //<
+	    			
+	    			break;
+	            case Mini_Rust2Lexer.T__48: //>
+	            	break;
+	            case Mini_Rust2Lexer.T__73: //<=
+	            	break;
+	            case Mini_Rust2Lexer.T__72: //>=
+	            	break;
+    		}
+    	
+    		return true;
+    	}else if(true) {
+    		
+    	}
+    	return false;
+    }
 }

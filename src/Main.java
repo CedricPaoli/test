@@ -129,6 +129,20 @@ public class Main {
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
                 }
                 break;
+            case Mini_Rust2Lexer.WHILE:
+            	type = new Type((CommonTree) ast.getChild(0), types_valides, true);
+            	//Vérification de la condition => boolean ou nombre
+            	if(!type.isCondition()) {
+            		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
+            	}
+            	break;
+            case Mini_Rust2Lexer.IF:
+            	type = new Type((CommonTree) ast.getChild(0), types_valides, true);
+            	//Vérification de la condition => boolean ou nombre
+            	if(!type.isCondition()) {
+            		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
+            	}
+            	break;
             case Mini_Rust2Lexer.DECL_VEC:
                 break;
             case Mini_Rust2Lexer.ACCES_VEC:
