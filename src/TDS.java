@@ -199,7 +199,7 @@ public class TDS {
             System.out.printf("  déplacement : %-5s | \n", depl.get(nom.indexOf(n)));
             if (argument.get(nom.indexOf(n)) != null) {
             	//System.out.println(argument.get(nom.indexOf(n)).toString());
-            	System.out.printf("| paramètres : %-59s |", argument.get(nom.indexOf(n)).toString());
+            	System.out.printf("| paramètres : %-69s |\n", argument.get(nom.indexOf(n)).toString());
             }
         }
         System.out.println("--------------------------------------------------------------------------------------");
