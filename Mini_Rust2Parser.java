@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-03-27 15:21:28
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-04-09 21:36:49
 
 import java.util.HashMap;
 
@@ -625,7 +625,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: attribut, IDF, attribut
+            // elements: attribut, attribut, IDF
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1131,7 +1131,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDF, argument, bloc, type
+            // elements: type, IDF, bloc, argument
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1720,7 +1720,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDF, type
+            // elements: type, IDF
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2084,7 +2084,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: instruction_avec_point, sous_bloc
+                    // elements: sous_bloc, instruction_avec_point
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2171,7 +2171,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: instruction_sans_point, sous_bloc
+                    // elements: sous_bloc, instruction_sans_point
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2943,7 +2943,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, accesseur
+                    // elements: accesseur, expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3187,7 +3187,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: bloc, else2, operations_prio4b
+            // elements: operations_prio4b, else2, bloc
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4351,7 +4351,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDF, IDF, fonction, IDF, acces_variable, IDF, struct
+            // elements: IDF, struct, IDF, acces_variable, IDF, IDF, fonction
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5015,7 +5015,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, acces_variable
+                    // elements: acces_variable, expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -6509,7 +6509,7 @@ public class Mini_Rust2Parser extends Parser {
     };
 
     // $ANTLR start "variable3b"
-    // Mini_Rust2.g:196:1: variable3b : IDF ( acces_variable | ( fonction ) | ) -> {choix==1}? ^( APPEL_FCT fonction ) -> {choix == 2}? ^( VAR IDF ) -> ^( VAR acces_variable ) ;
+    // Mini_Rust2.g:196:1: variable3b : IDF ( acces_variable | ( fonction ) | ) -> {choix==1}? ^( APPEL_FCT IDF fonction ) -> {choix == 2}? ^( VAR IDF ) -> ^( VAR IDF acces_variable ) ;
     public final Mini_Rust2Parser.variable3b_return variable3b() throws RecognitionException {
         Mini_Rust2Parser.variable3b_return retval = new Mini_Rust2Parser.variable3b_return();
         retval.start = input.LT(1);
@@ -6528,7 +6528,7 @@ public class Mini_Rust2Parser extends Parser {
         RewriteRuleSubtreeStream stream_fonction=new RewriteRuleSubtreeStream(adaptor,"rule fonction");
         int choix = 0;
         try {
-            // Mini_Rust2.g:197:24: ( IDF ( acces_variable | ( fonction ) | ) -> {choix==1}? ^( APPEL_FCT fonction ) -> {choix == 2}? ^( VAR IDF ) -> ^( VAR acces_variable ) )
+            // Mini_Rust2.g:197:24: ( IDF ( acces_variable | ( fonction ) | ) -> {choix==1}? ^( APPEL_FCT IDF fonction ) -> {choix == 2}? ^( VAR IDF ) -> ^( VAR IDF acces_variable ) )
             // Mini_Rust2.g:197:26: IDF ( acces_variable | ( fonction ) | )
             {
             IDF212=(Token)match(input,IDF,FOLLOW_IDF_in_variable3b2608);  
@@ -6618,7 +6618,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: acces_variable, fonction, IDF
+            // elements: fonction, IDF, acces_variable, IDF, IDF
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6628,13 +6628,14 @@ public class Mini_Rust2Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 197:84: -> {choix==1}? ^( APPEL_FCT fonction )
+            // 197:84: -> {choix==1}? ^( APPEL_FCT IDF fonction )
             if (choix==1) {
-                // Mini_Rust2.g:197:99: ^( APPEL_FCT fonction )
+                // Mini_Rust2.g:197:99: ^( APPEL_FCT IDF fonction )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(APPEL_FCT, "APPEL_FCT"), root_1);
 
+                adaptor.addChild(root_1, stream_IDF.nextNode());
                 adaptor.addChild(root_1, stream_fonction.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -6654,13 +6655,14 @@ public class Mini_Rust2Parser extends Parser {
                 }
 
             }
-            else // 199:84: -> ^( VAR acces_variable )
+            else // 199:84: -> ^( VAR IDF acces_variable )
             {
-                // Mini_Rust2.g:199:87: ^( VAR acces_variable )
+                // Mini_Rust2.g:199:87: ^( VAR IDF acces_variable )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VAR, "VAR"), root_1);
 
+                adaptor.addChild(root_1, stream_IDF.nextNode());
                 adaptor.addChild(root_1, stream_acces_variable.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -6746,7 +6748,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:203:20: 'len' ( comm )? '(' ( comm )? ')' ( comm )?
                     {
-                    string_literal215=(Token)match(input,68,FOLLOW_68_in_attribut_vecteur2840);  
+                    string_literal215=(Token)match(input,68,FOLLOW_68_in_attribut_vecteur2844);  
                     stream_68.add(string_literal215);
 
                     // Mini_Rust2.g:203:26: ( comm )?
@@ -6760,7 +6762,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:203:26: comm
                             {
-                            pushFollow(FOLLOW_comm_in_attribut_vecteur2842);
+                            pushFollow(FOLLOW_comm_in_attribut_vecteur2846);
                             comm216=comm();
 
                             state._fsp--;
@@ -6772,7 +6774,7 @@ public class Mini_Rust2Parser extends Parser {
 
                     }
 
-                    char_literal217=(Token)match(input,43,FOLLOW_43_in_attribut_vecteur2845);  
+                    char_literal217=(Token)match(input,43,FOLLOW_43_in_attribut_vecteur2849);  
                     stream_43.add(char_literal217);
 
                     // Mini_Rust2.g:203:36: ( comm )?
@@ -6786,7 +6788,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:203:36: comm
                             {
-                            pushFollow(FOLLOW_comm_in_attribut_vecteur2847);
+                            pushFollow(FOLLOW_comm_in_attribut_vecteur2851);
                             comm218=comm();
 
                             state._fsp--;
@@ -6798,7 +6800,7 @@ public class Mini_Rust2Parser extends Parser {
 
                     }
 
-                    char_literal219=(Token)match(input,44,FOLLOW_44_in_attribut_vecteur2850);  
+                    char_literal219=(Token)match(input,44,FOLLOW_44_in_attribut_vecteur2854);  
                     stream_44.add(char_literal219);
 
                     // Mini_Rust2.g:203:46: ( comm )?
@@ -6812,7 +6814,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:203:46: comm
                             {
-                            pushFollow(FOLLOW_comm_in_attribut_vecteur2852);
+                            pushFollow(FOLLOW_comm_in_attribut_vecteur2856);
                             comm220=comm();
 
                             state._fsp--;
@@ -6849,7 +6851,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:204:20: IDF ( acces_variable )?
                     {
-                    IDF221=(Token)match(input,IDF,FOLLOW_IDF_in_attribut_vecteur2878);  
+                    IDF221=(Token)match(input,IDF,FOLLOW_IDF_in_attribut_vecteur2882);  
                     stream_IDF.add(IDF221);
 
                     // Mini_Rust2.g:204:24: ( acces_variable )?
@@ -6863,7 +6865,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:204:24: acces_variable
                             {
-                            pushFollow(FOLLOW_acces_variable_in_attribut_vecteur2880);
+                            pushFollow(FOLLOW_acces_variable_in_attribut_vecteur2884);
                             acces_variable222=acces_variable();
 
                             state._fsp--;
@@ -6878,7 +6880,7 @@ public class Mini_Rust2Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: IDF, acces_variable
+                    // elements: acces_variable, IDF
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -6991,7 +6993,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:207:19: '[' ( comm )? expr ']' ( comm )? ( acces_accesseur )?
                     {
-                    char_literal223=(Token)match(input,62,FOLLOW_62_in_acces_accesseur2918);  
+                    char_literal223=(Token)match(input,62,FOLLOW_62_in_acces_accesseur2922);  
                     stream_62.add(char_literal223);
 
                     // Mini_Rust2.g:207:23: ( comm )?
@@ -7005,7 +7007,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:207:23: comm
                             {
-                            pushFollow(FOLLOW_comm_in_acces_accesseur2920);
+                            pushFollow(FOLLOW_comm_in_acces_accesseur2924);
                             comm224=comm();
 
                             state._fsp--;
@@ -7017,13 +7019,13 @@ public class Mini_Rust2Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_expr_in_acces_accesseur2923);
+                    pushFollow(FOLLOW_expr_in_acces_accesseur2927);
                     expr225=expr();
 
                     state._fsp--;
 
                     stream_expr.add(expr225.getTree());
-                    char_literal226=(Token)match(input,63,FOLLOW_63_in_acces_accesseur2925);  
+                    char_literal226=(Token)match(input,63,FOLLOW_63_in_acces_accesseur2929);  
                     stream_63.add(char_literal226);
 
                     // Mini_Rust2.g:207:38: ( comm )?
@@ -7037,7 +7039,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:207:38: comm
                             {
-                            pushFollow(FOLLOW_comm_in_acces_accesseur2927);
+                            pushFollow(FOLLOW_comm_in_acces_accesseur2931);
                             comm227=comm();
 
                             state._fsp--;
@@ -7060,7 +7062,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:207:44: acces_accesseur
                             {
-                            pushFollow(FOLLOW_acces_accesseur_in_acces_accesseur2930);
+                            pushFollow(FOLLOW_acces_accesseur_in_acces_accesseur2934);
                             acces_accesseur228=acces_accesseur();
 
                             state._fsp--;
@@ -7111,10 +7113,10 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:208:19: '.' IDF ( acces_accesseur )?
                     {
-                    char_literal229=(Token)match(input,64,FOLLOW_64_in_acces_accesseur2962);  
+                    char_literal229=(Token)match(input,64,FOLLOW_64_in_acces_accesseur2966);  
                     stream_64.add(char_literal229);
 
-                    IDF230=(Token)match(input,IDF,FOLLOW_IDF_in_acces_accesseur2964);  
+                    IDF230=(Token)match(input,IDF,FOLLOW_IDF_in_acces_accesseur2968);  
                     stream_IDF.add(IDF230);
 
                     // Mini_Rust2.g:208:27: ( acces_accesseur )?
@@ -7128,7 +7130,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:208:27: acces_accesseur
                             {
-                            pushFollow(FOLLOW_acces_accesseur_in_acces_accesseur2966);
+                            pushFollow(FOLLOW_acces_accesseur_in_acces_accesseur2970);
                             acces_accesseur231=acces_accesseur();
 
                             state._fsp--;
@@ -7242,7 +7244,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:211:10: '!' ( comm )?
                     {
-                    char_literal232=(Token)match(input,56,FOLLOW_56_in_unaire3003);  
+                    char_literal232=(Token)match(input,56,FOLLOW_56_in_unaire3007);  
                     stream_56.add(char_literal232);
 
                     // Mini_Rust2.g:211:14: ( comm )?
@@ -7256,7 +7258,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:211:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_unaire3005);
+                            pushFollow(FOLLOW_comm_in_unaire3009);
                             comm233=comm();
 
                             state._fsp--;
@@ -7293,7 +7295,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:212:10: '-' ( comm )?
                     {
-                    char_literal234=(Token)match(input,69,FOLLOW_69_in_unaire3021);  
+                    char_literal234=(Token)match(input,69,FOLLOW_69_in_unaire3025);  
                     stream_69.add(char_literal234);
 
                     // Mini_Rust2.g:212:14: ( comm )?
@@ -7307,7 +7309,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:212:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_unaire3023);
+                            pushFollow(FOLLOW_comm_in_unaire3027);
                             comm235=comm();
 
                             state._fsp--;
@@ -7407,7 +7409,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:215:11: '*' ( comm )?
                     {
-                    char_literal236=(Token)match(input,67,FOLLOW_67_in_unaire23044);  
+                    char_literal236=(Token)match(input,67,FOLLOW_67_in_unaire23048);  
                     stream_67.add(char_literal236);
 
                     // Mini_Rust2.g:215:15: ( comm )?
@@ -7421,7 +7423,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:215:15: comm
                             {
-                            pushFollow(FOLLOW_comm_in_unaire23046);
+                            pushFollow(FOLLOW_comm_in_unaire23050);
                             comm237=comm();
 
                             state._fsp--;
@@ -7458,7 +7460,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:216:11: '&' ( comm )?
                     {
-                    char_literal238=(Token)match(input,49,FOLLOW_49_in_unaire23063);  
+                    char_literal238=(Token)match(input,49,FOLLOW_49_in_unaire23067);  
                     stream_49.add(char_literal238);
 
                     // Mini_Rust2.g:216:15: ( comm )?
@@ -7472,7 +7474,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:216:15: comm
                             {
-                            pushFollow(FOLLOW_comm_in_unaire23065);
+                            pushFollow(FOLLOW_comm_in_unaire23069);
                             comm239=comm();
 
                             state._fsp--;
@@ -7572,7 +7574,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:219:9: '*' ( comm )?
                     {
-                    char_literal240=(Token)match(input,67,FOLLOW_67_in_prio13087);  
+                    char_literal240=(Token)match(input,67,FOLLOW_67_in_prio13091);  
                     stream_67.add(char_literal240);
 
                     // Mini_Rust2.g:219:13: ( comm )?
@@ -7586,7 +7588,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:219:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio13089);
+                            pushFollow(FOLLOW_comm_in_prio13093);
                             comm241=comm();
 
                             state._fsp--;
@@ -7623,7 +7625,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:220:9: '/' ( comm )?
                     {
-                    char_literal242=(Token)match(input,70,FOLLOW_70_in_prio13104);  
+                    char_literal242=(Token)match(input,70,FOLLOW_70_in_prio13108);  
                     stream_70.add(char_literal242);
 
                     // Mini_Rust2.g:220:13: ( comm )?
@@ -7637,7 +7639,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:220:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio13106);
+                            pushFollow(FOLLOW_comm_in_prio13110);
                             comm243=comm();
 
                             state._fsp--;
@@ -7737,7 +7739,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:223:9: '+' ( comm )?
                     {
-                    char_literal244=(Token)match(input,71,FOLLOW_71_in_prio23133);  
+                    char_literal244=(Token)match(input,71,FOLLOW_71_in_prio23137);  
                     stream_71.add(char_literal244);
 
                     // Mini_Rust2.g:223:13: ( comm )?
@@ -7751,7 +7753,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:223:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio23135);
+                            pushFollow(FOLLOW_comm_in_prio23139);
                             comm245=comm();
 
                             state._fsp--;
@@ -7788,7 +7790,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:224:9: '-' ( comm )?
                     {
-                    char_literal246=(Token)match(input,69,FOLLOW_69_in_prio23150);  
+                    char_literal246=(Token)match(input,69,FOLLOW_69_in_prio23154);  
                     stream_69.add(char_literal246);
 
                     // Mini_Rust2.g:224:13: ( comm )?
@@ -7802,7 +7804,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:224:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio23152);
+                            pushFollow(FOLLOW_comm_in_prio23156);
                             comm247=comm();
 
                             state._fsp--;
@@ -7946,7 +7948,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:227:9: '<' ( comm )?
                     {
-                    char_literal248=(Token)match(input,47,FOLLOW_47_in_prio33173);  
+                    char_literal248=(Token)match(input,47,FOLLOW_47_in_prio33177);  
                     stream_47.add(char_literal248);
 
                     // Mini_Rust2.g:227:13: ( comm )?
@@ -7960,7 +7962,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:227:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33175);
+                            pushFollow(FOLLOW_comm_in_prio33179);
                             comm249=comm();
 
                             state._fsp--;
@@ -7997,7 +7999,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:228:9: '>' ( comm )?
                     {
-                    char_literal250=(Token)match(input,48,FOLLOW_48_in_prio33190);  
+                    char_literal250=(Token)match(input,48,FOLLOW_48_in_prio33194);  
                     stream_48.add(char_literal250);
 
                     // Mini_Rust2.g:228:13: ( comm )?
@@ -8011,7 +8013,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:228:13: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33192);
+                            pushFollow(FOLLOW_comm_in_prio33196);
                             comm251=comm();
 
                             state._fsp--;
@@ -8048,7 +8050,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 3 :
                     // Mini_Rust2.g:229:9: '>=' ( comm )?
                     {
-                    string_literal252=(Token)match(input,72,FOLLOW_72_in_prio33207);  
+                    string_literal252=(Token)match(input,72,FOLLOW_72_in_prio33211);  
                     stream_72.add(string_literal252);
 
                     // Mini_Rust2.g:229:14: ( comm )?
@@ -8062,7 +8064,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:229:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33209);
+                            pushFollow(FOLLOW_comm_in_prio33213);
                             comm253=comm();
 
                             state._fsp--;
@@ -8099,7 +8101,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 4 :
                     // Mini_Rust2.g:230:9: '<=' ( comm )?
                     {
-                    string_literal254=(Token)match(input,73,FOLLOW_73_in_prio33224);  
+                    string_literal254=(Token)match(input,73,FOLLOW_73_in_prio33228);  
                     stream_73.add(string_literal254);
 
                     // Mini_Rust2.g:230:14: ( comm )?
@@ -8113,7 +8115,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:230:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33226);
+                            pushFollow(FOLLOW_comm_in_prio33230);
                             comm255=comm();
 
                             state._fsp--;
@@ -8150,7 +8152,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 5 :
                     // Mini_Rust2.g:231:9: '==' ( comm )?
                     {
-                    string_literal256=(Token)match(input,74,FOLLOW_74_in_prio33241);  
+                    string_literal256=(Token)match(input,74,FOLLOW_74_in_prio33245);  
                     stream_74.add(string_literal256);
 
                     // Mini_Rust2.g:231:14: ( comm )?
@@ -8164,7 +8166,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:231:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33243);
+                            pushFollow(FOLLOW_comm_in_prio33247);
                             comm257=comm();
 
                             state._fsp--;
@@ -8201,7 +8203,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 6 :
                     // Mini_Rust2.g:232:9: '!=' ( comm )?
                     {
-                    string_literal258=(Token)match(input,75,FOLLOW_75_in_prio33258);  
+                    string_literal258=(Token)match(input,75,FOLLOW_75_in_prio33262);  
                     stream_75.add(string_literal258);
 
                     // Mini_Rust2.g:232:14: ( comm )?
@@ -8215,7 +8217,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:232:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio33260);
+                            pushFollow(FOLLOW_comm_in_prio33264);
                             comm259=comm();
 
                             state._fsp--;
@@ -8315,7 +8317,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:235:9: '&&' ( comm )?
                     {
-                    string_literal260=(Token)match(input,76,FOLLOW_76_in_prio43280);  
+                    string_literal260=(Token)match(input,76,FOLLOW_76_in_prio43284);  
                     stream_76.add(string_literal260);
 
                     // Mini_Rust2.g:235:14: ( comm )?
@@ -8329,7 +8331,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:235:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio43282);
+                            pushFollow(FOLLOW_comm_in_prio43286);
                             comm261=comm();
 
                             state._fsp--;
@@ -8366,7 +8368,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 2 :
                     // Mini_Rust2.g:236:9: '||' ( comm )?
                     {
-                    string_literal262=(Token)match(input,77,FOLLOW_77_in_prio43297);  
+                    string_literal262=(Token)match(input,77,FOLLOW_77_in_prio43301);  
                     stream_77.add(string_literal262);
 
                     // Mini_Rust2.g:236:14: ( comm )?
@@ -8380,7 +8382,7 @@ public class Mini_Rust2Parser extends Parser {
                         case 1 :
                             // Mini_Rust2.g:236:14: comm
                             {
-                            pushFollow(FOLLOW_comm_in_prio43299);
+                            pushFollow(FOLLOW_comm_in_prio43303);
                             comm263=comm();
 
                             state._fsp--;
@@ -8458,7 +8460,7 @@ public class Mini_Rust2Parser extends Parser {
             // Mini_Rust2.g:239:7: ( '=' ( comm )? -> '=' )
             // Mini_Rust2.g:239:9: '=' ( comm )?
             {
-            char_literal264=(Token)match(input,57,FOLLOW_57_in_prio53319);  
+            char_literal264=(Token)match(input,57,FOLLOW_57_in_prio53323);  
             stream_57.add(char_literal264);
 
             // Mini_Rust2.g:239:13: ( comm )?
@@ -8472,7 +8474,7 @@ public class Mini_Rust2Parser extends Parser {
                 case 1 :
                     // Mini_Rust2.g:239:13: comm
                     {
-                    pushFollow(FOLLOW_comm_in_prio53321);
+                    pushFollow(FOLLOW_comm_in_prio53325);
                     comm265=comm();
 
                     state._fsp--;
@@ -8574,7 +8576,7 @@ public class Mini_Rust2Parser extends Parser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    string_literal266=(Token)match(input,78,FOLLOW_78_in_comm3341); 
+                    string_literal266=(Token)match(input,78,FOLLOW_78_in_comm3345); 
                     string_literal266_tree = (CommonTree)adaptor.create(string_literal266);
                     adaptor.addChild(root_0, string_literal266_tree);
 
@@ -8610,7 +8612,7 @@ public class Mini_Rust2Parser extends Parser {
                         }
                     } while (true);
 
-                    string_literal268=(Token)match(input,79,FOLLOW_79_in_comm3346); 
+                    string_literal268=(Token)match(input,79,FOLLOW_79_in_comm3350); 
                     string_literal268_tree = (CommonTree)adaptor.create(string_literal268);
                     adaptor.addChild(root_0, string_literal268_tree);
 
@@ -8622,7 +8624,7 @@ public class Mini_Rust2Parser extends Parser {
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    string_literal269=(Token)match(input,80,FOLLOW_80_in_comm3355); 
+                    string_literal269=(Token)match(input,80,FOLLOW_80_in_comm3359); 
                     string_literal269_tree = (CommonTree)adaptor.create(string_literal269);
                     adaptor.addChild(root_0, string_literal269_tree);
 
@@ -8658,7 +8660,7 @@ public class Mini_Rust2Parser extends Parser {
                         }
                     } while (true);
 
-                    char_literal271=(Token)match(input,81,FOLLOW_81_in_comm3360); 
+                    char_literal271=(Token)match(input,81,FOLLOW_81_in_comm3364); 
                     char_literal271_tree = (CommonTree)adaptor.create(char_literal271);
                     adaptor.addChild(root_0, char_literal271_tree);
 
@@ -8904,60 +8906,60 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_IDF_in_variable3b2608 = new BitSet(new long[]{0x4000080000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_variable_in_variable3b2611 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_fonction_in_variable3b2616 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_68_in_attribut_vecteur2840 = new BitSet(new long[]{0x0000080000000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_attribut_vecteur2842 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_43_in_attribut_vecteur2845 = new BitSet(new long[]{0x0000100000000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_attribut_vecteur2847 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_44_in_attribut_vecteur2850 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_attribut_vecteur2852 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDF_in_attribut_vecteur2878 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
-    public static final BitSet FOLLOW_acces_variable_in_attribut_vecteur2880 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_acces_accesseur2918 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_acces_accesseur2920 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_expr_in_acces_accesseur2923 = new BitSet(new long[]{0x8000000000000000L});
-    public static final BitSet FOLLOW_63_in_acces_accesseur2925 = new BitSet(new long[]{0x4000000000000002L,0x0000000000014001L});
-    public static final BitSet FOLLOW_comm_in_acces_accesseur2927 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
-    public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2930 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_64_in_acces_accesseur2962 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_IDF_in_acces_accesseur2964 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
-    public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2966 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_56_in_unaire3003 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_unaire3005 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_unaire3021 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_unaire3023 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_67_in_unaire23044 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_unaire23046 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_49_in_unaire23063 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_unaire23065 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_67_in_prio13087 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio13089 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_70_in_prio13104 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio13106 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_71_in_prio23133 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio23135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_prio23150 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio23152 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_prio33173 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33175 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_prio33190 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33192 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_72_in_prio33207 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33209 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_73_in_prio33224 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33226 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_74_in_prio33241 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33243 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_75_in_prio33258 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio33260 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_76_in_prio43280 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio43282 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_77_in_prio43297 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio43299 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_57_in_prio53319 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_prio53321 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_78_in_comm3341 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
-    public static final BitSet FOLLOW_79_in_comm3346 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_80_in_comm3355 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
-    public static final BitSet FOLLOW_81_in_comm3360 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_68_in_attribut_vecteur2844 = new BitSet(new long[]{0x0000080000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_attribut_vecteur2846 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_43_in_attribut_vecteur2849 = new BitSet(new long[]{0x0000100000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_attribut_vecteur2851 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_44_in_attribut_vecteur2854 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_attribut_vecteur2856 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDF_in_attribut_vecteur2882 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
+    public static final BitSet FOLLOW_acces_variable_in_attribut_vecteur2884 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_62_in_acces_accesseur2922 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_comm_in_acces_accesseur2924 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_expr_in_acces_accesseur2927 = new BitSet(new long[]{0x8000000000000000L});
+    public static final BitSet FOLLOW_63_in_acces_accesseur2929 = new BitSet(new long[]{0x4000000000000002L,0x0000000000014001L});
+    public static final BitSet FOLLOW_comm_in_acces_accesseur2931 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
+    public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2934 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_64_in_acces_accesseur2966 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_IDF_in_acces_accesseur2968 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
+    public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2970 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_56_in_unaire3007 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_unaire3009 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_69_in_unaire3025 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_unaire3027 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_67_in_unaire23048 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_unaire23050 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_49_in_unaire23067 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_unaire23069 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_67_in_prio13091 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio13093 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_70_in_prio13108 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio13110 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_71_in_prio23137 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio23139 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_69_in_prio23154 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio23156 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_47_in_prio33177 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33179 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_48_in_prio33194 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33196 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_72_in_prio33211 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33213 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_73_in_prio33228 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33230 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_74_in_prio33245 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33247 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_75_in_prio33262 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio33264 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_76_in_prio43284 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio43286 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_77_in_prio43301 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio43303 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_57_in_prio53323 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_comm_in_prio53325 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_78_in_comm3345 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
+    public static final BitSet FOLLOW_79_in_comm3350 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_80_in_comm3359 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
+    public static final BitSet FOLLOW_81_in_comm3364 = new BitSet(new long[]{0x0000000000000002L});
 
 }

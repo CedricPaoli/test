@@ -105,8 +105,7 @@ public class TDS {
      * @param nomType type de la variable
      */
     public void setType(String nomVar, Type nomType){
-        type.set(nom.indexOf(nomVar),nomType);
-
+        type.set(nom.indexOf(nomVar), nomType);
     }
 
     //Fonctions réellements utiles

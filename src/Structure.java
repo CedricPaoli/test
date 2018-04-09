@@ -4,10 +4,12 @@ public class Structure {
 
     private String struct_name;
     private ArrayList<String> champs;
+    private ArrayList<Type> types;
 
-    public Structure(String n, ArrayList<String> c){
+    public Structure(String n, ArrayList<String> c, ArrayList<Type> types){
         struct_name=n;
         champs=c;
+        this.types = types;
     }
 
     public String getStruct_name() {
@@ -20,6 +22,10 @@ public class Structure {
 
     public ArrayList<String> getChamps() {
         return champs;
+    }
+
+    public ArrayList<Type> getTypes() {
+        return types;
     }
 
     public void setChamps(ArrayList<String> champs) {

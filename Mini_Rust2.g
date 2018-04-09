@@ -194,9 +194,9 @@ unaire_varb : unaire2 unaire_varb -> ^(unaire2 unaire_varb)
             ;
 
 variable3b
-@init {int choix = 0;} : IDF (acces_variable | (fonction {choix=1;}) | {choix=2;}) -> {choix==1}? ^(APPEL_FCT fonction)
+@init {int choix = 0;} : IDF (acces_variable | (fonction {choix=1;}) | {choix=2;}) -> {choix==1}? ^(APPEL_FCT IDF fonction)
                                                                                    -> {choix == 2}? ^(VAR IDF)
-                                                                                   -> ^(VAR acces_variable)
+                                                                                   -> ^(VAR IDF acces_variable)
 	           ;
 //Fin copie
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception
     {
-        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex2.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex4.rs");
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         Mini_Rust2Parser parser = new Mini_Rust2Parser(tokens);
@@ -110,7 +110,7 @@ public class Main {
                 if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
                     System.out.println("Erreur: Le nom '" + nom_var + "' est déjà attribué ligne : " + ast.getLine());
                 else {
-                    type = new Type((CommonTree) ast.getChild(1),types_valides, num_block);
+                    type = new Type((CommonTree) ast.getChild(1), structures, num_block);
 
                     if (!type.gIsValide())
                         System.out.println("Erreur: Le type '" + type + "' n'existe pas ligne " + ast.getLine()); //Verification du type
@@ -121,13 +121,22 @@ public class Main {
                 nom_var = ast.getChild(0).toString();
 
                 TDS tds = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
+
                 if (tds != null) {
                     type = tds.getType(tds.getLigne(nom_var));
-                    type2 = new Type((CommonTree) ast.getChild(1), types_valides, num_block);
-                    if (!type.isEgal(type2))
-                        System.out.println("Les types " + type + " et " + type2 + " ne correspondent pas, ligne : " + ast.getLine());
+                    type2 = new Type((CommonTree) ast.getChild(1), structures, num_block);
+
+                    if (type.isEgal(new Type())) //aff
+                    {
+                        tds.setType(nom_var, type2);
+                    }
+                    else {
+                        if (!type.isEgal(type2))
+                            System.out.println("Les types " + type + " et " + type2 + " ne correspondent pas, ligne : " + ast.getLine());
+                    }
                 } else {
-                    type = new Type((CommonTree) ast.getChild(1), types_valides, num_block);
+                    if (ast.getChildCount() == 2) type = new Type((CommonTree) ast.getChild(1), structures, num_block);
+                    else type = new Type();
 
                     if (!type.gIsValide())
                         System.out.println("Erreur: Le type '" + type + " n'existe pas ligne : " + ast.getLine()); //Verification du type
@@ -135,24 +144,22 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.WHILE:
-            	type = new Type((CommonTree) ast.getChild(0).getChild(0), types_valides, num_block);
+            	type = new Type((CommonTree) ast.getChild(0).getChild(0), structures, num_block);
             	//Vérification de la condition => boolean ou nombre
             	if(!type.isCondition()) {
             		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
             	}
             	break;
             case Mini_Rust2Lexer.IF:
-            	type = new Type((CommonTree) ast.getChild(0).getChild(0), types_valides, num_block);
+            	type = new Type((CommonTree) ast.getChild(0).getChild(0), structures, num_block);
             	//Vérification de la condition => boolean ou nombre
             	if(!type.isCondition()) {
             		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
             	}
             	break;
-            case Mini_Rust2Lexer.DECL_VEC:
-                break;
             case Mini_Rust2Lexer.ACCES_VEC:
             	nom_var = ast.getChild(0).toString();
-            	type = new Type((CommonTree) ast.getChild(1), types_valides, num_block);
+            	type = new Type((CommonTree) ast.getChild(1), structures, num_block);
             	
             	if(!type.gIsValide()) {
             		System.out.println("Erreur: Les types ne sont pas corrects, ligne : "+ ast.getLine());
@@ -174,11 +181,7 @@ public class Main {
                 //contrôle sem : vérifier que la fonction existe
                 boolean exist = false;
                 int current = num_block;
-                /*
-                while (!exist || current>=0){
-                    exist=tablesDesSymboles.get(current).isVariableIn(nom_fn);
-                    current = tablesDesSymboles.get(current).getFather_num_block();
-                }*/
+
                 TDS fn_tds = tdsOuVariableIn(nom_fn, tablesDesSymboles, num_block);
 
                 if (fn_tds == null) {
@@ -190,7 +193,7 @@ public class Main {
                     if (ast.getChildCount()-1 != fn_tds.getArgOf(nom_fn).size()) System.out.println("Erreur ligne " + ast.getLine()+" : Le nombre de paramètres est erroné");
                     else {
                         for (int i = 1; i < ast.getChildCount(); i++) {
-                            Type tested_type = new Type((CommonTree) ast.getChild(i).getChild(0), types_valides, num_block);
+                            Type tested_type = new Type((CommonTree) ast.getChild(i).getChild(0), structures, num_block);
 
                             if (!tested_type.isEgal(fn_tds.getArgOf(nom_fn).get(i-1))) {
                                 System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i-1)+" alors qu'il est de type "+tested_type);
@@ -203,19 +206,16 @@ public class Main {
                 String nom_struct = ast.getChild(0).toString();
 
                 ArrayList<String> champs = new ArrayList<>();
-                ArrayList<String> types = new ArrayList<>();
+                ArrayList<Type> types = new ArrayList<>();
+
                 Type nouveau_type = new Type((CommonTree)ast);
                 for(int i=0; i<ast.getChild(1).getChildCount();i++){
-                    types.add(ast.getChild(1).getChild(i).getChild(0).toString());
+                    types.add(new Type((CommonTree)ast.getChild(1).getChild(i).getChild(0)));
                     champs.add(ast.getChild(1).getChild(i).getChild(1).toString());
                 }
                 // ajout de la nouvelle structure aux types valides et aux structures déclarées
                 types_valides.add(nouveau_type);
-                structures.add(new Structure(nom_struct,champs));
-
-                break;
-
-            case Mini_Rust2Lexer.VEC:
+                structures.add(new Structure(nom_struct,champs, types));
                 break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) iCreerTableSymboles(structures, types_valides, (CommonTree) ast.getChild(i), num_block, father_region);
