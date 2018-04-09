@@ -51,11 +51,14 @@ public class Type
                 isValide = true;
                 break;
             case Mini_Rust2Lexer.T__76: //&&
-            	token = Mini_Rust2Lexer.T__51;
-                isValide = true;
-                break;
             case Mini_Rust2Lexer.T__77: //||
-            	token = Mini_Rust2Lexer.T__51;
+            	Type type_gauche = new Type((CommonTree)tree.getChild(0),types_valides,nTableDesSymboles);
+                Type type_droit = new Type((CommonTree)tree.getChild(1),types_valides,nTableDesSymboles);
+                if((type_gauche.token != Mini_Rust2Lexer.T__50 || type_droit.token != Mini_Rust2Lexer.T__50) ||
+                		(type_gauche.token != Mini_Rust2Lexer.T__51 || type_droit.token != Mini_Rust2Lexer.T__51)){
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type "+type_gauche+" et "+type_droit);
+                }
+                token = Mini_Rust2Lexer.T__51;
                 isValide = true;
                 break;
             case Mini_Rust2Lexer.T__47: //<
