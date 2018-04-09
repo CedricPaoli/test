@@ -36,7 +36,7 @@ public class Type
     }
 
     /**
-     * Permet la création d'un type avec convertion et typage dynamique
+     * Permet la création d'un type avec conversion et typage dynamique
      * @param tree arbre à analyser
      * @param types_valides ArrayList contenant les types valides spéciaux (les structures déclarées)
      * @param transformation param. de
@@ -69,6 +69,7 @@ public class Type
             	  	  fils.add(new Type((CommonTree) tree.getChild(i), types_valides, true));
 	              }
 	              break;
+            case Mini_Rust2Lexer.
             
             default:
                 for (int i=0; i<tree.getChildCount(); i++) {
@@ -137,7 +138,7 @@ public class Type
     }
 
     /**
-     * Fonction transformant le type courant en une chaine de caractère
+     * Fonction transformant le type courant en une chaine de caractères
      * @return le type sous forme string
      */
     public String toString()
@@ -162,8 +163,8 @@ public class Type
     }
 
     /**
-     * Vérifie que deux types sont bien identique
-     * @param type type à comparé avec le type courant
+     * Vérifie que deux types sont bien identiques
+     * @param type type à comparer avec le type courant
      * @return true si c'est le même type, false sinon
      */
     public boolean isEgal(Type type)
@@ -172,10 +173,10 @@ public class Type
     }
 
     /**
-     * Vérifie que deux types sont bien identique
+     * Vérifie que deux types sont bien identiques
      * @param type1 premier type à comparer
      * @param type2 second type à comparer
-     * @return true si les types sont identique, false sinon
+     * @return true si les types sont identiques, false sinon
      */
     public boolean iIsEgal(Type type1, Type type2)
     {

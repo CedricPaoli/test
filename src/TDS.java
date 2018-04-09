@@ -79,7 +79,7 @@ public class TDS {
      * @param nomVar nom de la variable à ajouter sur la ligne
      * @param typeVar type de la variable ajoutée
      * @param valeur valeur de la variable ajoutée
-     * @param deplacement déplacement ascociée à variable
+     * @param deplacement déplacement associé à variable
      */
     public void setLigne(String nomVar, Type typeVar, Object valeur,Integer deplacement){
         nom.add(nomVar);
@@ -108,7 +108,7 @@ public class TDS {
 
     }
 
-    //Fonctions reellements utiles
+    //Fonctions réellements utiles
 
     /**
      * Permet d'ajouter une ligne à la TDS (calcul automatique du déplacement en fonction du type)
@@ -133,7 +133,7 @@ public class TDS {
      * Permet d'ajouter une fonction à la TDS
      * @param nomVar nom de la fonction
      * @param typeVar type de retour de la fonction
-     * @param arguments les type des arguments de la fonction sous forme d'une ArrayList<Type>
+     * @param arguments les types des arguments de la fonction sous forme d'une ArrayList<Type>
      * @param valeur la valeur de retour de la fonction
      */
     public void ajouter(String nomVar, Type typeVar, ArrayList<Type> arguments, Object valeur)
@@ -159,9 +159,9 @@ public class TDS {
     }
 
     /**
-     * Permet d'obtenir le type liée à une ligne de la TDS
+     * Permet d'obtenir le type lié à une ligne de la TDS
      * @param i indice de la ligne
-     * @return type associe à l'indice "i" dans la TDS courante
+     * @return type associé à l'indice "i" dans la TDS courante
      */
     public Type getType(int i)
     {
@@ -169,7 +169,7 @@ public class TDS {
     }
 
     /**
-     * Permet d'obtenir l'indice de la ligne asscocié à une variable
+     * Permet d'obtenir l'indice de la ligne asscociée à une variable
      * @param nomVar nom de la variable
      * @return indice dans la table des symboles courante
      */
