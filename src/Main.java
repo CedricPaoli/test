@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception
     {
-        ANTLRFileStream input = new ANTLRFileStream("exemples/invalide/vecteur_index_bizarre.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/invalide/unicite_fonction.rs");
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         Mini_Rust2Parser parser = new Mini_Rust2Parser(tokens);
@@ -149,6 +149,8 @@ public class Main {
             	if(!type.isCondition()) {
             		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
             	}
+
+                iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
             	break;
             case Mini_Rust2Lexer.IF:
             	type = new Type((CommonTree) ast.getChild(0).getChild(0), structures, num_block);
@@ -156,6 +158,10 @@ public class Main {
             	if(!type.isCondition()) {
             		System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
             	}
+
+                iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
+
+            	if (ast.getChildCount() == 3) iCreerTableSymboles(structures, (CommonTree) ast.getChild(2), num_block, father_region);
             	break;
             case Mini_Rust2Lexer.LEN:
             	nom_var = ast.getChild(0).toString();

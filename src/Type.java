@@ -124,7 +124,7 @@ public class Type
             case Mini_Rust2Lexer.T__71: //+
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //*
-                System.out.println(tree.getLine()+" "+"+");
+
                 Type type_gauche_moins = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
                 Type type_droit_moins = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
                 if (type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50) {
@@ -136,7 +136,7 @@ public class Type
                 break;
             case Mini_Rust2Lexer.VAR: //VAR
                 table = Main.tdsOuVariableIn(tree.getChild(0).toString(), TDS.tablesDesSymboles, nTableDesSymboles);
-                System.out.println(tree.getChild(1));
+
                 if (table == null)
                     System.out.println(tree.getChild(0) + " n'est pas déclaré ligne : " + tree.getChild(0).getLine());
                 else {
@@ -151,13 +151,14 @@ public class Type
                     } else if (tree.getChildCount() == 2 && tree.getChild(1).getType() == Mini_Rust2Lexer.ACCES_VEC)
                     {
                         //vérifier que c'est bien i32
-                        String nom_var = tree.getChild(0).getChild(0).toString();
-                        Type type = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
-                        System.out.println(type+" "+tree.getLine());
+                        String nom_var = tree.getChild(0).toString();
+
+                        Type type = new Type((CommonTree) tree.getChild(1).getChild(0), structures, nTableDesSymboles);
+
                         if(!type.gIsValide()) {
-                            System.out.println("Le type n'existe pas, ligne : "+ tree.getLine());
+                            System.out.println("Le type "+type+" n'existe pas, ligne : "+ tree.getLine());
                         }
-                        else if (type.getToken() != Mini_Rust2Lexer.T__50) System.out.println("Le type est incorrecte : "+ tree.getLine());
+                        else if (type.getToken() != Mini_Rust2Lexer.T__50) System.out.println("Le type "+type+" est incorrecte, ligne : "+ tree.getLine());
                         else {
 
                             //Vérifier que c'est bien un vec
@@ -176,6 +177,21 @@ public class Type
                                 System.out.println("Variable non définie");
                             }
                         }
+                    }
+                    else if (tree.getChildCount() == 2 && tree.getChild(1).getType() == Mini_Rust2Lexer.ACCES_ATTRIBUT)
+                    {/*
+                        String nom_var1 = tree.getChild(0).toString();
+                        String nom_var2 = tree.getChild(0).toString();
+                        Type type = new Type((CommonTree) tree.getChild(1).getChild(0), structures, nTableDesSymboles);
+
+                        if(!type.gIsValide()) {
+                            System.out.println("Le type "+type+" n'existe pas, ligne : "+ tree.getLine());
+                        }
+                        else
+                        {
+
+                        }
+                        System.out.println("acces attribut "+tree.getLine());*/
                     }
                     else
                         {
