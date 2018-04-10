@@ -17,7 +17,7 @@ public class Type
      * Constructeur simple
      * @param tree prend la partie de l'abre correspondant au type à construire
      */
-    public Type(CommonTree tree){ //Definition d'un type "statiquement"
+    public Type(CommonTree tree,ArrayList<Structure> structures){ //Definition d'un type "statiquement"
 
         if (tree.getToken().getType() == Mini_Rust2Lexer.IDF) {
             structure = tree.toString();
@@ -39,15 +39,26 @@ public class Type
                 case Mini_Rust2Lexer.T__49: //&
                     taille = 6;
                     break;
+                case Mini_Rust2Lexer.STRUCT: // cas d'une structure
+                    for (int i = 0; i < tree.getChildCount(); i++) {
+                        taille += (new Type((CommonTree) tree.getChild(i),structures)).getTaille();
+                    }
             }
 
+            // On élimine le cas des pointeurs et @
             if (tree.getChildCount() == 2 && (tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR_VAL || tree.getChild(0).getType() == Mini_Rust2Lexer.POINTEUR || tree.getChild(0).getType() == Mini_Rust2Lexer.T__49)) {
                 taille = 6;
-            } else {
+            } else { // dans les autres cas
                 token = tree.getToken().getType();
 
                 for (int i = 0; i < tree.getChildCount(); i++) {
-                    fils.add(new Type((CommonTree) tree.getChild(i)));
+                    for (int j = 0; j < structures.size(); j++) {
+                        if (structures.get(j).getTypes().equals(new Type((CommonTree) tree.getChild(i),structures))){
+                            taille = structures.get(j).getTaille();
+                        }
+                    }
+                    fils.add(new Type((CommonTree) tree.getChild(i),structures));
+                    taille += (new Type((CommonTree) tree.getChild(i),structures)).getTaille();
                 }
 
                 // Nous sommes bien dans le cas d'un type
@@ -211,6 +222,7 @@ public class Type
                         token = -2;
                         structure = tree.toString();
                         isValide = true;
+                        taille = structures.get(i).getTaille();
                     }
                 }
                 break;
