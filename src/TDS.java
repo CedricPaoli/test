@@ -3,11 +3,11 @@ import org.antlr.runtime.tree.CommonTree;
 import java.util.ArrayList;
 
 public class TDS {
-
+    
     // Travail Ced :
     // Tableau des structure static à contrôler
     // Verif si le type/ la struct est valide
-
+    
     private int num_block;
     private int father_num_block;
     private ArrayList<String> nom = new ArrayList<String>();
@@ -15,31 +15,31 @@ public class TDS {
     private ArrayList<ArrayList<Type>> argument = new ArrayList<>();
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
-
+    
     static public ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
-
+    
     public TDS (int indice, int nPere){
         num_block = indice;
         father_num_block = nPere;
     }
-
+    
     /**
      * Enregistre le numéro du block parent
      * @param num le numéro de block parent à conserver
      */
     public void setFather_num_block(int num) {
-    	father_num_block = num;
+        father_num_block = num;
     }
-
+    
     /**
      * Permet d'obtenir le numéro du block parent
      * @return le numéro du block parent
      */
     public int getFather_num_block() {
-    	return father_num_block;
+        return father_num_block;
     }
-
-
+    
+    
     /**
      * Permet d'obtenir le nom d'une variable de la TDS
      * @param indice indice de la variable dont on veut obtenir le nom
@@ -48,7 +48,7 @@ public class TDS {
     public String getNom(int indice){
         return nom.get(indice);
     }
-
+    
     /**
      * Permet d'obtenir le déplacement correspondant à une ligne de la TDS
      * @param indice l'indice de la ligne dont on souhaite le déplacement
@@ -57,7 +57,7 @@ public class TDS {
     public Integer getDepl(int indice){
         return depl.get(indice);
     }
-
+    
     /**
      * Permet d'obtenir la valeur correspondante à une ligne de la TDS
      * @param indice l'indice de la ligne dont on souhaite la valeur
@@ -66,7 +66,7 @@ public class TDS {
     public Object getVal(int indice){
         return val.get(indice);
     }
-
+    
     /**
      * Permet d'obtenir le numéro du block courant
      * @return le numéro du block courant
@@ -74,7 +74,7 @@ public class TDS {
     public int getNum_block(){
         return num_block;
     }
-
+    
     /**
      * Permet d'ajouter une ligne à la TDS
      * @param nomVar nom de la variable à ajouter sur la ligne
@@ -89,7 +89,7 @@ public class TDS {
         argument.add(null);
         depl.add(deplacement);
     }
-
+    
     /**
      * Permet de paramétrer la valeur liée à une variable
      * @param o valeur de la variable
@@ -98,7 +98,7 @@ public class TDS {
     public void setVal(Object o,int indice){
         val.set(indice,o);
     }
-
+    
     /**
      * Permet de paramétrer le type lié à une variable
      * @param nomVar nom de la variable
@@ -107,9 +107,9 @@ public class TDS {
     public void setType(String nomVar, Type nomType){
         type.set(nom.indexOf(nomVar), nomType);
     }
-
+    
     //Fonctions réellements utiles
-
+    
     /**
      * Permet d'ajouter une ligne à la TDS (calcul automatique du déplacement en fonction du type)
      * @param nomVar nom de la variable
@@ -133,7 +133,7 @@ public class TDS {
             depl.add(typeVar.getTaille());
         }
     }
-
+    
     /**
      * Permet d'ajouter une fonction à la TDS
      * @param nomVar nom de la fonction
@@ -158,7 +158,7 @@ public class TDS {
             depl.add(typeVar.getTaille());
         }
     }
-
+    
     /**
      * Permet de savoir si une variable/fonction est présente dans la TDS courante
      * @param nomVar nom de la variable à contrôler
@@ -167,7 +167,7 @@ public class TDS {
     public boolean isVariableIn (String nomVar){
         return nom.contains(nomVar);
     }
-
+    
     /**
      * Permet d'obtenir le type lié à une ligne de la TDS
      * @param i indice de la ligne
@@ -177,7 +177,7 @@ public class TDS {
     {
         return type.get(i);
     }
-
+    
     /**
      * Permet d'obtenir l'indice de la ligne asscociée à une variable
      * @param nomVar nom de la variable
@@ -187,7 +187,7 @@ public class TDS {
     {
         return nom.indexOf(nomVar);
     }
-
+    
     /**
      * Permet d'obtenir la liste des arguments associés à une fonction dans la TDS courante
      * @param nom_fn nom de la fonction
@@ -197,7 +197,7 @@ public class TDS {
         int ligne = this.getLigne(nom_fn);
         return argument.get(ligne);
     }
-
+    
     /**
      * Permet d'avoir un affichage en console de la TDS
      */
@@ -209,16 +209,16 @@ public class TDS {
             System.out.printf ("  valeur : %-5s", val.get(nom.indexOf(n)));
             System.out.printf("  déplacement : %-5s ", depl.get(nom.indexOf(n)));
             if (argument.get(nom.indexOf(n)) != null) {
-            	//System.out.println(argument.get(nom.indexOf(n)).toString());
-            	System.out.printf("   paramètres :   %-15s |\n", argument.get(nom.indexOf(n)).toString());
+                //System.out.println(argument.get(nom.indexOf(n)).toString());
+                System.out.printf("   paramètres :   %-15s |\n", argument.get(nom.indexOf(n)).toString());
             }else {
-            	System.out.printf("                                  |\n");
+                System.out.printf("                                  |\n");
             }
         }
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
     }
-
+    
     /**
      * Permet d'obtenir une TDS
      * @param numBloc le numéro de la TDS voulue
@@ -231,5 +231,9 @@ public class TDS {
             if (tablesDesSymboles.get(i).getNum_block() == numBloc) return tablesDesSymboles.get(i);
         }
         return null;
+    }
+    
+    public int size(){
+        return nom.size();
     }
 }
