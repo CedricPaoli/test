@@ -1,0 +1,37 @@
+ff60  origine
+ff60  debut d'execution
+6f80   emplacement : 65376  (0xff60)  ligne n° 14	DEBUT	LDW SP,#STACKA
+1000   emplacement : 65378  (0xff62) 
+60d0   emplacement : 65380  (0xff64)  ligne n° 15		LDW R0,@CHAR
+1052   emplacement : 65382  (0xff66) 
+604f   emplacement : 65384  (0xff68)  ligne n° 16		STW R0,-(SP)
+6e9f   emplacement : 65386  (0xff6a)  ligne n° 17		LDW BP,SP
+0a50   emplacement : 65388  (0xff6c)  ligne n° 18		JSR @FIND
+ff7a   emplacement : 65390  (0xff6e) 
+6f9e   emplacement : 65392  (0xff70)  ligne n° 19		LDW SP,BP
+6050   emplacement : 65394  (0xff72)  ligne n° 20		STW R0,@RES
+ff00   emplacement : 65396  (0xff74) 
+0180   emplacement : 65398  (0xff76)  ligne n° 21		JMP #DEBUT-$-2
+ffe8   emplacement : 65400  (0xff78) 
+614f   emplacement : 65402  (0xff7a)  ligne n° 23	FIND	STW R1,-(SP)
+624f   emplacement : 65404  (0xff7c)  ligne n° 24		STW R2,-(SP)
+634f   emplacement : 65406  (0xff7e)  ligne n° 25		STW R3,-(SP)
+60be   emplacement : 65408  (0xff80)  ligne n° 26		LDW R0,(BP)+
+6180   emplacement : 65410  (0xff82)  ligne n° 27		LDW R1,#STRING_ADRS
+1000   emplacement : 65412  (0xff84) 
+6280   emplacement : 65414  (0xff86)  ligne n° 28		LDW R2,#1
+0001   emplacement : 65416  (0xff88) 
+e121   emplacement : 65418  (0xff8a)  ligne n° 29	FOR	ADD R1,R2,R1
+63a1   emplacement : 65420  (0xff8c)  ligne n° 30		LDW R3,(R1)
+f303   emplacement : 65422  (0xff8e)  ligne n° 31		SUB R3,R0,R3
+0280   emplacement : 65424  (0xff90)  ligne n° 32		JEQ #FOR-$-2
+fff8   emplacement : 65426  (0xff92) 
+0180   emplacement : 65428  (0xff94)  ligne n° 33		JMP #FIN-$-2
+0008   emplacement : 65430  (0xff96) 
+6080   emplacement : 65432  (0xff98)  ligne n° 34		LDW R0,#STRING_ADRS
+1000   emplacement : 65434  (0xff9a) 
+f100   emplacement : 65436  (0xff9c)  ligne n° 35		SUB R1,R0,R0
+61bf   emplacement : 65438  (0xff9e)  ligne n° 36	FIN	LDW R1,(SP)+
+62bf   emplacement : 65440  (0xffa0)  ligne n° 37		LDW R2,(SP)+
+63bf   emplacement : 65442  (0xffa2)  ligne n° 38		LDW R3,(SP)+
+0200   emplacement : 65444  (0xffa4)  ligne n° 39		RTS
