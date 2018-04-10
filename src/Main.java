@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception
     {
-        ANTLRFileStream input = new ANTLRFileStream("exemples/invalide/unicite_fonction.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex4.rs");
+
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         Mini_Rust2Parser parser = new Mini_Rust2Parser(tokens);
@@ -59,7 +60,7 @@ public class Main {
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
                 String nom = ast.getChild(0).toString();
-                if (ast.getChild(2).getChildCount() > 0) type = new Type((CommonTree) ast.getChild(2).getChild(0));
+                if (ast.getChild(2).getChildCount() > 0) type = new Type((CommonTree) ast.getChild(2).getChild(0), structures);
                 else type = new Type();
 
                 //Contrôles sémantiques
@@ -73,7 +74,7 @@ public class Main {
 
                     for (int i=0; i<ast.getChild(1).getChildCount(); i++)
                     {
-                        arguments.add(new Type((CommonTree)(ast.getChild(1).getChild(i).getChild(1))));
+                        arguments.add(new Type((CommonTree)(ast.getChild(1).getChild(i).getChild(1)), structures));
                     }
                     tableDesSymboles.ajouter(nom, type, arguments, 0);
                 }
@@ -95,7 +96,7 @@ public class Main {
                 if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
                     System.out.println("Erreur: Le nom '" + nom_var + "' est déjà attribué ligne : " + ast.getLine());
                 else {
-                    type = new Type((CommonTree) ast.getChild(1));
+                    type = new Type((CommonTree) ast.getChild(1),structures);
 
                     if (!type.gIsValide())
                         System.out.println("Erreur: Le type '" + type + " n'existe pas ligne : "+ast.getLine()); //Verification du type
@@ -215,9 +216,9 @@ public class Main {
                 ArrayList<String> champs = new ArrayList<>();
                 ArrayList<Type> types = new ArrayList<>();
 
-                Type nouveau_type = new Type((CommonTree)ast);
+                Type nouveau_type = new Type((CommonTree)ast,structures);
                 for(int i=0; i<ast.getChild(1).getChildCount();i++){
-                    types.add(new Type((CommonTree)ast.getChild(1).getChild(i).getChild(0)));
+                    types.add(new Type((CommonTree)ast.getChild(1).getChild(i).getChild(0),structures));
                     champs.add(ast.getChild(1).getChild(i).getChild(1).toString());
                 }
                 // ajout de la nouvelle structure aux types valides et aux structures déclarées
