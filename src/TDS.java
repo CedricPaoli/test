@@ -123,13 +123,12 @@ public class TDS {
         val.add(valeur);
         argument.add(null);
         if (depl.size()>0) {
-            ///System.out.println(nomVar + " " + typeVar.getTaille());
-            //int n1 = (depl.get(depl.size()-1));
-            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
-            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
+            int n1 = (depl.get(depl.size()-1));
+            int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
+            System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
             depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
         } else {
-            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  "Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
+            System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
             depl.add(typeVar.getTaille());
         }
     }
@@ -147,16 +146,7 @@ public class TDS {
         type.add(typeVar);
         val.add(valeur);
         argument.add(arguments);
-        if (depl.size()>0) {
-            //System.out.println(nomVar + " " + typeVar.getTaille());
-            //int n1 = (depl.get(depl.size()-1));
-            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
-            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
-            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
-        } else {
-            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
-            depl.add(typeVar.getTaille());
-        }
+        depl.add(0); // pas de déplacment pour les fonctions
     }
     
     /**

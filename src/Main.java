@@ -86,6 +86,10 @@ public class Main {
         ArrayList<Structure> structuresDeclarees = new ArrayList<>();
         // On crée récursivement les TDS
         iCreerTableSymboles(structuresDeclarees, ast, 0, 0);
+        for (Structure n: structuresDeclarees){
+            System.out.println("STRUCTURES !!");
+            n.displayStructure();
+        }
     }
     
     /**
