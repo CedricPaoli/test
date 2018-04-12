@@ -28,7 +28,7 @@ public class TDS {
      * @param num le numéro de block parent à conserver
      */
     public void setFather_num_block(int num) {
-    	father_num_block = num;
+        father_num_block = num;
     }
 
     /**
@@ -36,7 +36,7 @@ public class TDS {
      * @return le numéro du block parent
      */
     public int getFather_num_block() {
-    	return father_num_block;
+        return father_num_block;
     }
 
 
@@ -123,13 +123,12 @@ public class TDS {
         val.add(valeur);
         argument.add(null);
         if (depl.size()>0) {
-            ///System.out.println(nomVar + " " + typeVar.getTaille());
-            //int n1 = (depl.get(depl.size()-1));
-            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
-            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
+            int n1 = (depl.get(depl.size()-1));
+            int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
+            System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
             depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
         } else {
-            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  "Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
+            System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
             depl.add(typeVar.getTaille());
         }
     }
@@ -147,16 +146,7 @@ public class TDS {
         type.add(typeVar);
         val.add(valeur);
         argument.add(arguments);
-        if (depl.size()>0) {
-            //System.out.println(nomVar + " " + typeVar.getTaille());
-            //int n1 = (depl.get(depl.size()-1));
-            //int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
-            //System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
-            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
-        } else {
-            //System.out.println("Nom : " + nomVar + " depl prec : " + 0 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
-            depl.add(typeVar.getTaille());
-        }
+        depl.add(0); // pas de déplacment pour les fonctions
     }
 
     /**
@@ -209,15 +199,17 @@ public class TDS {
             System.out.printf ("  valeur : %-5s", val.get(nom.indexOf(n)));
             System.out.printf("  déplacement : %-5s ", depl.get(nom.indexOf(n)));
             if (argument.get(nom.indexOf(n)) != null) {
-            	//System.out.println(argument.get(nom.indexOf(n)).toString());
-            	System.out.printf("   paramètres :   %-15s |\n", argument.get(nom.indexOf(n)).toString());
+                //System.out.println(argument.get(nom.indexOf(n)).toString());
+                System.out.printf("   paramètres :   %-15s |\n", argument.get(nom.indexOf(n)).toString());
             }else {
-            	System.out.printf("                                  |\n");
+                System.out.printf("                                  |\n");
             }
         }
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
     }
+
+
 
     /**
      * Permet d'obtenir une TDS

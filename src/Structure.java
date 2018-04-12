@@ -40,4 +40,16 @@ public class Structure {
         this.champs = champs;
     }
 
+    public void displayStructure(){
+        System.out.printf("------------------------ Structure : %-2s ------------------------\n", struct_name);
+        for(Type n : types){
+            System.out.printf("| nom : %-20s", champs.get(types.indexOf(n)));
+            System.out.printf("  type : %-10s", n);
+            System.out.printf("  déplacement : %-5s |\n", n.getTaille());
+        }
+        System.out.printf("| taille complète de la structure vide : %-5s                       |\n", taille);
+        System.out.println("---------------------------------------------------------------------");
+        System.out.println("");
+    }
+
 }

@@ -39,10 +39,18 @@ public class Type
                 case Mini_Rust2Lexer.T__49: //&
                     taille = 6;
                     break;
-                case Mini_Rust2Lexer.STRUCT: // cas d'une structure
-                    for (int i = 0; i < tree.getChildCount(); i++) {
-                        taille += (new Type((CommonTree) tree.getChild(i),structures)).getTaille();
+                case Mini_Rust2Lexer.IDF: // cas d'une structure
+                    isValide = false;
+                    for (int i = 0; i < structures.size(); i++) {
+                        if (structures.get(i).getStruct_name().equals(tree.toString())) {
+                            token = -2;
+                            structure = tree.toString();
+                            isValide = true;
+                            taille = structures.get(i).getTaille();
+                        }
                     }
+                    System.out.println("Ligne : "+ tree.getLine() + " Taille : " + taille);
+                    break;
             }
 
             // On élimine le cas des pointeurs et @
@@ -254,6 +262,7 @@ public class Type
                     token = type.token;
                     structure = type.structure;
                     fils = type.fils;
+                    taille = type.getTaille();
                     isValide = true;
                 }
                 break;
