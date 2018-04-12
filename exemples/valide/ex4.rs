@@ -10,6 +10,7 @@ struct data {
 
 fn addition_vecteurs(l : Vec<data>) -> vecteur {
   let mut i = 0;
+  let h = vecteur2 {x: 0, y: 0};
   let mut result = vecteur {x: 0, y: 0};
   while i < l.len() {
     if l[i].to_add {
