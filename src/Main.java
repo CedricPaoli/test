@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception
     {
-        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex4.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/print.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -45,17 +45,27 @@ public class Main {
             initialiserFichier("resultat.src");
 
             //On écrit le début
-            ecrire("\tSP EQU R15\n" +
-                    "\tBP EQU R14\n" +
-                    "\tSTACKA EQU 0x1000\n" +
-                    "\tLOAD_ADRS EQU 0xFF60\n" +
-                    "\tRES EQU 0xFF00\n" +
+            ecrire("\tSP EQU R15\n"+
+                    "\tWR EQU R14\n"+
+                    "\tBP EQU R13\n"+
+                    "\tEXIT_EXC EQU 64\n"+
+                    "\tREAD_EXC EQU 65\n"+
+                    "\tWRITE_EXC EQU 66\n"+
+                    "\tSTACK_ADRS EQU 0x1000\n"+
+                    "\tLOAD_ADRS EQU 0xFF60\n"+
                     "\tNO_FIND EQU -1\n" +
                     "\n" +
                     "\tORG LOAD_ADRS\n" +
-                    "\tSTART LOAD_ADRS");
+                    "\tSTART LOAD_ADRS\n"+
+                    "\n"+
+                    "\tLDW SP, WR\n"+
+                    "\tLDQ WRITE_EXC, WR\n"+
+                    "\tTRP WR\n");
 
-            ecrireCode(ast);
+            ecrireCode(ast, 0);
+
+            ecrireInstruction("LDQ EXIT_EXC, WR"); //La fonction ajoute les \t et \n
+            ecrireInstruction("TRP WR");
 
             System.out.println("Code écrit avec succès !");
             fermerFichier();
@@ -271,9 +281,35 @@ public class Main {
         }
     }
 
-    static void ecrireCode(CommonTree ast)
+    static void ecrireCode(CommonTree ast, int num_bloc)
     {
+        switch (ast.getToken().getType()) {
+            case Mini_Rust2Lexer.PRINT:
+                String chaine;
 
+                if (ast.getChild(0).getType() == Mini_Rust2Lexer.VAR)
+                {
+                    chaine = ast.getChild(0).getChild(0).toString();
+                    TDS tableDesSymboles = tdsOuVariableIn(chaine, TDS.tablesDesSymboles, num_bloc);
+
+                    //if (tableDesSymboles != null) chaine = ; //La valeur de la variable
+                }
+                else chaine = ast.getChild(0).toString();
+
+                ecrireInstruction("STRING0 string \""+chaine+"\"");
+                ecrireInstruction("LDW R0, #STRING0");
+                ecrireInstruction("STW R0, @WRITE_EXC");
+                ecrireInstruction("LDQ WRITE_EXC, WR");
+                ecrireInstruction("TRP WR");
+                break;
+            case Mini_Rust2Lexer.BLOC:
+                num_bloc++;
+                for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
+                break;
+            default:
+                for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
+                break;
+        }
     }
 
     static public TDS tdsOuVariableIn(String nom, ArrayList<TDS> tablesDesSymboles, int nTableDesSymboles)
@@ -303,6 +339,18 @@ public class Main {
         try
         {
             flotFiltre.write(ligne);
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur: "+e);
+        }
+    }
+
+    public static void ecrireInstruction(String ligne)
+    {
+        try
+        {
+            flotFiltre.write("\t"+ligne+"\n");
         }
         catch (IOException e)
         {
