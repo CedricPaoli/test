@@ -1,0 +1,21 @@
+7)A) Cette instruction met en pause le programme qui ne reprendra qu'à la prochaine interruption. Pendant ce temps le processeur consomme moins d'énergie. Lorsque le programme reprendra, ce sera à l'instruction qui suit HLT.
+
+B)Non, moins.
+
+8)B) Les deux sont activés l'un après l'autre.
+
+9)B) Le registre d'état n'est pas sauvegardé.
+
+C) A garder le registre d'état en mémoire.
+
+10) A) Une interruption s'éxécute.
+
+B) Division par zéro, Erreur de bus, Accès interdit, instruction illégale, Accès à une case mémoire réservée, Tentative d'accès à une case mémoire sur une adresse impaire
+
+11) A) Oui
+B) Lors du chargement du programme
+C) Le programme est initialisé (on démarre à l'adresse demandée).
+D) Non
+E) Pour que ca boucle.
+F) Par ce qu'il faut le mot d'extension
+G) Parce qu'il y a peut-etre des instructions réservées après

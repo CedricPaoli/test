@@ -1,0 +1,2 @@
+java -jar /home/depot/PFSI/microPIUPK.jar -ass prog.src & : compile le fichier
+java -jar /home/depot/PFSI/microPIUPK.jar -sim & : ouvre l'éditeur

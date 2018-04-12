@@ -1,0 +1,59 @@
+		LOAD_ADRS EQU 0xFF60
+		CNTMA EQU 0xFF00
+		CNTIA EQU 0xFF00
+		STACKA EQU 0x1000
+		SP EQU R15
+
+		ORG LOAD_ADRS
+		START LOAD_ADRS
+	
+
+MAIN_PRGA	LDW SP, #STACKA   //Ajout de IRQ2 a la table des vecteurs
+		LDW R0, #IT_PRGA
+		STW R0, @0x0088
+		STW R0, @0x010C
+		LDW R0, #IT_PRGA3 //Ajout de IRQ3 a la table des vecteurs
+		STW R0, @0x008C
+		ENI
+DEBUT		LDW R0, #0        //Initialisation a 0
+		STW R0, @CNTMA
+INCR		LDW R0, @CNTMA    //Incrementation
+		DSI
+		ADQ 0x0010, R0
+		LDW R1, #0x006F
+		SUB R0, R1, R1
+		JGT #DEBUT-$-2
+		STW R0, @CNTMA
+		ENI
+		//TRP #65
+		//TRP #67
+		HLT
+		JMP #INCR-$-2
+		JMP #MAIN_PRGA-$-2
+
+IT_PRGA		STW R0, -(SP)
+		LDW R0, @CNTIA
+		ADQ 2, R0
+		STW R0, @CNTIA
+		LDW R0, (SP)+
+		ENI
+		RTI
+
+IT_PRGA3	STW R0, -(SP)
+		LDW R0, @CNTMA
+		ADQ -1, R0
+		STW R0, @CNTMA
+
+		LDW R1, SP      //Pour que HLT fonctionne
+		ADQ 2, R1
+		LDW R2, (R1)
+		LDW R3, #0xFFDF
+		AND R3, R2, R3
+		STW R3, (R1)
+		LDW R0, (SP)+
+		ENI
+		RTI
+
+	
+
+

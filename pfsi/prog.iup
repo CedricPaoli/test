@@ -1,0 +1,37 @@
+ff10  origine
+ff10  debut d'execution
+6f80   emplacement : 65296  (0xff10)  ligne n° 12	DEBUT	LDW SP,#STACKA
+1000   emplacement : 65298  (0xff12) 
+60d0   emplacement : 65300  (0xff14)  ligne n° 13		LDW R0,@INA
+ff00   emplacement : 65302  (0xff16) 
+604f   emplacement : 65304  (0xff18)  ligne n° 14		STW R0,-(SP)
+6080   emplacement : 65306  (0xff1a)  ligne n° 15		LDW R0,#3
+0003   emplacement : 65308  (0xff1c) 
+604f   emplacement : 65310  (0xff1e)  ligne n° 16		STW R0,-(SP)
+6e9f   emplacement : 65312  (0xff20)  ligne n° 17		LDW BP,SP
+0a50   emplacement : 65314  (0xff22)  ligne n° 18		JSR @DISTA
+ff3a   emplacement : 65316  (0xff24) 
+6f9e   emplacement : 65318  (0xff26)  ligne n° 19		LDW SP,BP
+6050   emplacement : 65320  (0xff28)  ligne n° 20		STW R0,@OUTA
+ff02   emplacement : 65322  (0xff2a) 
+0180   emplacement : 65324  (0xff2c)  ligne n° 21		JMP #DEBUT-$-2
+ffe2   emplacement : 65326  (0xff2e) 
+60be   emplacement : 65328  (0xff30)  ligne n° 23	ABS	LDW R0,(BP)+
+0880   emplacement : 65330  (0xff32)  ligne n° 24		JAE #POSIT-$-2
+0004   emplacement : 65332  (0xff34) 
+4700   emplacement : 65334  (0xff36)  ligne n° 25		NEG R0,R0
+0200   emplacement : 65336  (0xff38)  ligne n° 26	POSIT	RTS
+614f   emplacement : 65338  (0xff3a)  ligne n° 28	DISTA	STW R1,-(SP)
+60be   emplacement : 65340  (0xff3c)  ligne n° 29		LDW R0,(BP)+
+61be   emplacement : 65342  (0xff3e)  ligne n° 30		LDW R1,(BP)+
+f100   emplacement : 65344  (0xff40)  ligne n° 31		SUB R1,R0,R0
+6e4f   emplacement : 65346  (0xff42)  ligne n° 32		STW BP,-(SP)
+604f   emplacement : 65348  (0xff44)  ligne n° 33		STW R0,-(SP)
+6e9f   emplacement : 65350  (0xff46)  ligne n° 34		LDW BP,SP
+0a50   emplacement : 65352  (0xff48)  ligne n° 35		JSR @ABS
+ff30   emplacement : 65354  (0xff4a) 
+6f9e   emplacement : 65356  (0xff4c)  ligne n° 36		LDW SP,BP
+6ebf   emplacement : 65358  (0xff4e)  ligne n° 37		LDW BP,(SP)+
+4300   emplacement : 65360  (0xff50)  ligne n° 38		SRA R0,R0
+61bf   emplacement : 65362  (0xff52)  ligne n° 39		LDW R1,(SP)+
+0200   emplacement : 65364  (0xff54)  ligne n° 40		RTS
