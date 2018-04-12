@@ -3,8 +3,17 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.CommonTree;
 
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
+    private static File fichier;
+    private static FileWriter flot;
+    private static BufferedWriter flotFiltre;
+    private static boolean isErreur = false;
+
     public static void main(String[] args) throws Exception
     {
         ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex4.rs");
@@ -15,11 +24,11 @@ public class Main {
         
         Mini_Rust2Parser.prog_return r = parser.prog();
         CommonTree ast = (CommonTree)r.getTree();
-        
+
         creerTableSymboles(ast);
         
         for (int i=0; i<TDS.tablesDesSymboles.size(); i++) TDS.tablesDesSymboles.get(i).displayTDS();
-        
+
         //Contrôle sémantique de l'existence d'un main
         boolean isMain = false;
         TDS mainTDS = TDS.tablesDesSymboles.get(0);
@@ -30,6 +39,26 @@ public class Main {
         }
         if(!isMain){
 	        System.out.println("Erreur, la fonction 'main' n'existe pas !\n");
+        }
+
+        if (!isErreur) {
+            initialiserFichier("resultat.src");
+
+            //On écrit le début
+            ecrire("\tSP EQU R15\n" +
+                    "\tBP EQU R14\n" +
+                    "\tSTACKA EQU 0x1000\n" +
+                    "\tLOAD_ADRS EQU 0xFF60\n" +
+                    "\tRES EQU 0xFF00\n" +
+                    "\tNO_FIND EQU -1\n" +
+                    "\n" +
+                    "\tORG LOAD_ADRS\n" +
+                    "\tSTART LOAD_ADRS");
+
+            ecrireCode(ast);
+
+            System.out.println("Code écrit avec succès !");
+            fermerFichier();
         }
     }
     
@@ -60,7 +89,6 @@ public class Main {
      * @param father_region numéro de région englobante
      */
     static void iCreerTableSymboles(ArrayList<Structure> structures, CommonTree ast, int num_block, int father_region)
-    
     {
         Type type;
         Type type2;
@@ -246,8 +274,12 @@ public class Main {
                 break;
         }
     }
-    
-    
+
+    static void ecrireCode(CommonTree ast)
+    {
+
+    }
+
     static public TDS tdsOuVariableIn(String nom, ArrayList<TDS> tablesDesSymboles, int nTableDesSymboles)
     {
         int i=0;
@@ -268,5 +300,45 @@ public class Main {
         if (res) return tablesDesSymboles.get(i);
         else if (nTableDesSymboles == 0) return null;
         else return tdsOuVariableIn(nom, tablesDesSymboles, tablesDesSymboles.get(i).getFather_num_block());
+    }
+
+    public static void ecrire(String ligne)
+    {
+        try
+        {
+            flotFiltre.write(ligne);
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur: "+e);
+        }
+    }
+
+    public static void initialiserFichier(String nomFichier)
+    {
+        try
+        {
+            //On vérifie si le fichier existe
+            fichier = new File(nomFichier);
+
+            flot = new FileWriter(nomFichier);
+            flotFiltre = new BufferedWriter(flot);
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur: "+e);
+        }
+    }
+
+    public static void fermerFichier()
+    {
+        try
+        {
+            flotFiltre.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur: "+e);
+        }
     }
 }
