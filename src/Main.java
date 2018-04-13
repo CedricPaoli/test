@@ -327,6 +327,9 @@ public class Main {
                 ecrireInstruction("LDQ WRITE_EXC, WR");
                 ecrireInstruction("TRP WR");
                 break;
+            case Mini_Rust2Lexer.DECL_VAR_MUT:
+                ecrireInstruction("STW R0, (BP)z_disp");
+                break;
             case Mini_Rust2Lexer.BLOC:
                 num_bloc++;
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
