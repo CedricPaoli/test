@@ -115,6 +115,7 @@ public class Type
                 if ((type_gauche.token != Mini_Rust2Lexer.T__50 && type_droit.token != Mini_Rust2Lexer.T__50) &&
                         (type_gauche.token != Mini_Rust2Lexer.T__51 && type_droit.token != Mini_Rust2Lexer.T__51)) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type " + type_gauche + " et " + type_droit);
+                    Main.isErreur=true;
                 }
                 token = Mini_Rust2Lexer.T__51;
                 isValide = true;
@@ -129,6 +130,7 @@ public class Type
                 Type type_droit_supe = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
                 if (type_gauche_supe.token != Mini_Rust2Lexer.T__50 || type_droit_supe.token != Mini_Rust2Lexer.T__50) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 alors qu'ils sont de type " + type_gauche_supe + " et " + type_droit_supe);
+                    Main.isErreur=true;
                 }
                 token = Mini_Rust2Lexer.T__51; // bool
                 isValide = true;
@@ -148,6 +150,7 @@ public class Type
                 Type type_droit_moins = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
                 if (type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32");
+                    Main.isErreur=true;
                 }
                 token = Mini_Rust2Lexer.T__50; // i32
                 isValide = true;
@@ -156,8 +159,9 @@ public class Type
             case Mini_Rust2Lexer.VAR: //VAR
                 table = Main.tdsOuVariableIn(tree.getChild(0).toString(), TDS.tablesDesSymboles, nTableDesSymboles);
 
-                if (table == null)
+                if (table == null){
                     System.out.println(tree.getChild(0) + " n'est pas déclaré ligne : " + tree.getChild(0).getLine());
+                    Main.isErreur=true;}
                 else {
                     Type typeVar = table.getType(table.getLigne(tree.getChild(0).toString()));
 
@@ -166,7 +170,10 @@ public class Type
                             token = Mini_Rust2Lexer.T__50;
 
                             isValide = true;
-                        } else System.out.println(typeVar + " n'a pas de méthode len() ligne : " + tree.getLine());
+                        } else {
+                            System.out.println(typeVar + " n'a pas de méthode len() ligne : " + tree.getLine());
+                            Main.isErreur=true;
+                        }
                     } else if (tree.getChildCount() == 2 && tree.getChild(1).getType() == Mini_Rust2Lexer.ACCES_VEC)
                     {
                         //vérifier que c'est bien i32
@@ -176,6 +183,7 @@ public class Type
 
                         if(!type.gIsValide()) {
                             System.out.println("Le type "+type+" n'existe pas, ligne : "+ tree.getLine());
+                            Main.isErreur=true;
                         }
                         else if (type.getToken() != Mini_Rust2Lexer.T__50) System.out.println("Le type "+type+" est incorrecte, ligne : "+ tree.getLine());
                         else {
@@ -185,6 +193,7 @@ public class Type
                             if (tedeess != null) {
                                 if (tedeess.getType(tedeess.getLigne(nom_var)).getToken() != Mini_Rust2Lexer.T__46) {
                                     System.out.println("La variable n'est pas un vecteur, ligne : "+tree.getLine());
+                                    Main.isErreur=true;
                                 }
                                 else
                                 {
@@ -194,6 +203,7 @@ public class Type
                                 }
                             } else {
                                 System.out.println("Variable non définie");
+                                Main.isErreur=true;
                             }
                         }
                     }
@@ -256,6 +266,7 @@ public class Type
 
                 if (table == null) {
                     System.out.println("Erreur ligne " + tree.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
+                    Main.isErreur=true;
                     break;
                 } else {
                     Type type = table.getType(table.getLigne(nom_fn));
