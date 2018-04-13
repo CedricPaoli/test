@@ -8,11 +8,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
+
 public class Main {
     private static File fichier;
     private static FileWriter flot;
     private static BufferedWriter flotFiltre;
-    private static boolean isErreur = false;
+    public static boolean isErreur = false;
 
     public static void main(String[] args) throws Exception
     {
@@ -39,6 +41,7 @@ public class Main {
         }
         if(!isMain){
 	        System.out.println("Erreur, la fonction 'main' n'existe pas !\n");
+	        isErreur=true;
         }
 
         if (!isErreur) {
@@ -118,10 +121,12 @@ public class Main {
                 else type = new Type();
                 
                 //Contrôles sémantiques
-                if (tdsOuVariableIn(nom, tablesDesSymboles, num_block) != null) //Verification du nom
+                if (tdsOuVariableIn(nom, tablesDesSymboles, num_block) != null){ //Verification du nom
                     System.out.println("Erreur: Le nom '" + nom + "' est déjà attribué ligne : " + ast.getLine());
-                else if (!type.gIsValide())
+                    isErreur=true;}
+                else if (!type.gIsValide()){
                     System.out.println("Erreur: Le type '" + type + " n'existe pas ligne : "+ast.getLine()); //Verification du type
+                    isErreur=true;}
                 else
                 {
                     ArrayList<Type> arguments = new ArrayList<Type>();
@@ -147,26 +152,30 @@ public class Main {
             case Mini_Rust2Lexer.DECL_VAR: //Declaration de variable dans les parametres d'une fonction
                 nom_var = ast.getChild(0).toString();
                 
-                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
+                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null){
                     System.out.println("Erreur: Le nom '" + nom_var + "' est déjà attribué ligne : " + ast.getLine());
+                    isErreur=true;}
                 else {
                     type = new Type((CommonTree) ast.getChild(1),structures);
                     
-                    if (!type.gIsValide())
+                    if (!type.gIsValide()){
                         System.out.println("Erreur: Le type '" + type + " n'existe pas ligne : "+ast.getLine()); //Verification du type
+                        isErreur=true;}
                     else tableDesSymboles.ajouter(nom_var, type, 0);
                 }
                 break;
             case Mini_Rust2Lexer.DECL_VAR_MUT:
                 nom_var = ast.getChild(0).toString();
                 
-                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null)
+                if (tdsOuVariableIn(nom_var, tablesDesSymboles, num_block) != null){
                     System.out.println("Erreur: Le nom '" + nom_var + "' est déjà attribué ligne : " + ast.getLine());
+                    isErreur=true;}
                 else {
                     type = new Type((CommonTree) ast.getChild(1), structures, num_block);
                     
-                    if (!type.gIsValide())
+                    if (!type.gIsValide()){
                         System.out.println("Erreur: Le type '" + type + "' n'existe pas ligne " + ast.getLine()); //Verification du type
+                        isErreur=true;}
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1));
                 }
                 break;
@@ -184,8 +193,9 @@ public class Main {
                         tds.setType(nom_var, type2);
                     }
                     else {
-                        if (!type.isEgal(type2))
+                        if (!type.isEgal(type2)){
                             System.out.println("Les types " + type + " et " + type2 + " ne correspondent pas, ligne : " + ast.getLine());
+                            isErreur=true;}
                     }
                 } else {
                     if (ast.getChildCount() > 1 && ast.getChild(ast.getChildCount()-1).getType() != Mini_Rust2Lexer.ACCES_VEC &&
@@ -193,8 +203,9 @@ public class Main {
                         type = new Type((CommonTree) ast.getChild(ast.getChildCount()-1), structures, num_block);
                     else type = new Type();
                     
-                    if (!type.gIsValide())
+                    if (!type.gIsValide()){
                         System.out.println("Erreur: Le type '" + type + " n'existe pas ligne : " + ast.getLine()); //Verification du type
+                        isErreur=true;}
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(ast.getChildCount()-1));
                 }
                 break;
@@ -203,6 +214,7 @@ public class Main {
                 //Vérification de la condition => boolean ou nombre
                 if(!type.isCondition()) {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
+                    isErreur=true;
                 }
                 
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
@@ -212,6 +224,7 @@ public class Main {
                 //Vérification de la condition => boolean ou nombre
                 if(!type.isCondition()) {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
+                    isErreur=true;
                 }
                 
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
@@ -224,9 +237,11 @@ public class Main {
                 if(tedeess2 != null) {
                     if(tedeess2.getType(tedeess2.getLigne(nom_var)).getToken() != Mini_Rust2Lexer.VEC) {
                         System.out.println("La variable n'est pas un vecteur");
+                        isErreur=true;
                     }
                 }else {
                     System.out.println("Variable non définie");
+                    isErreur=true;
                 }
                 break;
             case Mini_Rust2Lexer.BLOC:
@@ -248,17 +263,23 @@ public class Main {
                 
                 if (fn_tds == null) {
                     System.out.println("Erreur ligne " + ast.getLine() + " : La fonction '" + nom_fn + "' n'est pas définie");
+                    isErreur=true;
                 }
                 else
                 {
                     //TDS fn_tds = tablesDesSymboles.get(current);
-                    if (ast.getChildCount()-1 != fn_tds.getArgOf(nom_fn).size()) System.out.println("Erreur ligne " + ast.getLine()+" : Le nombre de paramètres est erroné");
+                    if (ast.getChildCount()-1 != fn_tds.getArgOf(nom_fn).size()){
+                        System.out.println("Erreur ligne " + ast.getLine()+" : Le nombre de paramètres est erroné");
+                        isErreur=true;
+                    }
+
                     else {
                         for (int i = 1; i < ast.getChildCount(); i++) {
                             Type tested_type = new Type((CommonTree) ast.getChild(i).getChild(0), structures, num_block);
                             
                             if (!tested_type.isEgal(fn_tds.getArgOf(nom_fn).get(i-1))) {
                                 System.out.println("Erreur ligne " + ast.getLine() + " : L'argument de la fonction '" + nom_fn + "' doit être de type " + fn_tds.getArgOf(nom_fn).get(i-1)+" alors qu'il est de type "+tested_type);
+                                isErreur=true;
                             }
                         }
                     }
