@@ -310,6 +310,36 @@ public class Main {
                 num_bloc++;
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
                 break;
+            case Mini_Rust2Lexer.CST_ENT:
+            	//si ast.toString() est bien la valeur cte => ok
+            	ecrireInstruction("MOVE " + ast.toString() + ", D1");
+            	break;
+            case Mini_Rust2Lexer.DECL_VAR:
+            	break;
+            case Mini_Rust2Lexer.DECL_VEC:
+            	break;
+            case Mini_Rust2Lexer.CST_OU_AFF:
+            	int nbEnfant = ast.getChildCount();
+            	break;
+            case Mini_Rust2Lexer.T__71: //cas de +
+            	//On retrouve les enfants et on les stocke
+            	for(int i = 0; i < 2; i++) {
+	            	TDS tds = tdsOuVariableIn(ast.getChild(i).toString(), TDS.tablesDesSymboles, num_bloc);
+	            	if(tds.equals(TDS.tablesDesSymboles.get(num_bloc))) { //variable locale
+	            		
+	            	}else { //variable globale
+	            		
+	            	}
+            	}
+            	
+            	//on dépile
+            	//on additionne
+            	//on met dans le registre
+            	break;
+            case Mini_Rust2Lexer.T__69: //cas de -
+            	break;
+            case Mini_Rust2Lexer.T__67: //cas de *
+            	break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
                 break;
