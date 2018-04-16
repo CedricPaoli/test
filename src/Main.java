@@ -18,6 +18,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception
     {
+    	//Récupération des fichiers pour les contrôles
         ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/print.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
@@ -27,15 +28,16 @@ public class Main {
         Mini_Rust2Parser.prog_return r = parser.prog();
         CommonTree ast = (CommonTree)r.getTree();
 
+        //Création de la table des symboles
         creerTableSymboles(ast);
-        
+        //affichage de la TDS
         for (int i=0; i<TDS.tablesDesSymboles.size(); i++) TDS.tablesDesSymboles.get(i).displayTDS();
 
         //Contrôle sémantique de l'existence d'un main
         boolean isMain = false;
         TDS mainTDS = TDS.tablesDesSymboles.get(0);
         for (int i=0; i<mainTDS.size(); i++){
-	        if(mainTDS.getNom(i) == "main"){
+	        if(mainTDS.getNom(i).equals("main")){
 	        	isMain = true;
 	        }
         }
