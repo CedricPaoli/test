@@ -139,7 +139,7 @@ unaire_var : unaire2 unaire_var -> ^(unaire2 unaire_var)
            ;
 
 variable3
-@init {int choix = 0;} : IDF (struct | (fonction {choix=1;}) | (acces_variable {choix=2;}) | {choix=3;}) -> {choix==1}? ^(APPEL_FCT IDF fonction)
+@init {int choix = 0;} : IDF (struct | (fonction {choix=1;}) | (acces_variable {choix=2;}) | {choix=3;}) -> {choix==1}? ^(APPEL_FCT IDF fonction?)
                                                                                                          -> {choix == 2}? ^(VAR IDF acces_variable)
                                                                                                          -> {choix == 3}? ^(VAR IDF)
                                                                                                          -> ^(STRUCT IDF struct)
@@ -148,7 +148,7 @@ variable3
 struct : '{' comm? (valeur_attribut_struct (',' comm? valeur_attribut_struct)* )? '}' -> (valeur_attribut_struct (valeur_attribut_struct)*)?
        ;
 
-fonction : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr) (^(PARAM_FCT expr))*)?
+fonction : '(' comm? (expr ( ',' comm? expr)*)? ')' comm? -> (^(PARAM_FCT expr))*
 	 ;
 
 acces_variable : '[' comm? expr ']' comm? acces_variable? -> ^(ACCES_VEC expr acces_variable?)

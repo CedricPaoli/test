@@ -15,6 +15,7 @@ public class TDS {
     private ArrayList<ArrayList<Type>> argument = new ArrayList<>();
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
+    private ArrayList<Boolean> isParam = new ArrayList<Boolean>();
     
     static public ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
     
@@ -74,22 +75,7 @@ public class TDS {
     public int getNum_block(){
         return num_block;
     }
-    
-    /**
-     * Permet d'ajouter une ligne à la TDS
-     * @param nomVar nom de la variable à ajouter sur la ligne
-     * @param typeVar type de la variable ajoutée
-     * @param valeur valeur de la variable ajoutée
-     * @param deplacement déplacement associé à variable
-     */
-    public void setLigne(String nomVar, Type typeVar, Object valeur,Integer deplacement){
-        nom.add(nomVar);
-        type.add(typeVar);
-        val.add(valeur);
-        argument.add(null);
-        depl.add(deplacement);
-    }
-    
+
     /**
      * Permet de paramétrer la valeur liée à une variable
      * @param o valeur de la variable
@@ -116,12 +102,14 @@ public class TDS {
      * @param typeVar type de la variable
      * @param valeur valeur de la variable
      */
-    public void ajouter(String nomVar, Type typeVar, Object valeur)
+    public void ajouter(String nomVar, Type typeVar, Object valeur, boolean isParam)
     {
         nom.add(nomVar);
         type.add(typeVar);
         val.add(valeur);
         argument.add(null);
+        this.isParam.add(isParam);
+
         if (depl.size()>0) {
             int n1 = (depl.get(depl.size()-1));
             int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
@@ -147,6 +135,7 @@ public class TDS {
         val.add(valeur);
         argument.add(arguments);
         depl.add(0); // pas de déplacment pour les fonctions
+        isParam.add(false);
     }
     
     /**
@@ -167,7 +156,14 @@ public class TDS {
     {
         return type.get(i);
     }
-    
+
+
+    public boolean getIsParam(int i)
+    {
+        return isParam.get(i);
+    }
+
+
     /**
      * Permet d'obtenir l'indice de la ligne asscociée à une variable
      * @param nomVar nom de la variable
@@ -204,6 +200,7 @@ public class TDS {
             }else {
                 System.out.printf("                                  |\n");
             }
+            System.out.printf("isParam: "+isParam.get(nom.indexOf(n)));
         }
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
