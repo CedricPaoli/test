@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/fonction_avec_arg.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/operations.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -71,7 +71,7 @@ public class Main {
             ecrireCode(ast, 0);
 
             //Fonction diviser: i32, i32 -> i32
-            ecrireInstruction("\nDIVI",	"STW BP, -(SP)");
+            ecrireInstruction("\nDIVI", "STW BP, -(SP)");
             ecrireInstruction("LDW BP, SP");
             ecrireInstruction("STW R0, -(SP)");
             ecrireInstruction("STW R1, -(SP)");
@@ -113,7 +113,7 @@ public class Main {
 
 
             //Fonction print : i32, affiche
-            ecrireInstruction("\nPRINT",	"STW BP, -(SP)");
+            ecrireInstruction("\nPRINT", "STW BP, -(SP)");
             ecrireInstruction("LDW BP, SP");
             ecrireInstruction("STW R0, -(SP)");
             ecrireInstruction("STW R1, -(SP)");
@@ -184,6 +184,145 @@ public class Main {
             ecrireInstruction("LDW BP, (SP)+");
             ecrireInstruction("RTS");
 
+
+            //Fonction addition, i32, i32 -> i32
+            ecrireInstruction("\nADD32", "STW BP, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+            ecrireInstruction("STW R5, -(SP)");
+            ecrireInstruction("STW R6, -(SP)");
+            ecrireInstruction("STW R7, -(SP)");
+	
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 14, R4");
+            ecrireInstruction("LDW R1, (R4)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("LDW R3, -(R4)");
+            ecrireInstruction("LDW R2, -(R4)");
+	
+            ecrireInstruction("ADD R0, R2, R5");
+            ecrireInstruction("ADD R1, R3, R6");
+            ecrireInstruction("JCS #ADD32_RETENU-$-2");
+            ecrireInstruction("JMP #ADD32_FIN-$-2");
+	
+            ecrireInstruction("ADD32_RETENU", "ADQ 1, R5");
+	
+            ecrireInstruction("ADD32_FIN", "STW R6, -(R4)");
+            ecrireInstruction("STW R5, -(R4)");
+            ecrireInstruction("LDW R7, (SP)+");
+            ecrireInstruction("LDW R6, (SP)+");
+            ecrireInstruction("LDW R5, (SP)+");
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R3, (SP)+");
+            ecrireInstruction("LDW R2, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+	
+	
+	        //Fonction soustraction, i32, i32 -> i32
+            ecrireInstruction("\nNEG32", "STW BP, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+	
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 10, R4");
+            ecrireInstruction("LDW R0, (R4)");
+            ecrireInstruction("NOT R0, R0");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("NOT R0, R0");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("LDW R0, #1");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("LDW R0, #0");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("ADQ -4, SP");
+            ecrireInstruction("JSR @ADD32");
+	
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("STW R0, (SP)+");
+            ecrireInstruction("STW R1, (SP)+");
+	
+            ecrireInstruction("ADQ 4, R4");
+            ecrireInstruction("LDW R0, (R4)+");
+            ecrireInstruction("STW R0, (SP)+");
+            ecrireInstruction("LDW R0, (R4)");
+            ecrireInstruction("STW R0, (SP)");
+            ecrireInstruction("ADQ -10, SP");
+            ecrireInstruction("JSR @ADD32");
+	
+            ecrireInstruction("ADQ -10, R4");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("STW R0, (R4)+");
+            ecrireInstruction("LDW R0, (SP)");
+            ecrireInstruction("STW R0, (R4)");
+            ecrireInstruction("ADQ 12, SP");
+
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+	
+	
+	        //Fonction multiplication, i32, i32 -> i32
+            ecrireInstruction("\nMUL32", "STW BP, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+            ecrireInstruction("STW R5, -(SP)");
+            ecrireInstruction("STW R6, -(SP)");
+	
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 14, R4");
+            ecrireInstruction("LDW R1, (R4)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("LDW R3, -(R4)");
+            ecrireInstruction("LDW R2, -(R4)");
+	
+            ecrireInstruction("MUL R1, R3, R6");
+            ecrireInstruction("MUL R0, R3, R5");
+            ecrireInstruction("MUL R1, R2, R7");
+            ecrireInstruction("ADD R7, R5, R5");
+	
+            ecrireInstruction("LDW R0, #0x8000");
+            ecrireInstruction("SRL R3, R3");
+	
+            ecrireInstruction("MUL32_DEBUT", "AND R1, R0, R2");
+            ecrireInstruction("JEQ #MUL32_NUL-$-2");
+            ecrireInstruction("ADD R3, R5, R5");
+	
+            ecrireInstruction("MUL32_NUL", "RRC R0, R0");
+            ecrireInstruction("SRL R3, R3");
+            ecrireInstruction("JNE #MUL32_DEBUT-$-2");
+
+            ecrireInstruction("STW R6, -(R4)");
+            ecrireInstruction("STW R5, -(R4)");
+            ecrireInstruction("LDW R6, (SP)+");
+            ecrireInstruction("LDW R5, (SP)+");
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R3, (SP)+");
+            ecrireInstruction("LDW R2, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+	
             System.out.println("Code écrit avec succès !");
             fermerFichier();
         }
@@ -491,13 +630,7 @@ public class Main {
 
                 for (int i=0; i<parametres.size(); i++)
                 {
-                    valeur = Integer.parseInt(ast.getChild(i+1).getChild(0).toString());
-
-                    //Big endian
-                    ecrireInstruction("LDW R0, #"+valeur%(256*256));
-                    ecrireInstruction("STW R0, -(SP)");
-                    ecrireInstruction("LDW R0, #"+valeur/(256*256));
-                    ecrireInstruction("STW R0, -(SP)");
+                    ecrireCode((CommonTree) ast.getChild(i+1).getChild(0), num_bloc);
                     tailleParam += parametres.get(i).getTaille();
                 }
 
@@ -512,34 +645,58 @@ public class Main {
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
                 break;
             case Mini_Rust2Lexer.CST_ENT:
-            	//si ast.toString() est bien la valeur cte => ok
-            	ecrireInstruction("MOVE " + ast.toString() + ", D1");
+                //Big endian
+                valeur = Integer.parseInt(ast.toString());
+                ecrireInstruction("LDW R0, #"+valeur%(256*256));
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("LDW R0, #"+valeur/(256*256));
+                ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.DECL_VAR:
             	break;
             case Mini_Rust2Lexer.DECL_VEC:
             	break;
+            case Mini_Rust2Lexer.VAR:
+
+                break;
             case Mini_Rust2Lexer.CST_OU_AFF:
             	int nbEnfant = ast.getChildCount();
             	break;
             case Mini_Rust2Lexer.T__71: //cas de +
-            	//On retrouve les enfants et on les stocke
-            	for(int i = 0; i < 2; i++) {
-	            	TDS tds = tdsOuVariableIn(ast.getChild(i).toString(), TDS.tablesDesSymboles, num_bloc);
-	            	if(tds.equals(TDS.tablesDesSymboles.get(num_bloc))) { //variable locale
-	            		
-	            	}else { //variable globale
-	            		
-	            	}
-            	}
-            	
-            	//on dépile
-            	//on additionne
-            	//on met dans le registre
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+
+                ecrireInstruction("ADQ -4, SP");
+                ecrireInstruction("JSR @ADD32");
+                ecrireInstruction("LDW R0, (SP)+");
+                ecrireInstruction("LDW R1, (SP)");
+                ecrireInstruction("ADQ 8, SP");
+                ecrireInstruction("STW R1, (SP)");
+                ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.T__69: //cas de -
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+
+                ecrireInstruction("ADQ -4, SP");
+                ecrireInstruction("JSR @NEG32");
+                ecrireInstruction("LDW R0, (SP)+");
+                ecrireInstruction("LDW R1, (SP)");
+                ecrireInstruction("ADQ 8, SP");
+                ecrireInstruction("STW R1, (SP)");
+                ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.T__67: //cas de *
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+
+                ecrireInstruction("ADQ -4, SP");
+                ecrireInstruction("JSR @MUL32");
+                ecrireInstruction("LDW R0, (SP)+");
+                ecrireInstruction("LDW R1, (SP)");
+                ecrireInstruction("ADQ 8, SP");
+                ecrireInstruction("STW R1, (SP)");
+                ecrireInstruction("STW R0, -(SP)");
             	break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
