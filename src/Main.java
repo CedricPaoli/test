@@ -16,6 +16,7 @@ public class Main {
     private static BufferedWriter flotFiltre;
     public static boolean isErreur = false;
     private static int nbStrings = 0;
+    private static int numWhile = 0;
 
     public static void main(String[] args) throws Exception
     {
@@ -757,7 +758,7 @@ public class Main {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
                     isErreur=true;
                 }
-                
+                ecrireCode(ast,num_block);
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.IF:
@@ -889,6 +890,20 @@ public class Main {
 
                 nbStrings++;
                 break;
+            case Mini_Rust2Lexer.WHILE:
+                ecrireCode( (CommonTree) ast.getChild(0),num_bloc);
+                //Fonction while
+                ecrireInstruction("WHILE"+numWhile, "LDW R0, (SP)+");      // On débute le boucle en récupérant le résultat de la condition (2premier o)
+                ecrireInstruction("JEQ #WHILECOMP"+numWhile);                       // S'il sont à 00 on vérifie les 2 suivants
+                ecrireInstruction("WHILECOMP"+numWhile,"LDW R1, (SP)");    // On récupère les 2 suivants
+                ecrireInstruction("JEQ #FINWHILE"+numWhile);                        // Condition fausse, on passe à la fin du programme
+                ecrireCode((CommonTree) ast.getChild(1),num_bloc);                     // On écrit le block
+                ecrireCode( (CommonTree) ast.getChild(0),num_bloc);                    // On réévalue la condition
+                ecrireInstruction("JMP #WHILE"+numWhile+ " -$-2");                  // On revient au début de la boucle
+                ecrireInstruction("FINWHILE"+numWhile, "ADQ 4, SP");      // On termine la boucle
+
+                numWhile ++;
+                break;
             case Mini_Rust2Lexer.DECL_FCT:
                 nom = ast.getChild(0).toString();
                 nVar = TDS.tablesDesSymboles.get(num_bloc).getLigne(nom);
@@ -948,7 +963,28 @@ public class Main {
 
                 break;
             case Mini_Rust2Lexer.CST_OU_AFF:
-            	int nbEnfant = ast.getChildCount();
+            	//int nbEnfant = ast.getChildCount();
+            	nom = ast.getChild(0).toString();
+            	ecrireCode((CommonTree) ast.getChild(1),num_bloc);
+
+            	TDS TDSofVar = tdsOuVariableIn(nom,TDS.tablesDesSymboles,num_bloc);
+            	int depl = TDSofVar.getDepl(TDSofVar.getLigne(nom));
+
+            	if(TDS.getTDS(num_bloc).getIsParam(TDS.getTDS(num_bloc).getLigne(nom)) || TDS.getTDS(num_bloc).isVariableIn(nom)){ // variable en param ou locale
+            	    ecrireInstruction("LEA ("+depl+",BP), R1");
+                }else if(TDS.getTDS(0).isVariableIn(nom)){ // variable globale
+                    ecrireInstruction("LEA ("+depl+",DP), R1");
+                }else{
+            	    int diff = num_bloc-TDSofVar.getNum_block();
+            	    ecrireInstruction("MOVE #("+diff+"), R0"); //registre compteur
+            	    ecrireInstruction("MOVE BP, R2"); // registre pour se déplacer
+                    ecrireInstruction("BOU","MOVE (-4, R2), R2");
+                    ecrireInstruction("SUB #1, R0");
+                    ecrireInstruction("BNE BOU");
+                    ecrireInstruction("LEA ("+depl+", R2), R1");
+                }
+                ecrireInstruction("MOVE (SP)+, (R1)");
+
             	break;
             case Mini_Rust2Lexer.T__71: //cas de +
                 ecrireCode((CommonTree) ast.getChild(0), num_bloc);
@@ -985,6 +1021,25 @@ public class Main {
                 ecrireInstruction("ADQ 8, SP");
                 ecrireInstruction("STW R1, (SP)");
                 ecrireInstruction("STW R0, -(SP)");
+            	break;
+            case Mini_Rust2Lexer.IF:
+            	//écrire le résultat
+            	ecrireCode((CommonTree) ast.getChild(0).getChild(0), num_bloc);
+            	//regarder si la condition est vrai ou pas
+            	ecrireInstruction("LDW R0, (SP)+");
+            	ecrireInstruction("JEQ #IFFALSE");
+            	//Cas où c'est vrai on exécute le bloc
+            	ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+            	//on saute pour rejoindre la fin de la condition
+            	ecrireInstruction("JMP #FINIF");
+            	//les tag
+            	ecrireInstruction("IFFALSE", "LDW R0, R0");
+            	//on regarde si on a un else
+            	if(ast.getChildCount()==3) {
+            		//excution du code du else
+            		ecrireCode((CommonTree) ast.getChild(2), num_bloc);
+            	}
+            	ecrireInstruction("#FINIF", "LDW R0, R0");
             	break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
