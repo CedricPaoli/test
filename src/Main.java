@@ -870,10 +870,10 @@ public class Main {
                     if (tableDesSymboles.getIsParam(nVar)) ecrireInstruction("ADQ "+(2+tableDesSymboles.getDepl(tableDesSymboles.getLigne(chaine)))+", R1");
                     else ecrireInstruction("ADQ -"+tableDesSymboles.getDepl(tableDesSymboles.getLigne(chaine))+", R1");
 
-                    ecrireInstruction("LDW R1, (R1)");
-                    ecrireInstruction("STW R1, -(SP)");
-                    ecrireInstruction("LDW R1, #0");
-                    ecrireInstruction("STW R1, -(SP)");
+                    ecrireInstruction("LDW R0, (R1)");
+                    ecrireInstruction("STW R0, -(SP)");
+                    ecrireInstruction("LDW R0, -(R1)");
+                    ecrireInstruction("STW R0, -(SP)");
                     ecrireInstruction("JSR @PRINT");
                     ecrireInstruction("ADQ 4, SP");
                 }
