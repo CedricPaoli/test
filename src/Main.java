@@ -963,7 +963,28 @@ public class Main {
 
                 break;
             case Mini_Rust2Lexer.CST_OU_AFF:
-            	int nbEnfant = ast.getChildCount();
+            	//int nbEnfant = ast.getChildCount();
+            	nom = ast.getChild(0).toString();
+            	ecrireCode((CommonTree) ast.getChild(1),num_bloc);
+
+            	TDS TDSofVar = tdsOuVariableIn(nom,TDS.tablesDesSymboles,num_bloc);
+            	int depl = TDSofVar.getDepl(TDSofVar.getLigne(nom));
+
+            	if(TDS.getTDS(num_bloc).getIsParam(TDS.getTDS(num_bloc).getLigne(nom)) || TDS.getTDS(num_bloc).isVariableIn(nom)){ // variable en param ou locale
+            	    ecrireInstruction("LEA ("+depl+",BP), R1");
+                }else if(TDS.getTDS(0).isVariableIn(nom)){ // variable globale
+                    ecrireInstruction("LEA ("+depl+",DP), R1");
+                }else{
+            	    int diff = num_bloc-TDSofVar.getNum_block();
+            	    ecrireInstruction("MOVE #("+diff+"), R0"); //registre compteur
+            	    ecrireInstruction("MOVE BP, R2"); // registre pour se déplacer
+                    ecrireInstruction("BOU","MOVE (-4, R2), R2");
+                    ecrireInstruction("SUB #1, R0");
+                    ecrireInstruction("BNE BOU");
+                    ecrireInstruction("LEA ("+depl+", R2), R1");
+                }
+                ecrireInstruction("MOVE (SP)+, (R1)");
+
             	break;
             case Mini_Rust2Lexer.T__71: //cas de +
                 ecrireCode((CommonTree) ast.getChild(0), num_bloc);
