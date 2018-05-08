@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/operations.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/affectation.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -941,7 +941,15 @@ public class Main {
                 ecrireInstruction("ADQ "+tailleParam+", SP");
                 break;
             case Mini_Rust2Lexer.DECL_VAR_MUT:
-                ecrireInstruction("STW R0, (BP)z_disp");
+                //ecrireInstruction("STW R0, (BP)z_disp");
+                nom = ast.getChild(0).toString();
+                ecrireCode((CommonTree) ast.getChild(1),num_bloc);
+
+                int depl = TDS.getTDS(num_bloc).getDepl(TDS.getTDS(num_bloc).getLigne(nom));
+
+                ecrireInstruction("LEA ("+depl+",BP), R1");
+                ecrireInstruction("MOVE (SP)+, (R1)");
+
                 break;
             case Mini_Rust2Lexer.BLOC:
                 num_bloc++;
@@ -968,7 +976,7 @@ public class Main {
             	ecrireCode((CommonTree) ast.getChild(1),num_bloc);
 
             	TDS TDSofVar = tdsOuVariableIn(nom,TDS.tablesDesSymboles,num_bloc);
-            	int depl = TDSofVar.getDepl(TDSofVar.getLigne(nom));
+            	depl = TDSofVar.getDepl(TDSofVar.getLigne(nom));
 
             	if(TDS.getTDS(num_bloc).getIsParam(TDS.getTDS(num_bloc).getLigne(nom)) || TDS.getTDS(num_bloc).isVariableIn(nom)){ // variable en param ou locale
             	    ecrireInstruction("LEA ("+depl+",BP), R1");
