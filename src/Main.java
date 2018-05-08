@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/operations.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/while.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -758,7 +758,6 @@ public class Main {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
                     isErreur=true;
                 }
-                ecrireCode(ast,num_block);
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.IF:
