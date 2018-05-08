@@ -1,7 +1,5 @@
 import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.BaseTreeAdaptor;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Type
@@ -50,6 +48,19 @@ public class Type
                         }
                     }
                     System.out.println("Ligne : "+ tree.getLine() + " Taille : " + taille);
+                    break;
+                case Mini_Rust2Lexer.STRUCT:
+                    isValide = false;
+                    tree = (CommonTree)tree.getChild(0);
+
+                    for (int i = 0; i < structures.size(); i++) {
+                        if (structures.get(i).getStruct_name().equals(tree.toString())) {
+                            token = -2;
+                            structure = tree.toString();
+                            isValide = true;
+                            taille += structures.get(i).getTaille();
+                        }
+                    }
                     break;
             }
 
@@ -256,7 +267,7 @@ public class Type
                         token = -2;
                         structure = tree.toString();
                         isValide = true;
-                        taille = structures.get(i).getTaille();
+                        taille += structures.get(i).getTaille();
                     }
                 }
                 break;
