@@ -16,6 +16,7 @@ public class Main {
     private static BufferedWriter flotFiltre;
     public static boolean isErreur = false;
     private static int nbStrings = 0;
+    private static int numWhile = 0;
 
     public static void main(String[] args) throws Exception
     {
@@ -757,7 +758,7 @@ public class Main {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
                     isErreur=true;
                 }
-                
+                ecrireCode(ast,num_block);
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.IF:
@@ -888,6 +889,20 @@ public class Main {
                 }
 
                 nbStrings++;
+                break;
+            case Mini_Rust2Lexer.WHILE:
+                ecrireCode( (CommonTree) ast.getChild(0),num_bloc);
+                //Fonction while
+                ecrireInstruction("WHILE"+numWhile, "LDW R0, (SP)");      // On débute le boucle en récupérant le résultat de la condition (2premier o)
+                ecrireInstruction("JEQ #WHILECOMP"+numWhile);                       // S'il sont à 00 on vérifie les 2 suivants
+                ecrireInstruction("WHILECOMP"+numWhile,"LDW R1, (SP)+");  // On récupère les 2 suivants
+                ecrireInstruction("JEQ #FINWHILE"+numWhile);                        // Condition fausse, on passe à la fin du programme
+                ecrireCode((CommonTree) ast.getChild(1),num_bloc);                     // On écrit le block
+                ecrireCode( (CommonTree) ast.getChild(0),num_bloc);                    // On réévalue la condition
+                ecrireInstruction("JMP #WHILE"+numWhile);                           // On revient au début de la boucle
+                ecrireInstruction("FINWHILE"+numWhile, "ADQ 4, SP");      // On termine la boucle
+
+                numWhile ++;
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
                 nom = ast.getChild(0).toString();
