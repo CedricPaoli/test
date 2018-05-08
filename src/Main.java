@@ -758,7 +758,6 @@ public class Main {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
                     isErreur=true;
                 }
-                ecrireCode(ast,num_block);
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.IF:
