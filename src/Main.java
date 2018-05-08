@@ -1001,6 +1001,25 @@ public class Main {
                 ecrireInstruction("STW R1, (SP)");
                 ecrireInstruction("STW R0, -(SP)");
             	break;
+            case Mini_Rust2Lexer.IF:
+            	//écrire le résultat
+            	ecrireCode((CommonTree) ast.getChild(0).getChild(0), num_bloc);
+            	//regarder si la condition est vrai ou pas
+            	ecrireInstruction("LDW R0, (SP)+");
+            	ecrireInstruction("JEQ #IFFALSE");
+            	//Cas où c'est vrai on exécute le bloc
+            	ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+            	//on saute pour rejoindre la fin de la condition
+            	ecrireInstruction("JMP #FINIF");
+            	//les tag
+            	ecrireInstruction("IFFALSE", "LDW R0, R0");
+            	//on regarde si on a un else
+            	if(ast.getChildCount()==3) {
+            		//excution du code du else
+            		ecrireCode((CommonTree) ast.getChild(2), num_bloc);
+            	}
+            	ecrireInstruction("#FINIF", "LDW R0, R0");
+            	break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
                 break;
