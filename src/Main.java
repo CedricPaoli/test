@@ -60,7 +60,7 @@ public class Main {
             ecrireInstruction("READ_EXC EQU 65");
             ecrireInstruction("WRITE_EXC EQU 66");
             ecrireInstruction("STACK_ADRS EQU 0x1000");
-            ecrireInstruction("LOAD_ADRS EQU 0xF000");
+            ecrireInstruction("LOAD_ADRS EQU 0xE000");
             ecrireInstruction("NO_FIND EQU -1");
             ecrireInstruction("NIL EQU 0");
             ecrireInstruction("");
@@ -772,6 +772,174 @@ public class Main {
             ecrireInstruction("LDW BP, (SP)+");
             ecrireInstruction("RTS");
 
+
+            //Fonction < , i32, i32 -> i32
+            ecrireInstruction("\nLW32", "STW BP, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+            ecrireInstruction("STW R5, -(SP)");
+            ecrireInstruction("STW R6, -(SP)");
+            ecrireInstruction("STW R7, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 30, R4");
+            ecrireInstruction("LDW R1, (R4)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("LDW R3, -(R4)");
+            ecrireInstruction("LDW R2, -(R4)");
+
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("ADQ -4, SP");
+            ecrireInstruction("JSR @SUB32");
+
+            ecrireInstruction("LDW R2, #1");
+            ecrireInstruction("LDW R3, #1");
+
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW R1, (SP)");
+
+            ecrireInstruction("LDW R0, R0");
+            ecrireInstruction("JLW #LW_FIN-$-2");
+
+            ecrireInstruction("LDW R2, #0");
+            ecrireInstruction("LDW R3, #0");
+
+            ecrireInstruction("LW_FIN", "STW R3, -(R4)");
+            ecrireInstruction("STW R2, -(R4)");
+
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW R7, (SP)+");
+            ecrireInstruction("LDW R6, (SP)+");
+            ecrireInstruction("LDW R5, (SP)+");
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R3, (SP)+");
+            ecrireInstruction("LDW R2, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+
+
+            //Fonction >= , i32, i32 -> i32
+            ecrireInstruction("\nGE32", "STW BP, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+            ecrireInstruction("STW R5, -(SP)");
+            ecrireInstruction("STW R6, -(SP)");
+            ecrireInstruction("STW R7, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 30, R4");
+            ecrireInstruction("LDW R1, (R4)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("LDW R3, -(R4)");
+            ecrireInstruction("LDW R2, -(R4)");
+
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("ADQ -4, SP");
+            ecrireInstruction("JSR @SUB32");
+
+            ecrireInstruction("LDW R2, #0");
+            ecrireInstruction("LDW R3, #0");
+
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW R1, (SP)");
+
+            ecrireInstruction("LDW R0, R0");
+            ecrireInstruction("JLW #GE_FIN-$-2");
+
+            ecrireInstruction("LDW R2, #1");
+            ecrireInstruction("LDW R3, #1");
+
+            ecrireInstruction("GE_FIN", "STW R3, -(R4)");
+            ecrireInstruction("STW R2, -(R4)");
+
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW R7, (SP)+");
+            ecrireInstruction("LDW R6, (SP)+");
+            ecrireInstruction("LDW R5, (SP)+");
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R3, (SP)+");
+            ecrireInstruction("LDW R2, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+
+
+            //Fonction <= , i32, i32 -> i32
+            ecrireInstruction("\nLE32", "STW BP, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R4, -(SP)");
+            ecrireInstruction("STW R5, -(SP)");
+            ecrireInstruction("STW R6, -(SP)");
+            ecrireInstruction("STW R7, -(SP)");
+            ecrireInstruction("LDW BP, SP");
+
+            ecrireInstruction("LDW R4, BP");
+            ecrireInstruction("ADQ 30, R4");
+            ecrireInstruction("LDW R1, (R4)");
+            ecrireInstruction("LDW R0, -(R4)");
+            ecrireInstruction("LDW R3, -(R4)");
+            ecrireInstruction("LDW R2, -(R4)");
+
+            ecrireInstruction("STW R1, -(SP)");
+            ecrireInstruction("STW R0, -(SP)");
+            ecrireInstruction("STW R3, -(SP)");
+            ecrireInstruction("STW R2, -(SP)");
+            ecrireInstruction("ADQ -4, SP");
+            ecrireInstruction("JSR @SUB32");
+
+            ecrireInstruction("LDW R2, #0");
+            ecrireInstruction("LDW R3, #0");
+
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW R1, (SP)");
+
+            ecrireInstruction("LDW R0, R0");
+            ecrireInstruction("JGT #LE_FIN-$-2");
+
+            ecrireInstruction("LDW R0, R0");
+            ecrireInstruction("JNE #LE_1-$-2");
+
+            ecrireInstruction("LDW R1, R1");
+            ecrireInstruction("JNE #LE_FIN-$-2");
+
+            ecrireInstruction("LE_1", "LDW R2, #1");
+            ecrireInstruction("LDW R3, #1");
+
+            ecrireInstruction("LE_FIN", "STW R3, -(R4)");
+            ecrireInstruction("STW R2, -(R4)");
+
+            ecrireInstruction("LDW SP, BP");
+            ecrireInstruction("LDW R7, (SP)+");
+            ecrireInstruction("LDW R6, (SP)+");
+            ecrireInstruction("LDW R5, (SP)+");
+            ecrireInstruction("LDW R4, (SP)+");
+            ecrireInstruction("LDW R3, (SP)+");
+            ecrireInstruction("LDW R2, (SP)+");
+            ecrireInstruction("LDW R1, (SP)+");
+            ecrireInstruction("LDW R0, (SP)+");
+            ecrireInstruction("LDW BP, (SP)+");
+            ecrireInstruction("RTS");
+
             System.out.println("Code écrit avec succès !");
             fermerFichier();
         }
@@ -1275,6 +1443,7 @@ public class Main {
                 ecrireInstruction("ADQ 8, SP");
                 ecrireInstruction("STW R1, (SP)");
                 ecrireInstruction("STW R0, -(SP)");
+                break;
             case Mini_Rust2Lexer.T__72: //>=
                 ecrireCode((CommonTree) ast.getChild(0), num_bloc);
                 ecrireCode((CommonTree) ast.getChild(1), num_bloc);
@@ -1321,16 +1490,12 @@ public class Main {
             	//regarder si la condition est vrai ou pas
             	//Premier registre
             	ecrireInstruction("LDW R0, (SP)+");
-            	ecrireInstruction("JEQ #IFFALSE_S"+iNbIf+"-$-2");
-            	
-            	//Deuxième registre avec premier registre vrai
-            	ecrireInstruction("LDW R1, (SP)");
-            	ecrireInstruction("JEQ #IFFALSE"+iNbIf+"-$-2");
-            	ecrireInstruction("JMP #IFTRUE"+iNbIf+"-$-2");
-            	
+                ecrireInstruction("LDW R1, (SP)+");
+
+            	ecrireInstruction("JNE #IFTRUE"+iNbIf+"-$-2");
+
             	//Première instruction fausse on teste la deuxième
-            	ecrireInstruction("IFFALSE_S"+iNbIf, "LDW R0, R0");
-            	ecrireInstruction("LDW R1, (SP)");
+            	ecrireInstruction("LDW R0, R0");
             	ecrireInstruction("JEQ #IFFALSE"+iNbIf+"-$-2");
             	
             	//condition true
@@ -1349,6 +1514,7 @@ public class Main {
             		ecrireCode((CommonTree) ast.getChild(2), num_bloc);
             	}
             	ecrireInstruction("FINIF"+iNbIf, "LDW R0, R0");
+
             	break;
             default:
                 for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
