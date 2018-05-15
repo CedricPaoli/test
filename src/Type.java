@@ -137,6 +137,7 @@ public class Type
             case Mini_Rust2Lexer.T__73: //<=
             case Mini_Rust2Lexer.T__72: //>=
             case Mini_Rust2Lexer.T__74: //==
+            case Mini_Rust2Lexer.T__75: //!=
                 Type type_gauche_supe = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
                 Type type_droit_supe = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
                 if (type_gauche_supe.token != Mini_Rust2Lexer.T__50 || type_droit_supe.token != Mini_Rust2Lexer.T__50) {

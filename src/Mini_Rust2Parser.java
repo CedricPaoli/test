@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-04-27 11:12:45
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mini_Rust2.g 2018-05-15 12:44:46
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ import org.antlr.runtime.tree.*;
 
 public class Mini_Rust2Parser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FICHIER", "ARGUMENT", "ARGUMENTS", "DECL_STRUCT", "APPEL_FCT", "TYPE", "BLOC", "CST_OU_AFF", "VAR", "IF", "POINTEUR_VAL", "POINTEUR", "WHILE", "CONDITION", "FOR", "LEN", "VEC", "PRINT", "ELSE", "RETURN", "ATTRIBUT", "DECL_VAR", "DECL_VAR_MUT", "DECL_FCT", "DECL_VEC", "VAL_ATTRIBUT", "ACCES_VEC", "ACCES_ATTRIBUT", "PARAM_FCT", "STRUCT", "IDF", "CST_ENT", "WS", "'struct'", "'{'", "','", "'}'", "':'", "'fn'", "'('", "')'", "'->'", "'Vec'", "'<'", "'>'", "'&'", "'i32'", "'bool'", "';'", "'let'", "'return'", "'print'", "'!'", "'='", "'while'", "'mut'", "'if'", "'else'", "'['", "']'", "'.'", "'true'", "'false'", "'*'", "'len'", "'-'", "'/'", "'+'", "'>='", "'<='", "'=='", "'!='", "'&&'", "'||'", "'/*'", "'*/'", "'//'", "'\\n'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FICHIER", "ARGUMENT", "ARGUMENTS", "DECL_STRUCT", "APPEL_FCT", "TYPE", "BLOC", "CST_OU_AFF", "VAR", "IF", "POINTEUR_VAL", "POINTEUR", "WHILE", "CONDITION", "FOR", "LEN", "VEC", "PRINT", "ELSE", "RETURN", "ATTRIBUT", "DECL_VAR", "DECL_VAR_MUT", "DECL_FCT", "DECL_VEC", "VAL_ATTRIBUT", "ACCES_VEC", "ACCES_ATTRIBUT", "PARAM_FCT", "STRUCT", "IDF", "CST_ENT", "WS", "'struct'", "'{'", "','", "'}'", "':'", "'fn'", "'('", "')'", "'->'", "'Vec'", "'<'", "'>'", "'&'", "'i32'", "'bool'", "';'", "'let'", "'return'", "'print'", "'!'", "'='", "'while'", "'mut'", "'if'", "'else'", "'['", "']'", "'.'", "'true'", "'false'", "'*'", "'len'", "'-'", "'/'", "'+'", "'>='", "'<='", "'=='", "'!='", "'&&'", "'||'", "'/*'", "'*/'"
     };
     public static final int EOF=-1;
     public static final int T__37=37;
@@ -59,8 +59,6 @@ public class Mini_Rust2Parser extends Parser {
     public static final int T__77=77;
     public static final int T__78=78;
     public static final int T__79=79;
-    public static final int T__80=80;
-    public static final int T__81=81;
     public static final int FICHIER=4;
     public static final int ARGUMENT=5;
     public static final int ARGUMENTS=6;
@@ -155,7 +153,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==78||LA1_0==80) ) {
+            if ( (LA1_0==78) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -446,7 +444,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==78||LA4_0==80) ) {
+            if ( (LA4_0==78) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -472,7 +470,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt5=2;
             int LA5_0 = input.LA(1);
 
-            if ( (LA5_0==78||LA5_0==80) ) {
+            if ( (LA5_0==78) ) {
                 alt5=1;
             }
             switch (alt5) {
@@ -498,7 +496,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt6=2;
             int LA6_0 = input.LA(1);
 
-            if ( (LA6_0==78||LA6_0==80) ) {
+            if ( (LA6_0==78) ) {
                 alt6=1;
             }
             switch (alt6) {
@@ -556,7 +554,7 @@ public class Mini_Rust2Parser extends Parser {
                     	    int alt7=2;
                     	    int LA7_0 = input.LA(1);
 
-                    	    if ( (LA7_0==78||LA7_0==80) ) {
+                    	    if ( (LA7_0==78) ) {
                     	        alt7=1;
                     	    }
                     	    switch (alt7) {
@@ -603,7 +601,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt10=2;
             int LA10_0 = input.LA(1);
 
-            if ( (LA10_0==78||LA10_0==80) ) {
+            if ( (LA10_0==78) ) {
                 alt10=1;
             }
             switch (alt10) {
@@ -730,7 +728,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt11=2;
             int LA11_0 = input.LA(1);
 
-            if ( (LA11_0==78||LA11_0==80) ) {
+            if ( (LA11_0==78) ) {
                 alt11=1;
             }
             switch (alt11) {
@@ -756,7 +754,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt12=2;
             int LA12_0 = input.LA(1);
 
-            if ( (LA12_0==78||LA12_0==80) ) {
+            if ( (LA12_0==78) ) {
                 alt12=1;
             }
             switch (alt12) {
@@ -897,7 +895,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt13=2;
             int LA13_0 = input.LA(1);
 
-            if ( (LA13_0==78||LA13_0==80) ) {
+            if ( (LA13_0==78) ) {
                 alt13=1;
             }
             switch (alt13) {
@@ -923,7 +921,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt14=2;
             int LA14_0 = input.LA(1);
 
-            if ( (LA14_0==78||LA14_0==80) ) {
+            if ( (LA14_0==78) ) {
                 alt14=1;
             }
             switch (alt14) {
@@ -949,7 +947,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt15=2;
             int LA15_0 = input.LA(1);
 
-            if ( (LA15_0==78||LA15_0==80) ) {
+            if ( (LA15_0==78) ) {
                 alt15=1;
             }
             switch (alt15) {
@@ -1007,7 +1005,7 @@ public class Mini_Rust2Parser extends Parser {
                     	    int alt16=2;
                     	    int LA16_0 = input.LA(1);
 
-                    	    if ( (LA16_0==78||LA16_0==80) ) {
+                    	    if ( (LA16_0==78) ) {
                     	        alt16=1;
                     	    }
                     	    switch (alt16) {
@@ -1054,7 +1052,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt19=2;
             int LA19_0 = input.LA(1);
 
-            if ( (LA19_0==78||LA19_0==80) ) {
+            if ( (LA19_0==78) ) {
                 alt19=1;
             }
             switch (alt19) {
@@ -1091,7 +1089,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt20=2;
                     int LA20_0 = input.LA(1);
 
-                    if ( (LA20_0==78||LA20_0==80) ) {
+                    if ( (LA20_0==78) ) {
                         alt20=1;
                     }
                     switch (alt20) {
@@ -1307,7 +1305,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt22=2;
                     int LA22_0 = input.LA(1);
 
-                    if ( (LA22_0==78||LA22_0==80) ) {
+                    if ( (LA22_0==78) ) {
                         alt22=1;
                     }
                     switch (alt22) {
@@ -1333,7 +1331,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt23=2;
                     int LA23_0 = input.LA(1);
 
-                    if ( (LA23_0==78||LA23_0==80) ) {
+                    if ( (LA23_0==78) ) {
                         alt23=1;
                     }
                     switch (alt23) {
@@ -1365,7 +1363,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt24=2;
                     int LA24_0 = input.LA(1);
 
-                    if ( (LA24_0==78||LA24_0==80) ) {
+                    if ( (LA24_0==78) ) {
                         alt24=1;
                     }
                     switch (alt24) {
@@ -1424,7 +1422,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt25=2;
                     int LA25_0 = input.LA(1);
 
-                    if ( (LA25_0==78||LA25_0==80) ) {
+                    if ( (LA25_0==78) ) {
                         alt25=1;
                     }
                     switch (alt25) {
@@ -1489,7 +1487,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt26=2;
                     int LA26_0 = input.LA(1);
 
-                    if ( (LA26_0==78||LA26_0==80) ) {
+                    if ( (LA26_0==78) ) {
                         alt26=1;
                     }
                     switch (alt26) {
@@ -1540,7 +1538,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt27=2;
                     int LA27_0 = input.LA(1);
 
-                    if ( (LA27_0==78||LA27_0==80) ) {
+                    if ( (LA27_0==78) ) {
                         alt27=1;
                     }
                     switch (alt27) {
@@ -1591,7 +1589,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt28=2;
                     int LA28_0 = input.LA(1);
 
-                    if ( (LA28_0==78||LA28_0==80) ) {
+                    if ( (LA28_0==78) ) {
                         alt28=1;
                     }
                     switch (alt28) {
@@ -1692,7 +1690,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt30=2;
             int LA30_0 = input.LA(1);
 
-            if ( (LA30_0==78||LA30_0==80) ) {
+            if ( (LA30_0==78) ) {
                 alt30=1;
             }
             switch (alt30) {
@@ -1805,7 +1803,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt31=2;
             int LA31_0 = input.LA(1);
 
-            if ( (LA31_0==78||LA31_0==80) ) {
+            if ( (LA31_0==78) ) {
                 alt31=1;
             }
             switch (alt31) {
@@ -1854,7 +1852,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt33=2;
             int LA33_0 = input.LA(1);
 
-            if ( (LA33_0==78||LA33_0==80) ) {
+            if ( (LA33_0==78) ) {
                 alt33=1;
             }
             switch (alt33) {
@@ -2033,7 +2031,7 @@ public class Mini_Rust2Parser extends Parser {
                             int alt35=2;
                             int LA35_0 = input.LA(1);
 
-                            if ( (LA35_0==78||LA35_0==80) ) {
+                            if ( (LA35_0==78) ) {
                                 alt35=1;
                             }
                             switch (alt35) {
@@ -2358,7 +2356,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt41=2;
                     int LA41_0 = input.LA(1);
 
-                    if ( (LA41_0==78||LA41_0==80) ) {
+                    if ( (LA41_0==78) ) {
                         alt41=1;
                     }
                     switch (alt41) {
@@ -2445,7 +2443,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt43=2;
                     int LA43_0 = input.LA(1);
 
-                    if ( (LA43_0==78||LA43_0==80) ) {
+                    if ( (LA43_0==78) ) {
                         alt43=1;
                     }
                     switch (alt43) {
@@ -2471,7 +2469,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt44=2;
                     int LA44_0 = input.LA(1);
 
-                    if ( (LA44_0==78||LA44_0==80) ) {
+                    if ( (LA44_0==78) ) {
                         alt44=1;
                     }
                     switch (alt44) {
@@ -2497,7 +2495,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt45=2;
                     int LA45_0 = input.LA(1);
 
-                    if ( (LA45_0==78||LA45_0==80) ) {
+                    if ( (LA45_0==78) ) {
                         alt45=1;
                     }
                     switch (alt45) {
@@ -2529,7 +2527,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt46=2;
                     int LA46_0 = input.LA(1);
 
-                    if ( (LA46_0==78||LA46_0==80) ) {
+                    if ( (LA46_0==78) ) {
                         alt46=1;
                     }
                     switch (alt46) {
@@ -2695,7 +2693,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt49=2;
                     int LA49_0 = input.LA(1);
 
-                    if ( (LA49_0==78||LA49_0==80) ) {
+                    if ( (LA49_0==78) ) {
                         alt49=1;
                     }
                     switch (alt49) {
@@ -2866,7 +2864,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt51=2;
                     int LA51_0 = input.LA(1);
 
-                    if ( (LA51_0==78||LA51_0==80) ) {
+                    if ( (LA51_0==78) ) {
                         alt51=1;
                     }
                     switch (alt51) {
@@ -2909,7 +2907,7 @@ public class Mini_Rust2Parser extends Parser {
                             int alt52=2;
                             int LA52_0 = input.LA(1);
 
-                            if ( (LA52_0==78||LA52_0==80) ) {
+                            if ( (LA52_0==78) ) {
                                 alt52=1;
                             }
                             switch (alt52) {
@@ -3003,7 +3001,7 @@ public class Mini_Rust2Parser extends Parser {
                             int alt54=2;
                             int LA54_0 = input.LA(1);
 
-                            if ( (LA54_0==78||LA54_0==80) ) {
+                            if ( (LA54_0==78) ) {
                                 alt54=1;
                             }
                             switch (alt54) {
@@ -3130,7 +3128,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt57=2;
             int LA57_0 = input.LA(1);
 
-            if ( (LA57_0==78||LA57_0==80) ) {
+            if ( (LA57_0==78) ) {
                 alt57=1;
             }
             switch (alt57) {
@@ -3281,7 +3279,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt59=2;
             int LA59_0 = input.LA(1);
 
-            if ( (LA59_0==78||LA59_0==80) ) {
+            if ( (LA59_0==78) ) {
                 alt59=1;
             }
             switch (alt59) {
@@ -4487,7 +4485,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt71=2;
             int LA71_0 = input.LA(1);
 
-            if ( (LA71_0==78||LA71_0==80) ) {
+            if ( (LA71_0==78) ) {
                 alt71=1;
             }
             switch (alt71) {
@@ -4545,7 +4543,7 @@ public class Mini_Rust2Parser extends Parser {
                     	    int alt72=2;
                     	    int LA72_0 = input.LA(1);
 
-                    	    if ( (LA72_0==78||LA72_0==80) ) {
+                    	    if ( (LA72_0==78) ) {
                     	        alt72=1;
                     	    }
                     	    switch (alt72) {
@@ -4686,7 +4684,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt75=2;
             int LA75_0 = input.LA(1);
 
-            if ( (LA75_0==78||LA75_0==80) ) {
+            if ( (LA75_0==78) ) {
                 alt75=1;
             }
             switch (alt75) {
@@ -4744,7 +4742,7 @@ public class Mini_Rust2Parser extends Parser {
                     	    int alt76=2;
                     	    int LA76_0 = input.LA(1);
 
-                    	    if ( (LA76_0==78||LA76_0==80) ) {
+                    	    if ( (LA76_0==78) ) {
                     	        alt76=1;
                     	    }
                     	    switch (alt76) {
@@ -4791,7 +4789,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt79=2;
             int LA79_0 = input.LA(1);
 
-            if ( (LA79_0==78||LA79_0==80) ) {
+            if ( (LA79_0==78) ) {
                 alt79=1;
             }
             switch (alt79) {
@@ -4928,7 +4926,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt80=2;
                     int LA80_0 = input.LA(1);
 
-                    if ( (LA80_0==78||LA80_0==80) ) {
+                    if ( (LA80_0==78) ) {
                         alt80=1;
                     }
                     switch (alt80) {
@@ -4960,7 +4958,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt81=2;
                     int LA81_0 = input.LA(1);
 
-                    if ( (LA81_0==78||LA81_0==80) ) {
+                    if ( (LA81_0==78) ) {
                         alt81=1;
                     }
                     switch (alt81) {
@@ -5194,7 +5192,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt84=2;
                     int LA84_0 = input.LA(1);
 
-                    if ( (LA84_0==78||LA84_0==80) ) {
+                    if ( (LA84_0==78) ) {
                         alt84=1;
                     }
                     switch (alt84) {
@@ -5245,7 +5243,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt85=2;
                     int LA85_0 = input.LA(1);
 
-                    if ( (LA85_0==78||LA85_0==80) ) {
+                    if ( (LA85_0==78) ) {
                         alt85=1;
                     }
                     switch (alt85) {
@@ -5296,7 +5294,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt86=2;
                     int LA86_0 = input.LA(1);
 
-                    if ( (LA86_0==78||LA86_0==80) ) {
+                    if ( (LA86_0==78) ) {
                         alt86=1;
                     }
                     switch (alt86) {
@@ -5347,7 +5345,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt87=2;
                     int LA87_0 = input.LA(1);
 
-                    if ( (LA87_0==78||LA87_0==80) ) {
+                    if ( (LA87_0==78) ) {
                         alt87=1;
                     }
                     switch (alt87) {
@@ -5373,7 +5371,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt88=2;
                     int LA88_0 = input.LA(1);
 
-                    if ( (LA88_0==78||LA88_0==80) ) {
+                    if ( (LA88_0==78) ) {
                         alt88=1;
                     }
                     switch (alt88) {
@@ -5399,7 +5397,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt89=2;
                     int LA89_0 = input.LA(1);
 
-                    if ( (LA89_0==78||LA89_0==80) ) {
+                    if ( (LA89_0==78) ) {
                         alt89=1;
                     }
                     switch (alt89) {
@@ -5457,7 +5455,7 @@ public class Mini_Rust2Parser extends Parser {
                             	    int alt90=2;
                             	    int LA90_0 = input.LA(1);
 
-                            	    if ( (LA90_0==78||LA90_0==80) ) {
+                            	    if ( (LA90_0==78) ) {
                             	        alt90=1;
                             	    }
                             	    switch (alt90) {
@@ -5504,7 +5502,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt93=2;
                     int LA93_0 = input.LA(1);
 
-                    if ( (LA93_0==78||LA93_0==80) ) {
+                    if ( (LA93_0==78) ) {
                         alt93=1;
                     }
                     switch (alt93) {
@@ -6745,7 +6743,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt106=2;
                     int LA106_0 = input.LA(1);
 
-                    if ( (LA106_0==78||LA106_0==80) ) {
+                    if ( (LA106_0==78) ) {
                         alt106=1;
                     }
                     switch (alt106) {
@@ -6771,7 +6769,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt107=2;
                     int LA107_0 = input.LA(1);
 
-                    if ( (LA107_0==78||LA107_0==80) ) {
+                    if ( (LA107_0==78) ) {
                         alt107=1;
                     }
                     switch (alt107) {
@@ -6797,7 +6795,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt108=2;
                     int LA108_0 = input.LA(1);
 
-                    if ( (LA108_0==78||LA108_0==80) ) {
+                    if ( (LA108_0==78) ) {
                         alt108=1;
                     }
                     switch (alt108) {
@@ -6990,7 +6988,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt111=2;
                     int LA111_0 = input.LA(1);
 
-                    if ( (LA111_0==78||LA111_0==80) ) {
+                    if ( (LA111_0==78) ) {
                         alt111=1;
                     }
                     switch (alt111) {
@@ -7022,7 +7020,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt112=2;
                     int LA112_0 = input.LA(1);
 
-                    if ( (LA112_0==78||LA112_0==80) ) {
+                    if ( (LA112_0==78) ) {
                         alt112=1;
                     }
                     switch (alt112) {
@@ -7241,7 +7239,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt116=2;
                     int LA116_0 = input.LA(1);
 
-                    if ( (LA116_0==78||LA116_0==80) ) {
+                    if ( (LA116_0==78) ) {
                         alt116=1;
                     }
                     switch (alt116) {
@@ -7292,7 +7290,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt117=2;
                     int LA117_0 = input.LA(1);
 
-                    if ( (LA117_0==78||LA117_0==80) ) {
+                    if ( (LA117_0==78) ) {
                         alt117=1;
                     }
                     switch (alt117) {
@@ -7406,7 +7404,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt119=2;
                     int LA119_0 = input.LA(1);
 
-                    if ( (LA119_0==78||LA119_0==80) ) {
+                    if ( (LA119_0==78) ) {
                         alt119=1;
                     }
                     switch (alt119) {
@@ -7457,7 +7455,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt120=2;
                     int LA120_0 = input.LA(1);
 
-                    if ( (LA120_0==78||LA120_0==80) ) {
+                    if ( (LA120_0==78) ) {
                         alt120=1;
                     }
                     switch (alt120) {
@@ -7571,7 +7569,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt122=2;
                     int LA122_0 = input.LA(1);
 
-                    if ( (LA122_0==78||LA122_0==80) ) {
+                    if ( (LA122_0==78) ) {
                         alt122=1;
                     }
                     switch (alt122) {
@@ -7622,7 +7620,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt123=2;
                     int LA123_0 = input.LA(1);
 
-                    if ( (LA123_0==78||LA123_0==80) ) {
+                    if ( (LA123_0==78) ) {
                         alt123=1;
                     }
                     switch (alt123) {
@@ -7736,7 +7734,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt125=2;
                     int LA125_0 = input.LA(1);
 
-                    if ( (LA125_0==78||LA125_0==80) ) {
+                    if ( (LA125_0==78) ) {
                         alt125=1;
                     }
                     switch (alt125) {
@@ -7787,7 +7785,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt126=2;
                     int LA126_0 = input.LA(1);
 
-                    if ( (LA126_0==78||LA126_0==80) ) {
+                    if ( (LA126_0==78) ) {
                         alt126=1;
                     }
                     switch (alt126) {
@@ -7945,7 +7943,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt128=2;
                     int LA128_0 = input.LA(1);
 
-                    if ( (LA128_0==78||LA128_0==80) ) {
+                    if ( (LA128_0==78) ) {
                         alt128=1;
                     }
                     switch (alt128) {
@@ -7996,7 +7994,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt129=2;
                     int LA129_0 = input.LA(1);
 
-                    if ( (LA129_0==78||LA129_0==80) ) {
+                    if ( (LA129_0==78) ) {
                         alt129=1;
                     }
                     switch (alt129) {
@@ -8047,7 +8045,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt130=2;
                     int LA130_0 = input.LA(1);
 
-                    if ( (LA130_0==78||LA130_0==80) ) {
+                    if ( (LA130_0==78) ) {
                         alt130=1;
                     }
                     switch (alt130) {
@@ -8098,7 +8096,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt131=2;
                     int LA131_0 = input.LA(1);
 
-                    if ( (LA131_0==78||LA131_0==80) ) {
+                    if ( (LA131_0==78) ) {
                         alt131=1;
                     }
                     switch (alt131) {
@@ -8149,7 +8147,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt132=2;
                     int LA132_0 = input.LA(1);
 
-                    if ( (LA132_0==78||LA132_0==80) ) {
+                    if ( (LA132_0==78) ) {
                         alt132=1;
                     }
                     switch (alt132) {
@@ -8200,7 +8198,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt133=2;
                     int LA133_0 = input.LA(1);
 
-                    if ( (LA133_0==78||LA133_0==80) ) {
+                    if ( (LA133_0==78) ) {
                         alt133=1;
                     }
                     switch (alt133) {
@@ -8314,7 +8312,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt135=2;
                     int LA135_0 = input.LA(1);
 
-                    if ( (LA135_0==78||LA135_0==80) ) {
+                    if ( (LA135_0==78) ) {
                         alt135=1;
                     }
                     switch (alt135) {
@@ -8365,7 +8363,7 @@ public class Mini_Rust2Parser extends Parser {
                     int alt136=2;
                     int LA136_0 = input.LA(1);
 
-                    if ( (LA136_0==78||LA136_0==80) ) {
+                    if ( (LA136_0==78) ) {
                         alt136=1;
                     }
                     switch (alt136) {
@@ -8457,7 +8455,7 @@ public class Mini_Rust2Parser extends Parser {
             int alt138=2;
             int LA138_0 = input.LA(1);
 
-            if ( (LA138_0==78||LA138_0==80) ) {
+            if ( (LA138_0==78) ) {
                 alt138=1;
             }
             switch (alt138) {
@@ -8522,7 +8520,7 @@ public class Mini_Rust2Parser extends Parser {
     };
 
     // $ANTLR start "comm"
-    // Mini_Rust2.g:242:1: comm : ( '/*' ( . )* '*/' | '//' ( . )* '\\n' );
+    // Mini_Rust2.g:242:1: comm : '/*' ( . )* '*/' ;
     public final Mini_Rust2Parser.comm_return comm() throws RecognitionException {
         Mini_Rust2Parser.comm_return retval = new Mini_Rust2Parser.comm_return();
         retval.start = input.LT(1);
@@ -8532,133 +8530,60 @@ public class Mini_Rust2Parser extends Parser {
         Token string_literal266=null;
         Token wildcard267=null;
         Token string_literal268=null;
-        Token string_literal269=null;
-        Token wildcard270=null;
-        Token char_literal271=null;
 
         CommonTree string_literal266_tree=null;
         CommonTree wildcard267_tree=null;
         CommonTree string_literal268_tree=null;
-        CommonTree string_literal269_tree=null;
-        CommonTree wildcard270_tree=null;
-        CommonTree char_literal271_tree=null;
 
         try {
-            // Mini_Rust2.g:242:6: ( '/*' ( . )* '*/' | '//' ( . )* '\\n' )
-            int alt141=2;
-            int LA141_0 = input.LA(1);
+            // Mini_Rust2.g:242:6: ( '/*' ( . )* '*/' )
+            // Mini_Rust2.g:242:8: '/*' ( . )* '*/'
+            {
+            root_0 = (CommonTree)adaptor.nil();
 
-            if ( (LA141_0==78) ) {
-                alt141=1;
-            }
-            else if ( (LA141_0==80) ) {
-                alt141=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 141, 0, input);
+            string_literal266=(Token)match(input,78,FOLLOW_78_in_comm3337); 
+            string_literal266_tree = (CommonTree)adaptor.create(string_literal266);
+            adaptor.addChild(root_0, string_literal266_tree);
 
-                throw nvae;
-            }
-            switch (alt141) {
-                case 1 :
-                    // Mini_Rust2.g:242:8: '/*' ( . )* '*/'
-                    {
-                    root_0 = (CommonTree)adaptor.nil();
+            // Mini_Rust2.g:242:13: ( . )*
+            loop139:
+            do {
+                int alt139=2;
+                int LA139_0 = input.LA(1);
 
-                    string_literal266=(Token)match(input,78,FOLLOW_78_in_comm3337); 
-                    string_literal266_tree = (CommonTree)adaptor.create(string_literal266);
-                    adaptor.addChild(root_0, string_literal266_tree);
-
-                    // Mini_Rust2.g:242:13: ( . )*
-                    loop139:
-                    do {
-                        int alt139=2;
-                        int LA139_0 = input.LA(1);
-
-                        if ( (LA139_0==79) ) {
-                            alt139=2;
-                        }
-                        else if ( ((LA139_0>=FICHIER && LA139_0<=78)||(LA139_0>=80 && LA139_0<=81)) ) {
-                            alt139=1;
-                        }
+                if ( (LA139_0==79) ) {
+                    alt139=2;
+                }
+                else if ( ((LA139_0>=FICHIER && LA139_0<=78)) ) {
+                    alt139=1;
+                }
 
 
-                        switch (alt139) {
-                    	case 1 :
-                    	    // Mini_Rust2.g:242:13: .
-                    	    {
-                    	    wildcard267=(Token)input.LT(1);
-                    	    matchAny(input); 
-                    	    wildcard267_tree = (CommonTree)adaptor.create(wildcard267);
-                    	    adaptor.addChild(root_0, wildcard267_tree);
+                switch (alt139) {
+            	case 1 :
+            	    // Mini_Rust2.g:242:13: .
+            	    {
+            	    wildcard267=(Token)input.LT(1);
+            	    matchAny(input); 
+            	    wildcard267_tree = (CommonTree)adaptor.create(wildcard267);
+            	    adaptor.addChild(root_0, wildcard267_tree);
 
 
-                    	    }
-                    	    break;
+            	    }
+            	    break;
 
-                    	default :
-                    	    break loop139;
-                        }
-                    } while (true);
+            	default :
+            	    break loop139;
+                }
+            } while (true);
 
-                    string_literal268=(Token)match(input,79,FOLLOW_79_in_comm3342); 
-                    string_literal268_tree = (CommonTree)adaptor.create(string_literal268);
-                    adaptor.addChild(root_0, string_literal268_tree);
+            string_literal268=(Token)match(input,79,FOLLOW_79_in_comm3342); 
+            string_literal268_tree = (CommonTree)adaptor.create(string_literal268);
+            adaptor.addChild(root_0, string_literal268_tree);
 
-
-                    }
-                    break;
-                case 2 :
-                    // Mini_Rust2.g:243:8: '//' ( . )* '\\n'
-                    {
-                    root_0 = (CommonTree)adaptor.nil();
-
-                    string_literal269=(Token)match(input,80,FOLLOW_80_in_comm3351); 
-                    string_literal269_tree = (CommonTree)adaptor.create(string_literal269);
-                    adaptor.addChild(root_0, string_literal269_tree);
-
-                    // Mini_Rust2.g:243:13: ( . )*
-                    loop140:
-                    do {
-                        int alt140=2;
-                        int LA140_0 = input.LA(1);
-
-                        if ( (LA140_0==81) ) {
-                            alt140=2;
-                        }
-                        else if ( ((LA140_0>=FICHIER && LA140_0<=80)) ) {
-                            alt140=1;
-                        }
-
-
-                        switch (alt140) {
-                    	case 1 :
-                    	    // Mini_Rust2.g:243:13: .
-                    	    {
-                    	    wildcard270=(Token)input.LT(1);
-                    	    matchAny(input); 
-                    	    wildcard270_tree = (CommonTree)adaptor.create(wildcard270);
-                    	    adaptor.addChild(root_0, wildcard270_tree);
-
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop140;
-                        }
-                    } while (true);
-
-                    char_literal271=(Token)match(input,81,FOLLOW_81_in_comm3356); 
-                    char_literal271_tree = (CommonTree)adaptor.create(char_literal271);
-                    adaptor.addChild(root_0, char_literal271_tree);
-
-
-                    }
-                    break;
 
             }
+
             retval.stop = input.LT(-1);
 
             retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
@@ -8688,66 +8613,66 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_decl_in_fichier289 = new BitSet(new long[]{0x0000042000000002L});
     public static final BitSet FOLLOW_decl_struct_in_decl307 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_decl_fun_in_decl316 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_37_in_decl_struct330 = new BitSet(new long[]{0x0000000400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_37_in_decl_struct330 = new BitSet(new long[]{0x0000000400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_struct332 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_IDF_in_decl_struct335 = new BitSet(new long[]{0x0000004000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_IDF_in_decl_struct335 = new BitSet(new long[]{0x0000004000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_struct337 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_38_in_decl_struct340 = new BitSet(new long[]{0x0000010400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_38_in_decl_struct340 = new BitSet(new long[]{0x0000010400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_struct342 = new BitSet(new long[]{0x0000010400000000L});
     public static final BitSet FOLLOW_attribut_in_decl_struct346 = new BitSet(new long[]{0x0000018000000000L});
-    public static final BitSet FOLLOW_39_in_decl_struct349 = new BitSet(new long[]{0x0000000400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_39_in_decl_struct349 = new BitSet(new long[]{0x0000000400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_struct351 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_attribut_in_decl_struct354 = new BitSet(new long[]{0x0000018000000000L});
-    public static final BitSet FOLLOW_40_in_decl_struct361 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_40_in_decl_struct361 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_struct363 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDF_in_attribut406 = new BitSet(new long[]{0x0000020000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_IDF_in_attribut406 = new BitSet(new long[]{0x0000020000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_attribut408 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_41_in_attribut411 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_attribut413 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_41_in_attribut411 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_attribut413 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_type_in_attribut416 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_42_in_decl_fun444 = new BitSet(new long[]{0x0000000400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_42_in_decl_fun444 = new BitSet(new long[]{0x0000000400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_fun446 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_IDF_in_decl_fun449 = new BitSet(new long[]{0x0000080000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_IDF_in_decl_fun449 = new BitSet(new long[]{0x0000080000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_fun451 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_43_in_decl_fun454 = new BitSet(new long[]{0x0000100400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_43_in_decl_fun454 = new BitSet(new long[]{0x0000100400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_fun456 = new BitSet(new long[]{0x0000100400000000L});
     public static final BitSet FOLLOW_argument_in_decl_fun460 = new BitSet(new long[]{0x0000108000000000L});
-    public static final BitSet FOLLOW_39_in_decl_fun463 = new BitSet(new long[]{0x0000000400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_39_in_decl_fun463 = new BitSet(new long[]{0x0000000400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_decl_fun465 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_argument_in_decl_fun468 = new BitSet(new long[]{0x0000108000000000L});
-    public static final BitSet FOLLOW_44_in_decl_fun474 = new BitSet(new long[]{0x0000204000000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_decl_fun476 = new BitSet(new long[]{0x0000204000000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_45_in_decl_fun480 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_decl_fun482 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_type_in_decl_fun485 = new BitSet(new long[]{0x0000204000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_44_in_decl_fun474 = new BitSet(new long[]{0x0000204000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_decl_fun476 = new BitSet(new long[]{0x0000204000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_45_in_decl_fun480 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_decl_fun482 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_type_in_decl_fun485 = new BitSet(new long[]{0x0000204000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_bloc_in_decl_fun489 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_46_in_type531 = new BitSet(new long[]{0x0000800000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_46_in_type531 = new BitSet(new long[]{0x0000800000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_type533 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_47_in_type536 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_type538 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_47_in_type536 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_type538 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_type_in_type541 = new BitSet(new long[]{0x0001000000000000L});
-    public static final BitSet FOLLOW_48_in_type543 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_48_in_type543 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_type545 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_49_in_type563 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_type565 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_49_in_type563 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_type565 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_type_in_type568 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_50_in_type585 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_50_in_type585 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_type587 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_51_in_type601 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_51_in_type601 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_type603 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDF_in_type617 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_IDF_in_type617 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_type619 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IDF_in_argument638 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_41_in_argument640 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
-    public static final BitSet FOLLOW_comm_in_argument642 = new BitSet(new long[]{0x000E400400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_41_in_argument640 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_comm_in_argument642 = new BitSet(new long[]{0x000E400400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_type_in_argument645 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_bloc673 = new BitSet(new long[]{0x15E2490C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_38_in_bloc673 = new BitSet(new long[]{0x15E2490C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_comm_in_bloc675 = new BitSet(new long[]{0x15E2490C00000000L,0x000000000000002EL});
     public static final BitSet FOLLOW_sous_bloc_in_bloc678 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_40_in_bloc681 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_40_in_bloc681 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_bloc683 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_instruction_avec_point_in_sous_bloc707 = new BitSet(new long[]{0x0010000000000002L});
-    public static final BitSet FOLLOW_52_in_sous_bloc710 = new BitSet(new long[]{0x15F2480C00000002L,0x000000000001402EL});
+    public static final BitSet FOLLOW_52_in_sous_bloc710 = new BitSet(new long[]{0x15F2480C00000002L,0x000000000000402EL});
     public static final BitSet FOLLOW_comm_in_sous_bloc713 = new BitSet(new long[]{0x15E2480C00000002L,0x000000000000002EL});
     public static final BitSet FOLLOW_sous_bloc_in_sous_bloc716 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_instruction_sans_point_in_sous_bloc740 = new BitSet(new long[]{0x15F2480C00000002L,0x000000000000002EL});
@@ -8755,43 +8680,43 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_sous_bloc_in_sous_bloc745 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_53_in_instruction_avec_point772 = new BitSet(new long[]{0x0800000400000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_let2_in_instruction_avec_point774 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_54_in_instruction_avec_point805 = new BitSet(new long[]{0x01E2684C00000002L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_instruction_avec_point807 = new BitSet(new long[]{0x01E2684C00000002L,0x000000000001402EL});
+    public static final BitSet FOLLOW_54_in_instruction_avec_point805 = new BitSet(new long[]{0x01E2684C00000002L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_instruction_avec_point807 = new BitSet(new long[]{0x01E2684C00000002L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_instruction_avec_point810 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_55_in_instruction_avec_point848 = new BitSet(new long[]{0x0100000000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_55_in_instruction_avec_point848 = new BitSet(new long[]{0x0100000000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_instruction_avec_point850 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_56_in_instruction_avec_point853 = new BitSet(new long[]{0x0000080000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_56_in_instruction_avec_point853 = new BitSet(new long[]{0x0000080000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_instruction_avec_point855 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_43_in_instruction_avec_point858 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_instruction_avec_point860 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_43_in_instruction_avec_point858 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_instruction_avec_point860 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_instruction_avec_point863 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_44_in_instruction_avec_point865 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_44_in_instruction_avec_point865 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_instruction_avec_point867 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_operations_prio4_in_instruction_avec_point903 = new BitSet(new long[]{0x0200000000000002L});
     public static final BitSet FOLLOW_57_in_instruction_avec_point906 = new BitSet(new long[]{0x01E2480C00000000L,0x000000000000002EL});
     public static final BitSet FOLLOW_operations_prio4_in_instruction_avec_point910 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_58_in_instruction_sans_point944 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_instruction_sans_point946 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_operations_prio4b_in_instruction_sans_point949 = new BitSet(new long[]{0x0000204000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_58_in_instruction_sans_point944 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_instruction_sans_point946 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_operations_prio4b_in_instruction_sans_point949 = new BitSet(new long[]{0x0000204000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_bloc_in_instruction_sans_point951 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_if_expr_in_instruction_sans_point993 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_59_in_let21025 = new BitSet(new long[]{0x0800000400000000L,0x0000000000014008L});
+    public static final BitSet FOLLOW_59_in_let21025 = new BitSet(new long[]{0x0800000400000000L,0x0000000000004008L});
     public static final BitSet FOLLOW_comm_in_let21027 = new BitSet(new long[]{0x0800000400000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_accesseur_in_let21030 = new BitSet(new long[]{0x0200000000000002L});
-    public static final BitSet FOLLOW_57_in_let21033 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_let21035 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_57_in_let21033 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_let21035 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_let21038 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_accesseur_in_let21060 = new BitSet(new long[]{0x0200000000000002L});
-    public static final BitSet FOLLOW_57_in_let21063 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_let21065 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_57_in_let21063 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_let21065 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_let21068 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_60_in_if_expr1096 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_if_expr1098 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_operations_prio4b_in_if_expr1101 = new BitSet(new long[]{0x0000204000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_60_in_if_expr1096 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_if_expr1098 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_operations_prio4b_in_if_expr1101 = new BitSet(new long[]{0x0000204000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_bloc_in_if_expr1103 = new BitSet(new long[]{0x2000000000000002L});
     public static final BitSet FOLLOW_else2_in_if_expr1105 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_61_in_else21140 = new BitSet(new long[]{0x15E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_else21142 = new BitSet(new long[]{0x15E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_61_in_else21140 = new BitSet(new long[]{0x15E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_else21142 = new BitSet(new long[]{0x15E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_else3_in_else21145 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_bloc_in_else31168 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_if_expr_in_else31178 = new BitSet(new long[]{0x0000000000000002L});
@@ -8823,46 +8748,46 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_struct_in_variable31508 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_fonction_in_variable31513 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_acces_variable_in_variable31521 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_struct1914 = new BitSet(new long[]{0x0000010400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_38_in_struct1914 = new BitSet(new long[]{0x0000010400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_struct1916 = new BitSet(new long[]{0x0000010400000000L});
     public static final BitSet FOLLOW_valeur_attribut_struct_in_struct1920 = new BitSet(new long[]{0x0000018000000000L});
-    public static final BitSet FOLLOW_39_in_struct1923 = new BitSet(new long[]{0x0000000400000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_39_in_struct1923 = new BitSet(new long[]{0x0000000400000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_struct1925 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_valeur_attribut_struct_in_struct1928 = new BitSet(new long[]{0x0000018000000000L});
     public static final BitSet FOLLOW_40_in_struct1935 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_43_in_fonction1963 = new BitSet(new long[]{0x01E2784C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_fonction1965 = new BitSet(new long[]{0x01E2784C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_43_in_fonction1963 = new BitSet(new long[]{0x01E2784C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_fonction1965 = new BitSet(new long[]{0x01E2784C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_fonction1969 = new BitSet(new long[]{0x0000108000000000L});
-    public static final BitSet FOLLOW_39_in_fonction1973 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_fonction1975 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_39_in_fonction1973 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_fonction1975 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_fonction1978 = new BitSet(new long[]{0x0000108000000000L});
-    public static final BitSet FOLLOW_44_in_fonction1984 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_44_in_fonction1984 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_fonction1986 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_acces_variable2009 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_acces_variable2011 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_62_in_acces_variable2009 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_acces_variable2011 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_acces_variable2014 = new BitSet(new long[]{0x8000000000000000L});
-    public static final BitSet FOLLOW_63_in_acces_variable2016 = new BitSet(new long[]{0x4000000000000002L,0x0000000000014001L});
+    public static final BitSet FOLLOW_63_in_acces_variable2016 = new BitSet(new long[]{0x4000000000000002L,0x0000000000004001L});
     public static final BitSet FOLLOW_comm_in_acces_variable2018 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_variable_in_acces_variable2021 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_64_in_acces_variable2052 = new BitSet(new long[]{0x0000000400000000L,0x0000000000000010L});
     public static final BitSet FOLLOW_attribut_vecteur_in_acces_variable2054 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_65_in_variable22082 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_65_in_variable22082 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22084 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_66_in_variable22103 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_66_in_variable22103 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22105 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CST_ENT_in_variable22124 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_CST_ENT_in_variable22124 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22126 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_46_in_variable22145 = new BitSet(new long[]{0x0100000000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_46_in_variable22145 = new BitSet(new long[]{0x0100000000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22147 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_56_in_variable22150 = new BitSet(new long[]{0x4000000000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_56_in_variable22150 = new BitSet(new long[]{0x4000000000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22152 = new BitSet(new long[]{0x4000000000000000L});
-    public static final BitSet FOLLOW_62_in_variable22155 = new BitSet(new long[]{0x81E2480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_62_in_variable22155 = new BitSet(new long[]{0x81E2480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_comm_in_variable22157 = new BitSet(new long[]{0x81E2480C00000000L,0x000000000000002EL});
     public static final BitSet FOLLOW_operations_prio4_in_variable22162 = new BitSet(new long[]{0x8000008000000000L});
-    public static final BitSet FOLLOW_39_in_variable22165 = new BitSet(new long[]{0x01E2480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_39_in_variable22165 = new BitSet(new long[]{0x01E2480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_comm_in_variable22167 = new BitSet(new long[]{0x01E2480C00000000L,0x000000000000002EL});
     public static final BitSet FOLLOW_operations_prio4_in_variable22170 = new BitSet(new long[]{0x8000008000000000L});
-    public static final BitSet FOLLOW_63_in_variable22176 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_63_in_variable22176 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_variable22178 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IDF_in_accesseur2214 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_accesseur_in_accesseur2216 = new BitSet(new long[]{0x0000000000000002L});
@@ -8872,19 +8797,19 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_41_in_valeur_attribut_struct2262 = new BitSet(new long[]{0x01E2480C00000000L,0x000000000000002EL});
     public static final BitSet FOLLOW_operations_prio4_in_valeur_attribut_struct2264 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_operations_prio3b_in_operations_prio4b2307 = new BitSet(new long[]{0x0000000000000002L,0x0000000000003000L});
-    public static final BitSet FOLLOW_prio4_in_operations_prio4b2310 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_prio4_in_operations_prio4b2310 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_prio4b_in_operations_prio4b2314 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_operations_prio2b_in_operations_prio3b2342 = new BitSet(new long[]{0x0001800000000002L,0x0000000000000F00L});
-    public static final BitSet FOLLOW_prio3_in_operations_prio3b2345 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_prio3_in_operations_prio3b2345 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_prio3b_in_operations_prio3b2349 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_operations_prio1b_in_operations_prio2b2377 = new BitSet(new long[]{0x0000000000000002L,0x00000000000000A0L});
-    public static final BitSet FOLLOW_prio2_in_operations_prio2b2380 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_prio2_in_operations_prio2b2380 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_prio2b_in_operations_prio2b2384 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_unaire_in_operations_prio1b2413 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_unaire_in_operations_prio1b2413 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_unairesb_in_operations_prio1b2419 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000048L});
-    public static final BitSet FOLLOW_prio1_in_operations_prio1b2422 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_prio1_in_operations_prio1b2422 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_prio1b_in_operations_prio1b2426 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_43_in_operations_unairesb2454 = new BitSet(new long[]{0x0102480C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_43_in_operations_unairesb2454 = new BitSet(new long[]{0x0102480C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_operations_prio4b_in_operations_unairesb2456 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_44_in_operations_unairesb2458 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_variableb_in_operations_unairesb2487 = new BitSet(new long[]{0x0000000000000002L});
@@ -8896,60 +8821,58 @@ public class Mini_Rust2Parser extends Parser {
     public static final BitSet FOLLOW_IDF_in_variable3b2600 = new BitSet(new long[]{0x4000080000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_variable_in_variable3b2603 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_fonction_in_variable3b2608 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_68_in_attribut_vecteur2836 = new BitSet(new long[]{0x0000080000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_68_in_attribut_vecteur2836 = new BitSet(new long[]{0x0000080000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_attribut_vecteur2838 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_43_in_attribut_vecteur2841 = new BitSet(new long[]{0x0000100000000000L,0x0000000000014000L});
+    public static final BitSet FOLLOW_43_in_attribut_vecteur2841 = new BitSet(new long[]{0x0000100000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_attribut_vecteur2843 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_44_in_attribut_vecteur2846 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_44_in_attribut_vecteur2846 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_attribut_vecteur2848 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IDF_in_attribut_vecteur2874 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_variable_in_attribut_vecteur2876 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_acces_accesseur2914 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
-    public static final BitSet FOLLOW_comm_in_acces_accesseur2916 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000001402EL});
+    public static final BitSet FOLLOW_62_in_acces_accesseur2914 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
+    public static final BitSet FOLLOW_comm_in_acces_accesseur2916 = new BitSet(new long[]{0x01E2684C00000000L,0x000000000000402EL});
     public static final BitSet FOLLOW_expr_in_acces_accesseur2919 = new BitSet(new long[]{0x8000000000000000L});
-    public static final BitSet FOLLOW_63_in_acces_accesseur2921 = new BitSet(new long[]{0x4000000000000002L,0x0000000000014001L});
+    public static final BitSet FOLLOW_63_in_acces_accesseur2921 = new BitSet(new long[]{0x4000000000000002L,0x0000000000004001L});
     public static final BitSet FOLLOW_comm_in_acces_accesseur2923 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2926 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_64_in_acces_accesseur2958 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_IDF_in_acces_accesseur2960 = new BitSet(new long[]{0x4000000000000002L,0x0000000000000001L});
     public static final BitSet FOLLOW_acces_accesseur_in_acces_accesseur2962 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_56_in_unaire2999 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_56_in_unaire2999 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_unaire3001 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_unaire3017 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_69_in_unaire3017 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_unaire3019 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_67_in_unaire23040 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_67_in_unaire23040 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_unaire23042 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_49_in_unaire23059 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_49_in_unaire23059 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_unaire23061 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_67_in_prio13083 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_67_in_prio13083 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio13085 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_70_in_prio13100 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_70_in_prio13100 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio13102 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_71_in_prio23129 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_71_in_prio23129 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio23131 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_prio23146 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_69_in_prio23146 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio23148 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_prio33169 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_47_in_prio33169 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33171 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_prio33186 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_48_in_prio33186 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33188 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_72_in_prio33203 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_72_in_prio33203 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33205 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_73_in_prio33220 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_73_in_prio33220 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33222 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_74_in_prio33237 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_74_in_prio33237 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33239 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_75_in_prio33254 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_75_in_prio33254 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio33256 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_76_in_prio43276 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_76_in_prio43276 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio43278 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_77_in_prio43293 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_77_in_prio43293 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio43295 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_57_in_prio53315 = new BitSet(new long[]{0x0000000000000002L,0x0000000000014000L});
+    public static final BitSet FOLLOW_57_in_prio53315 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
     public static final BitSet FOLLOW_comm_in_prio53317 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_78_in_comm3337 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
+    public static final BitSet FOLLOW_78_in_comm3337 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000000FFFFL});
     public static final BitSet FOLLOW_79_in_comm3342 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_80_in_comm3351 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x000000000003FFFFL});
-    public static final BitSet FOLLOW_81_in_comm3356 = new BitSet(new long[]{0x0000000000000002L});
 
 }
