@@ -141,7 +141,7 @@ public class TDS {
         argument.add(arguments);
         depl.add(0); // pas de déplacement pour les fonctions
         isParam.add(false);
-        taille.add(0);
+        taille.add(typeVar.getTaille());
     }
     
     /**

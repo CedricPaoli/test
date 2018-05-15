@@ -13,7 +13,7 @@ fn main() {
       print !(5)
       }
 
-    let test = i <= n;
+    test = i <= n;
   }
   print!(total);
   }

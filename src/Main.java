@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex1.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/fonction.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -70,7 +70,7 @@ public class Main {
             ecrireInstruction("JSR @MAIN");
             ecrireInstruction("LDQ EXIT_EXC, WR");
             ecrireInstruction("TRP WR");
-            ecrireCode(ast, 0);
+            ecrireCode(ast, 0, "FIN_MAIN");
 
 
             //Fonction d'affichage, i32
@@ -1010,9 +1010,14 @@ public class Main {
                 
                 father_region = num_block;
                 num_block = tablesDesSymboles.size();
-                
+
+                //On ordonne les arguments dans le sens inverse
                 tablesDesSymboles.add(new TDS(num_block, father_region));
-                iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
+
+                for (int i=ast.getChild(1).getChildCount()-1; i>=0; i--)
+                {
+                    iCreerTableSymboles(structures, (CommonTree) ast.getChild(1).getChild(i), num_block, father_region);
+                }
                 
                 ast = (CommonTree)ast.getChild(3);
                 for (int i = 0; i < ast.getChildCount(); i++)
@@ -1199,7 +1204,7 @@ public class Main {
         }
     }
 
-    static void ecrireCode(CommonTree ast, int num_bloc)
+    static void ecrireCode(CommonTree ast, int num_bloc, String fonctionMere)
     {
         int i;
         int nVar;
@@ -1209,10 +1214,12 @@ public class Main {
         TDS tableDesSymboles;
         int nTableDesSymboles;
         int tailleVariables;
+        int tailleParam;
+        ArrayList<Type> parametres;
 
         switch (ast.getToken().getType()) {
             case Mini_Rust2Lexer.PRINT:
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
                 ecrireInstruction("JSR @PRINT");
                 ecrireInstruction("ADQ 4, SP");
 
@@ -1233,7 +1240,7 @@ public class Main {
                 //Fonction while
                 ecrireInstruction("WHILE"+iNumWhile, "LDW R0, R0");      // On débute le boucle en récupérant le résultat de la condition (2premier o)
 
-                ecrireCode( (CommonTree) ast.getChild(0),num_bloc);
+                ecrireCode( (CommonTree) ast.getChild(0),num_bloc, fonctionMere);
 
                 ecrireInstruction("LDW R0, (SP)+");
                 ecrireInstruction("LDW R1, (SP)+");
@@ -1244,36 +1251,59 @@ public class Main {
 
                 ecrireInstruction("WHILESUITE"+iNumWhile,"LDW R0, R0");   // On récupère les 2 suivants
 
-                ecrireCode((CommonTree) ast.getChild(1),num_bloc);                    // On écrit le block
+                ecrireCode((CommonTree) ast.getChild(1),num_bloc, fonctionMere);                    // On écrit le block
 
                 ecrireInstruction("JMP #WHILE"+iNumWhile+"-$-2");                  // On revient au début de la boucle
 
                 ecrireInstruction("FINWHILE"+iNumWhile, "LDW R0, R0");    // On termine la boucle
-
-
                 break;
             case Mini_Rust2Lexer.DECL_FCT:
                 nom = ast.getChild(0).toString();
-                nVar = TDS.tablesDesSymboles.get(num_bloc).getLigne(nom);
+                tableDesSymboles = TDS.tablesDesSymboles.get(num_bloc);
+                nVar = tableDesSymboles.getLigne(nom);
 
                 ecrireInstruction("");
+
+                String finFonction = nom.equals("main")?"FIN_MAIN":"FIN_F"+num_bloc+"_"+nVar;
+                fonctionMere = finFonction;
 
                 if (nom.equals("main")) ecrireInstruction("MAIN", "STW BP, -(SP)");
                 else ecrireInstruction("F"+num_bloc+"_"+nVar, "STW BP, -(SP)");
 
                 ecrireInstruction("LDW BP, SP");
 
+                tailleVariables = 0;
+
                 num_bloc++;
                 tds = TDS.getTDS(num_bloc);
-                tailleVariables = 0;
 
                 for (i=0; i<tds.size(); i++)
                 {
                     if (!tds.getIsParam(i)) tailleVariables += tds.getTaille(i);
                 }
+
+                int tailleReturn = tableDesSymboles.getTaille(nVar);
+                parametres = tableDesSymboles.getArgOf(nom);
+                tailleParam = tailleReturn;
+                for (i=0; i<parametres.size(); i++) tailleParam += parametres.get(i).getTaille();
+
                 ecrireInstruction("ADQ -"+tailleVariables+", SP");
 
-                for (i=0; i<ast.getChild(3).getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(3).getChild(i), num_bloc);
+                for (i=0; i<ast.getChild(3).getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(3).getChild(i), num_bloc, fonctionMere);
+
+                ecrireInstruction(finFonction, "LDW R0, R0");
+
+                if (tailleReturn != 0)
+                {
+                    ecrireInstruction("LDW R1, (SP)+");
+                    ecrireInstruction("LDW R2, (SP)");
+
+                    ecrireInstruction("LDW R0, BP");
+                    ecrireInstruction("ADQ " + (2 + tailleParam) + ", R0");
+
+                    ecrireInstruction("STW R2, (R0)");
+                    ecrireInstruction("STW R1, -(R0)");
+                }
 
                 ecrireInstruction("LDW SP, BP");
                 ecrireInstruction("LDW BP, (SP)+");
@@ -1284,12 +1314,16 @@ public class Main {
                 tableDesSymboles = tdsOuVariableIn(nom, TDS.tablesDesSymboles, num_bloc);
                 nVar = tableDesSymboles.getLigne(nom);
 
-                ArrayList<Type> parametres = tableDesSymboles.getArgOf(nom);
-                int tailleParam = 0;
+                tailleReturn = tableDesSymboles.getTaille(nVar);
+
+                parametres = tableDesSymboles.getArgOf(nom);
+                tailleParam = 0;
+
+                ecrireInstruction("ADQ -"+tailleReturn+", SP");
 
                 for (i=0; i<parametres.size(); i++)
                 {
-                    ecrireCode((CommonTree) ast.getChild(i+1).getChild(0), num_bloc);
+                    ecrireCode((CommonTree) ast.getChild(i+1).getChild(0), num_bloc, fonctionMere);
                     tailleParam += parametres.get(i).getTaille();
                 }
 
@@ -1322,7 +1356,7 @@ public class Main {
                  */
             case Mini_Rust2Lexer.DECL_VAR_MUT:
                 if (ast.getChildCount() > 1) {
-                    ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                    ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                     nom = ast.getChild(0).toString();
                     tableDesSymboles = TDS.getTDS(num_bloc);
@@ -1339,7 +1373,7 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.T__57: //Affectation
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 nom = ast.getChild(0).getChild(0).toString();
 
@@ -1382,10 +1416,14 @@ public class Main {
                 }
                 ecrireInstruction("ADQ -"+tailleVariables+", SP");
 
-                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
+                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc, fonctionMere);
 
                 ecrireInstruction("LDW SP, BP");
                 ecrireInstruction("LDW BP, (SP)+");
+                break;
+            case Mini_Rust2Lexer.RETURN:
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireInstruction("JMP #"+fonctionMere+"-$-2");
                 break;
             case Mini_Rust2Lexer.CST_ENT:
                 //Big endian
@@ -1430,8 +1468,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__71: //cas de +
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @ADD32");
@@ -1442,8 +1480,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.T__69: //cas de -
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @SUB32");
@@ -1454,8 +1492,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.T__67: //cas de *
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @MUL32");
@@ -1466,8 +1504,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
             	break;
             case Mini_Rust2Lexer.T__70: //cas de /
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @DIV32");
@@ -1478,8 +1516,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__47: //<
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @LW32");
@@ -1490,8 +1528,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__48: //>
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @GT32");
@@ -1502,8 +1540,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__73: //<=
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @LE32");
@@ -1514,8 +1552,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__72: //>=
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @GE32");
@@ -1526,8 +1564,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__74: //==
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @EQ32");
@@ -1538,8 +1576,8 @@ public class Main {
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__75: //!=
-                ecrireCode((CommonTree) ast.getChild(0), num_bloc);
-                ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
                 ecrireInstruction("ADQ -4, SP");
                 ecrireInstruction("JSR @NE32");
@@ -1554,7 +1592,7 @@ public class Main {
                 nbIf++;
 
             	//écrire le résultat
-            	ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+            	ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
             	
             	//regarder si la condition est vrai ou pas
             	//Premier registre
@@ -1571,7 +1609,7 @@ public class Main {
             	ecrireInstruction("IFTRUE"+iNbIf, "LDW R0, R0");
             	
             	//Cas où les deux registres sont vrais on exécute le bloc
-            	ecrireCode((CommonTree) ast.getChild(1), num_bloc);
+            	ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
             	//on saute pour rejoindre la fin de la condition
             	ecrireInstruction("JMP #FINIF"+iNbIf+"-$-2");
             	
@@ -1580,13 +1618,13 @@ public class Main {
             	//on regarde si on a un else
             	if(ast.getChildCount()==3) {
             		//excution du code du else
-            		ecrireCode((CommonTree) ast.getChild(2), num_bloc);
+            		ecrireCode((CommonTree) ast.getChild(2), num_bloc, fonctionMere);
             	}
             	ecrireInstruction("FINIF"+iNbIf, "LDW R0, R0");
 
             	break;
             default:
-                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
+                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc, fonctionMere);
                 break;
         }
     }
