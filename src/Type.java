@@ -112,12 +112,12 @@ public class Type
             case Mini_Rust2Lexer.T__65: //True
                 token = Mini_Rust2Lexer.T__51;
                 isValide = true;
-                taille += 1;
+                taille += 4; //Pour simplifier
                 break;
             case Mini_Rust2Lexer.T__66: //False
                 token = Mini_Rust2Lexer.T__51;
                 isValide = true;
-                taille += 1;
+                taille += 4; //Pour simplifier
                 break;
             case Mini_Rust2Lexer.T__76: //&&
             case Mini_Rust2Lexer.T__77: //||
@@ -130,7 +130,7 @@ public class Type
                 }
                 token = Mini_Rust2Lexer.T__51;
                 isValide = true;
-                taille += 1;
+                taille += 4; //Pour simplifier
                 break;
             case Mini_Rust2Lexer.T__47: //<
             case Mini_Rust2Lexer.T__48: //>
@@ -146,7 +146,7 @@ public class Type
                 }
                 token = Mini_Rust2Lexer.T__51; // bool
                 isValide = true;
-                taille += 1;
+                taille += 4; //Pour simplifier
                 break;
             case Mini_Rust2Lexer.CST_ENT: //CST_ENT
                 token = Mini_Rust2Lexer.T__50;
