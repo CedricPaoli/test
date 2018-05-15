@@ -1,8 +1,7 @@
 fn fct(a : i32)
 {
-    while(a<5){
+    while 5{
         print !(a);
-        a = a+1;
     }
 
 }
