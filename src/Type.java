@@ -156,13 +156,15 @@ public class Type
             case Mini_Rust2Lexer.T__71: //+
             case Mini_Rust2Lexer.T__69: //-
             case Mini_Rust2Lexer.T__67: //*
+            case Mini_Rust2Lexer.T__70: // /
 
                 Type type_gauche_moins = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
                 Type type_droit_moins = new Type((CommonTree) tree.getChild(1), structures, nTableDesSymboles);
                 if (type_gauche_moins.token != Mini_Rust2Lexer.T__50 || type_droit_moins.token != Mini_Rust2Lexer.T__50) {
-                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32");
+                    System.out.println("Erreur ligne " + tree.getLine() + " : les deux opérandes doivent être de type i32 au lieu de ("+type_gauche_moins+", "+type_droit_moins+")");
                     Main.isErreur=true;
                 }
+
                 token = Mini_Rust2Lexer.T__50; // i32
                 isValide = true;
                 taille += 4;
