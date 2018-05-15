@@ -89,7 +89,7 @@ sous_bloc : instruction_avec_point (';'+ comm? sous_bloc?)? -> instruction_avec_
 instruction_avec_point : 'let' let2 -> let2
                        | 'return' comm? expr?  -> ^(RETURN expr?)
                        | 'print' comm? '!' comm? '(' comm? expr ')' comm? -> ^(PRINT expr)
-                       | operations_prio4 ('=' ^ operations_prio4)?
+                       | operations_prio4 ('=' ^ (operations_prio4 | bloc))?
                        ;
 
 instruction_sans_point : 'while' comm? operations_prio4b bloc  -> ^(WHILE ^(CONDITION operations_prio4b) bloc)

@@ -18,11 +18,13 @@ public class Main {
     private static int nbStrings = 0;
     private static int nbIf = 0;
     private static int numWhile = 0;
+    private static int nBloc = 0;
+    private static int nbOp = 0;
 
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/fonction.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex3.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -1039,14 +1041,22 @@ public class Main {
                     else tableDesSymboles.ajouter(nom_var, type, 0, true);
                 }
                 break;
-            case Mini_Rust2Lexer.DECL_VAR_MUT:
             case Mini_Rust2Lexer.CST_OU_AFF:
+                if (ast.getChildCount() < 2)
+                {
+                    System.out.println("Erreur: Constante non définie ligne " + ast.getLine());
+                    isErreur = true;
+                    break;
+                }
+            case Mini_Rust2Lexer.DECL_VAR_MUT:
                 nom_var = ast.getChild(0).toString();
-                
+
                 if (tableDesSymboles.getLigne(nom_var) != -1){
                     System.out.println("Erreur: Le nom '" + nom_var + "' est déjà attribué dans ce bloc ligne : " + ast.getLine());
                     isErreur=true;}
-                else {
+                else if (ast.getChildCount() > 1){
+                    if (ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.BLOC) iCreerTableSymboles(structures, (CommonTree) ast.getChild(ast.getChildCount()-1), num_block, father_region);
+
                     type = new Type((CommonTree) ast.getChild(1), structures, num_block);
                     
                     if (!type.gIsValide()){
@@ -1054,14 +1064,21 @@ public class Main {
                         isErreur=true;}
                     else tableDesSymboles.ajouter(nom_var, type, ast.getChild(1), false);
                 }
+                else
+                {
+                    tableDesSymboles.ajouter(nom_var, new Type(), ast.getChild(1), false);
+                }
                 break;
             case Mini_Rust2Lexer.T__57:
-                nom_var = ast.getChild(0).toString();
+                nom_var = ast.getChild(0).getChild(0).toString();
 
                 TDS tds = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
 
                 if (tds != null) {
                     type = tds.getType(tds.getLigne(nom_var));
+
+                    if (ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.BLOC) iCreerTableSymboles(structures, (CommonTree) ast.getChild(ast.getChildCount()-1), num_block, father_region);
+
                     type2 = new Type((CommonTree) ast.getChild(ast.getChildCount()-1), structures, num_block);
 
                     if (type.isEgal(new Type())) //aff
@@ -1075,6 +1092,7 @@ public class Main {
                     }
                 } else {
                     System.out.println("Erreur: La variable  '"+nom_var+"' n'existe pas ligne " + ast.getLine());
+                    isErreur = true;
                 }
                 break;
                 /*
@@ -1274,7 +1292,9 @@ public class Main {
 
                 tailleVariables = 0;
 
-                num_bloc++;
+                nBloc++;
+                num_bloc = nBloc;
+
                 tds = TDS.getTDS(num_bloc);
 
                 for (i=0; i<tds.size(); i++)
@@ -1387,7 +1407,11 @@ public class Main {
 
                 while (tableDesSymboles.getLigne(nom) == -1)
                 {
-                    if (nTableDesSymboles == 0) System.out.println("Problème dans les contrôles sémantiques");
+                    if (nTableDesSymboles == 0)
+                    {
+                        System.out.println("Problème dans les contrôles sémantiques "+nom);
+                        break;
+                    }
                     else nTableDesSymboles = tableDesSymboles.getFather_num_block();
 
                     ecrireInstruction("LDW R2, (R2)");
@@ -1406,7 +1430,9 @@ public class Main {
                 ecrireInstruction("STW BP, -(SP)");
                 ecrireInstruction("LDW BP, SP");
 
-                num_bloc++;
+                nBloc++;
+                num_bloc = nBloc;
+
                 tds = TDS.getTDS(num_bloc);
                 tailleVariables = 0;
 
@@ -1416,10 +1442,42 @@ public class Main {
                 }
                 ecrireInstruction("ADQ -"+tailleVariables+", SP");
 
-                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc, fonctionMere);
+                String fonctionActuelle = "FIN_F"+num_bloc;
+
+                for (i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc, fonctionActuelle);
+
+                if (ast.getChildCount() != 0 && ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.T__57 ||
+                        ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.CST_OU_AFF ||
+                        ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.DECL_VAR_MUT ||
+                        ast.getChild(ast.getChildCount()-1).getType() == Mini_Rust2Lexer.APPEL_FCT)
+                {
+                    ecrireInstruction("LDW R0, (SP)+");
+                    ecrireInstruction("LDW R1, (SP)");
+                }
+                else
+                {
+                    ecrireInstruction("LDW R0, #0");
+                    ecrireInstruction("LDW R1, #0");
+                }
 
                 ecrireInstruction("LDW SP, BP");
                 ecrireInstruction("LDW BP, (SP)+");
+
+                ecrireInstruction("STW R1, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("JMP #FIN"+fonctionActuelle+"-$-2");
+
+                ecrireInstruction(fonctionActuelle, "LDW R0, (SP)+"); //arrêt brutal par return
+                ecrireInstruction("LDW R1, (SP)");
+
+                ecrireInstruction("LDW SP, BP");
+                ecrireInstruction("LDW BP, (SP)+");
+
+                ecrireInstruction("STW R1, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("JMP #"+fonctionMere+"-$-2");
+                ecrireInstruction("FIN"+fonctionActuelle, "LDW R0, R0");
+
                 break;
             case Mini_Rust2Lexer.RETURN:
                 ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
@@ -1440,6 +1498,7 @@ public class Main {
             case Mini_Rust2Lexer.VAR:
                 nom = ast.getChild(0).toString();
                 tableDesSymboles = tdsOuVariableIn(nom, TDS.tablesDesSymboles, num_bloc);
+
                 nVar = tableDesSymboles.getLigne(nom);
 
                 ecrireInstruction("LDW R2, BP");
@@ -1587,6 +1646,67 @@ public class Main {
                 ecrireInstruction("STW R1, (SP)");
                 ecrireInstruction("STW R0, -(SP)");
                 break;
+            case Mini_Rust2Lexer.T__77: //||
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                nbOp++;
+
+                ecrireInstruction("LDW  R0, (SP)+");
+                ecrireInstruction("LDW R1,  (SP)+");
+                ecrireInstruction("JNE #OU1_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, R0");
+                ecrireInstruction("JNE #OU1_"+nbOp+"-$-2");
+
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
+
+                ecrireInstruction("LDW  R0, (SP)+");
+                ecrireInstruction("LDW R1,  (SP)+");
+                ecrireInstruction("JNE #OU1_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, R0");
+                ecrireInstruction("JNE #OU1_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("JMP #FIN_OU_"+nbOp+"-$-2");
+
+                ecrireInstruction("OU1_"+nbOp, "LDW R0, #1");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("FIN_OU_"+nbOp, "LDW R0, R0");
+                break;
+            case Mini_Rust2Lexer.T__76: //&&
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                nbOp++;
+
+                ecrireInstruction("LDW  R0, (SP)+");
+                ecrireInstruction("LDW R1,  (SP)+");
+                ecrireInstruction("JNE #ETS_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, R0");
+                ecrireInstruction("JNE #ETS_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("JMP #FIN_ET_"+nbOp+"-$-2");
+
+                ecrireInstruction("ETS_"+nbOp, "LDW R0, R0");
+                ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
+
+                ecrireInstruction("LDW  R0, (SP)+");
+                ecrireInstruction("LDW R1,  (SP)+");
+                ecrireInstruction("JNE #ET1_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, R0");
+                ecrireInstruction("JNE #ET1_"+nbOp+"-$-2");
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("JMP #FIN_ET_"+nbOp+"-$-2");
+
+                ecrireInstruction("ET1_"+nbOp, "LDW R0, #1");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R0, -(SP)");
+                ecrireInstruction("FIN_ET_"+nbOp, "LDW R0, R0");
+                break;
             case Mini_Rust2Lexer.IF:
                 int iNbIf = nbIf;
                 nbIf++;
@@ -1631,7 +1751,7 @@ public class Main {
 
     static public TDS tdsOuVariableIn(String nom, ArrayList<TDS> tablesDesSymboles, int nTableDesSymboles)
     {
-        int i=0;
+        int i = 0;
         boolean res = false;
         
         for (i=0; i<tablesDesSymboles.size(); i++)

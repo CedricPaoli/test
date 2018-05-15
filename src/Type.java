@@ -291,6 +291,29 @@ public class Type
                     isValide = true;
                 }
                 break;
+            case Mini_Rust2Lexer.BLOC:
+                if (tree.getChildCount() != 0)
+                {
+                    Type type = new Type((CommonTree) tree.getChild(tree.getChildCount() - 1), structures, nTableDesSymboles+1);
+                    token = type.token;
+                    structure = type.structure;
+                    fils = type.fils;
+                    taille = type.getTaille();
+                    isValide = true;
+                    return;
+                }
+                else isValide = false;
+                break;
+            case Mini_Rust2Lexer.T__57:
+            case Mini_Rust2Lexer.DECL_VAR_MUT:
+            case Mini_Rust2Lexer.CST_OU_AFF:
+                Type type = new Type((CommonTree)tree.getChild(1), structures, nTableDesSymboles);
+                token = type.token;
+                structure = type.structure;
+                fils = type.fils;
+                taille = type.getTaille();
+                isValide = true;
+                break;
             default:
                 isValide = false;
                 break;

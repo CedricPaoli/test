@@ -93,8 +93,10 @@ public class TDS {
      * @param nomVar nom de la variable
      * @param nomType type de la variable
      */
-    public void setType(String nomVar, Type nomType){
+    public void setType(String nomVar, Type nomType)
+    {
         type.set(nom.indexOf(nomVar), nomType);
+        taille.set(nom.indexOf(nomVar), nomType.getTaille());
     }
     
     //Fonctions réellements utiles
