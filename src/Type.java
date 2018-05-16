@@ -247,12 +247,25 @@ public class Type
                 }
                 break;
             case Mini_Rust2Lexer.POINTEUR: // pointeur
-            case Mini_Rust2Lexer.POINTEUR_VAL: // pointeur de pointeur
             case Mini_Rust2Lexer.T__49: //&
                 token = Mini_Rust2Lexer.POINTEUR;
                 fils.add(new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles));
                 isValide = true;
                 taille += 6;
+                break;
+            case Mini_Rust2Lexer.POINTEUR_VAL: // acces valeur
+                Type type = new Type((CommonTree) tree.getChild(0), structures, nTableDesSymboles);
+
+                if (type.fils.size() == 0) isValide = false;
+                else
+                {
+                    Type nvType = type.fils.get(0);
+                    token = nvType.token;
+                    structure = nvType.structure;
+                    fils = nvType.fils;
+                    taille = nvType.getTaille();
+                    isValide = true;
+                }
                 break;
             case Mini_Rust2Lexer.DECL_VEC:
                 token = Mini_Rust2Lexer.T__46;
@@ -283,7 +296,7 @@ public class Type
                     Main.isErreur=true;
                     break;
                 } else {
-                    Type type = table.getType(table.getLigne(nom_fn));
+                    type = table.getType(table.getLigne(nom_fn));
                     token = type.token;
                     structure = type.structure;
                     fils = type.fils;
@@ -294,7 +307,7 @@ public class Type
             case Mini_Rust2Lexer.BLOC:
                 if (tree.getChildCount() != 0)
                 {
-                    Type type = new Type((CommonTree) tree.getChild(tree.getChildCount() - 1), structures, nTableDesSymboles+1);
+                    type = new Type((CommonTree) tree.getChild(tree.getChildCount() - 1), structures, nTableDesSymboles+1);
                     token = type.token;
                     structure = type.structure;
                     fils = type.fils;
@@ -307,7 +320,7 @@ public class Type
             case Mini_Rust2Lexer.T__57:
             case Mini_Rust2Lexer.DECL_VAR_MUT:
             case Mini_Rust2Lexer.CST_OU_AFF:
-                Type type = new Type((CommonTree)tree.getChild(1), structures, nTableDesSymboles);
+                type = new Type((CommonTree)tree.getChild(1), structures, nTableDesSymboles);
                 token = type.token;
                 structure = type.structure;
                 fils = type.fils;
@@ -366,6 +379,24 @@ public class Type
         return i;
     }
 
+    public void retirer(int nbPointeurs)
+    {
+        if (nbPointeurs == 0) return;
+
+        if (fils.size() == 0) isValide = false;
+        else
+        {
+            Type type = fils.get(0);
+            token = type.token;
+            structure = type.structure;
+            fils = type.fils;
+            taille = type.getTaille();
+
+            isValide = true;
+
+            retirer(nbPointeurs-1);
+        }
+    }
 
     public int getTaille(){
         return taille;

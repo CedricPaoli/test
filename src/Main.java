@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex3.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/pointeur.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -1070,7 +1070,11 @@ public class Main {
                 }
                 break;
             case Mini_Rust2Lexer.T__57:
-                nom_var = ast.getChild(0).getChild(0).toString();
+                CommonTree iAst = (CommonTree)ast.getChild(0);
+
+                while (iAst.getType() == Mini_Rust2Lexer.POINTEUR_VAL) iAst = (CommonTree)iAst.getChild(0);
+
+                nom_var = iAst.getChild(0).toString();
 
                 TDS tds = tdsOuVariableIn(nom_var, tablesDesSymboles, num_block);
 
@@ -1086,6 +1090,8 @@ public class Main {
                         tds.setType(nom_var, type2);
                     }
                     else {
+                        type =  new Type((CommonTree)ast.getChild(0), structures, num_block);
+
                         if (!type.isEgal(type2)){
                             System.out.println("Les types " + type + " et " + type2 + " ne correspondent pas, ligne : " + ast.getLine());
                             isErreur=true;}
@@ -1387,7 +1393,7 @@ public class Main {
                     ecrireInstruction("LDW R1, (SP)+");
                     ecrireInstruction("LDW R2, BP");
 
-                    ecrireInstruction("ADQ -" + tableDesSymboles.getDepl(nVar) + ", R2");
+                    ecrireInstruction("ADQ -" +tableDesSymboles.getDepl(nVar) + ", R2");
                     ecrireInstruction("STW R1, -(R2)");
                     ecrireInstruction("STW R0, -(R2)");
                 }
@@ -1395,7 +1401,16 @@ public class Main {
             case Mini_Rust2Lexer.T__57: //Affectation
                 ecrireCode((CommonTree) ast.getChild(1), num_bloc, fonctionMere);
 
-                nom = ast.getChild(0).getChild(0).toString();
+                int nbPointeurs = 0;
+                CommonTree iAst = (CommonTree)ast.getChild(0);
+
+                while (iAst.getType() == Mini_Rust2Lexer.POINTEUR_VAL)
+                {
+                    iAst = (CommonTree)iAst.getChild(0);
+                    nbPointeurs++;
+                }
+
+                nom = iAst.getChild(0).toString();
 
                 ecrireInstruction("LDW R0, (SP)+");
                 ecrireInstruction("LDW R1, (SP)+");
@@ -1422,6 +1437,8 @@ public class Main {
 
                 if (tableDesSymboles.getIsParam(nVar)) ecrireInstruction("ADQ "+(2+tableDesSymboles.getDepl(nVar))+", R2");
                 else ecrireInstruction("ADQ -"+(2+tableDesSymboles.getDepl(nVar))+", R2");
+
+                for (i=0; i<nbPointeurs; i++) ecrireInstruction("LDW R2, (R2)");
 
                 ecrireInstruction("STW R1, (R2)");
                 ecrireInstruction("STW R0, -(R2)");
@@ -1524,6 +1541,48 @@ public class Main {
                 ecrireInstruction("LDW R0, (R2)");
                 ecrireInstruction("STW R0, -(SP)");
                 ecrireInstruction("LDW R0, -(R2)");
+                ecrireInstruction("STW R0, -(SP)");
+                break;
+            case Mini_Rust2Lexer.T__49: //&
+                nom = ast.getChild(0).getChild(0).toString();
+                tableDesSymboles = tdsOuVariableIn(nom, TDS.tablesDesSymboles, num_bloc);
+
+                nVar = tableDesSymboles.getLigne(nom);
+
+                ecrireInstruction("LDW R2, BP");
+
+                //On remonte le chainage statique
+                nTableDesSymboles = num_bloc;
+                tableDesSymboles = TDS.getTDS(num_bloc);
+
+                while (tableDesSymboles.getLigne(nom) == -1)
+                {
+                    if (nTableDesSymboles == 0) System.out.println("Problème dans les contrôles sémantiques");
+                    else nTableDesSymboles = tableDesSymboles.getFather_num_block();
+
+                    ecrireInstruction("LDW R2, (R2)");
+
+                    tableDesSymboles = TDS.getTDS(nTableDesSymboles);
+                }
+                nVar = tableDesSymboles.getLigne(nom);
+
+                if (tableDesSymboles.getIsParam(nVar)) ecrireInstruction("ADQ "+(2+tableDesSymboles.getDepl(nVar))+", R2");
+                else ecrireInstruction("ADQ -"+(2+tableDesSymboles.getDepl(nVar))+", R2");
+
+                ecrireInstruction("LDW R0, #0");
+                ecrireInstruction("STW R2, -(SP)");
+                ecrireInstruction("STW R0, -(SP)");
+                break;
+            case Mini_Rust2Lexer.POINTEUR_VAL: //*
+                ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
+                
+                ecrireInstruction("ADQ 2, SP");
+                ecrireInstruction("LDW R2, (SP)");
+
+                ecrireInstruction("LDW R1, (R2)");
+                ecrireInstruction("LDW R0, -(R2)");
+
+                ecrireInstruction("STW R1, (SP)");
                 ecrireInstruction("STW R0, -(SP)");
                 break;
             case Mini_Rust2Lexer.T__71: //cas de +
