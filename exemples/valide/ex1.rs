@@ -6,14 +6,14 @@ fn main() {
   let mut test = i <= n;
   while test {
 
-    let total = total + i * i;
-    let i = i + 1;
+    total = total + i * i;
+    i = i + 1;
 
     if i == 5 {
       print !(5)
       }
 
-    let test = i <= n;
+    test = i <= n;
   }
   print!(total);
   }

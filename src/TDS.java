@@ -16,6 +16,9 @@ public class TDS {
     private ArrayList<Object> val = new ArrayList<>();
     private ArrayList<Integer> depl = new ArrayList<Integer>();
     private ArrayList<Boolean> isParam = new ArrayList<Boolean>();
+    private ArrayList<Integer> taille = new ArrayList<Integer>();
+    private int deplacementParam = 0;
+    private int deplacementVar = 0;
     
     static public ArrayList<TDS> tablesDesSymboles = new ArrayList<TDS>();
     
@@ -90,8 +93,10 @@ public class TDS {
      * @param nomVar nom de la variable
      * @param nomType type de la variable
      */
-    public void setType(String nomVar, Type nomType){
+    public void setType(String nomVar, Type nomType)
+    {
         type.set(nom.indexOf(nomVar), nomType);
+        taille.set(nom.indexOf(nomVar), nomType.getTaille());
     }
     
     //Fonctions réellements utiles
@@ -109,15 +114,17 @@ public class TDS {
         val.add(valeur);
         argument.add(null);
         this.isParam.add(isParam);
+        taille.add(typeVar.getTaille());
 
-        if (depl.size()>0) {
-            int n1 = (depl.get(depl.size()-1));
-            int n2 = (depl.get(depl.size()-1))+typeVar.getTaille();
-            System.out.println("Nom : " + nomVar + " depl prec : " + n1 + " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + n2);
-            depl.add(depl.get(depl.size()-1)+typeVar.getTaille());
-        } else {
-            System.out.println("Nom : " + nomVar + " depl prec : " + 0 +  " Type : " + typeVar + " taille : " + typeVar.getTaille() + " depl cour : " + typeVar.getTaille());
-            depl.add(typeVar.getTaille());
+        if (isParam)
+        {
+            deplacementParam += typeVar.getTaille();
+            depl.add(deplacementParam);
+        }
+        else
+        {
+            depl.add(deplacementVar);
+            deplacementVar += typeVar.getTaille();
         }
     }
     
@@ -134,8 +141,9 @@ public class TDS {
         type.add(typeVar);
         val.add(valeur);
         argument.add(arguments);
-        depl.add(0); // pas de déplacment pour les fonctions
+        depl.add(0); // pas de déplacement pour les fonctions
         isParam.add(false);
+        taille.add(typeVar.getTaille());
     }
     
     /**
@@ -222,5 +230,10 @@ public class TDS {
     
     public int size(){
         return nom.size();
+    }
+
+    public int getTaille(int i)
+    {
+        return taille.get(i);
     }
 }
