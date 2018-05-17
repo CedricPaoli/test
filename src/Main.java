@@ -1575,7 +1575,7 @@ public class Main {
                 break;
             case Mini_Rust2Lexer.POINTEUR_VAL: //*
                 ecrireCode((CommonTree) ast.getChild(0), num_bloc, fonctionMere);
-                
+
                 ecrireInstruction("ADQ 2, SP");
                 ecrireInstruction("LDW R2, (SP)");
 
