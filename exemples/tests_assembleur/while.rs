@@ -1,13 +1,19 @@
 fn fct(a : i32)
 {
-    while(a<5){
-        print !(a);
-        a = a+1;
+    let mut y = 7;
+    
+    while y{
+        a = y;
+        
+        while a
+        {
+            print !(a);
+            a = a-1;
+        }
+        y = y-1;
     }
-
 }
 
 fn main() {
-   print !(5);
-   fct(1);
+   fct(3);
 }
