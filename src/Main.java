@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
-        ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/pointeur.rs");
+        ANTLRFileStream input = new ANTLRFileStream("exemples/valide/ex3.rs");
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

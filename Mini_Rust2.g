@@ -60,7 +60,7 @@ decl : decl_struct
      | decl_fun
      ;
 
-decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' comm? attribut)* )? '}' comm? -> ^(DECL_STRUCT IDF ^(BLOC (attribut attribut* )?))
+decl_struct : 'struct' comm? IDF comm? '{' comm? (attribut (',' comm? attribut)* )? '}' comm? -> ^(DECL_STRUCT IDF ^(BLOC attribut*))
             ;
 
 attribut : IDF comm? ':' comm? type -> ^(ATTRIBUT type IDF)
@@ -244,4 +244,4 @@ comm : '/*' .* '*/'
 
 IDF : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 CST_ENT : ('0'..'9')+('.'('0'..'9')+)?;
-WS  :   (' '|'\n'|'\t'|'\r'|'\s'|'\$'| '//' .* '\n')+ {$channel=HIDDEN;} ;
+WS  :   (' '|'\n'|'\t'|'\r'| '//' .* '\n')+ {$channel=HIDDEN;} ;
