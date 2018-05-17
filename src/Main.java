@@ -16,12 +16,15 @@ public class Main {
     private static BufferedWriter flotFiltre;
     public static boolean isErreur = false;
     private static int nbStrings = 0;
+    private static int nbIf = 0;
     private static int numWhile = 0;
 
     public static void main(String[] args) throws Exception
     {
     	//Récupération des fichiers pour les contrôles
+
         ANTLRFileStream input = new ANTLRFileStream("exemples/tests_assembleur/affectation.rs");
+
         
         Mini_Rust2Lexer lexer = new Mini_Rust2Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -758,7 +761,6 @@ public class Main {
                     System.out.println("La condition n'est pas valide, ligne : " + ast.getLine());
                     isErreur=true;
                 }
-                ecrireCode(ast,num_block);
                 iCreerTableSymboles(structures, (CommonTree) ast.getChild(1), num_block, father_region);
                 break;
             case Mini_Rust2Lexer.IF:
@@ -871,10 +873,10 @@ public class Main {
                     if (tableDesSymboles.getIsParam(nVar)) ecrireInstruction("ADQ "+(2+tableDesSymboles.getDepl(tableDesSymboles.getLigne(chaine)))+", R1");
                     else ecrireInstruction("ADQ -"+tableDesSymboles.getDepl(tableDesSymboles.getLigne(chaine))+", R1");
 
-                    ecrireInstruction("LDW R1, (R1)");
-                    ecrireInstruction("STW R1, -(SP)");
-                    ecrireInstruction("LDW R1, #0");
-                    ecrireInstruction("STW R1, -(SP)");
+                    ecrireInstruction("LDW R0, (R1)");
+                    ecrireInstruction("STW R0, -(SP)");
+                    ecrireInstruction("LDW R0, -(R1)");
+                    ecrireInstruction("STW R0, -(SP)");
                     ecrireInstruction("JSR @PRINT");
                     ecrireInstruction("ADQ 4, SP");
                 }
@@ -1032,22 +1034,40 @@ public class Main {
             	break;
             case Mini_Rust2Lexer.IF:
             	//écrire le résultat
-            	ecrireCode((CommonTree) ast.getChild(0).getChild(0), num_bloc);
+            	ecrireCode((CommonTree) ast.getChild(0), num_bloc);
+            	
             	//regarder si la condition est vrai ou pas
+            	//Premier registre
             	ecrireInstruction("LDW R0, (SP)+");
-            	ecrireInstruction("JEQ #IFFALSE");
-            	//Cas où c'est vrai on exécute le bloc
+            	ecrireInstruction("JEQ #IFFALSE1"+nbIf+"-$-2");
+            	
+            	//Deuxième registre avec premier registre vrai
+            	ecrireInstruction("LDW R1, (SP)");
+            	ecrireInstruction("JEQ #IFFALSE"+nbIf+"-$-2");
+            	ecrireInstruction("JMP #IFTRUE"+nbIf+"-$-2");
+            	
+            	//Première instruction fausse on teste la deuxième
+            	ecrireInstruction("IFFALSE1"+nbIf, "LDW R0, R0");
+            	ecrireInstruction("LDW R1, (SP)");
+            	ecrireInstruction("JEQ #IFFALSE"+nbIf+"-$-2");
+            	
+            	//condition true
+            	ecrireInstruction("IFTRUE"+nbIf, "LDW R0, R0");
+            	
+            	//Cas où les deux registres sont vrais on exécute le bloc
             	ecrireCode((CommonTree) ast.getChild(1), num_bloc);
             	//on saute pour rejoindre la fin de la condition
-            	ecrireInstruction("JMP #FINIF");
-            	//les tag
-            	ecrireInstruction("IFFALSE", "LDW R0, R0");
+            	ecrireInstruction("JMP #FINIF"+nbIf+"-$-2");
+            	
+            	//Cas du else
+            	ecrireInstruction("IFFALSE"+nbIf, "LDW R0, R0");
             	//on regarde si on a un else
             	if(ast.getChildCount()==3) {
             		//excution du code du else
             		ecrireCode((CommonTree) ast.getChild(2), num_bloc);
             	}
-            	ecrireInstruction("#FINIF", "LDW R0, R0");
+            	ecrireInstruction("FINIF"+nbIf, "LDW R0, R0");
+            	nbIf = nbIf + 1;
             	break;
             default:
                 for (int i=0; i<ast.getChildCount(); i++) ecrireCode((CommonTree) ast.getChild(i), num_bloc);
