@@ -5,7 +5,7 @@
 	READ_EXC EQU 65
 	WRITE_EXC EQU 66
 	STACK_ADRS EQU 0x1000
-	LOAD_ADRS EQU 0xF000
+	LOAD_ADRS EQU 0xE000
 	NO_FIND EQU -1
 	NIL EQU 0
 	
@@ -16,81 +16,319 @@
 	LDQ EXIT_EXC, WR
 	TRP WR
 	
-MAIN	STW BP, -(SP)
+F0_0	STW BP, -(SP)
 	LDW BP, SP
+	ADQ -0, SP
+	LDW R2, BP
+	ADQ 14, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
 	LDW R0, #0
 	STW R0, -(SP)
 	LDW R0, #0
+	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @LW32
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	ADQ 8, SP
+	STW R1, (SP)
 	STW R0, -(SP)
 	LDW R0, (SP)+
-	JEQ #IFFALSE10-$-2
-	LDW R1, (SP)
-	JEQ #IFFALSE0-$-2
-	JMP #IFTRUE0-$-2
-IFFALSE10	LDW R0, R0
-	LDW R1, (SP)
+	LDW R1, (SP)+
+	JNE #IFTRUE0-$-2
+	LDW R0, R0
 	JEQ #IFFALSE0-$-2
 IFTRUE0	LDW R0, R0
-	STRING0 string "0"
-	LDW R0, #STRING0
-	STW R0, @WRITE_EXC
-	LDQ WRITE_EXC, WR
-	TRP WR
+	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -0, SP
+	LDW R2, BP
+	LDW R2, (R2)
+	ADQ 10, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	JMP #FIN_F2-$-2
+	LDW R0, #0
+	LDW R1, #0
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FINFIN_F2-$-2
+FIN_F2	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FIN_F0_0-$-2
+FINFIN_F2	LDW R0, R0
 	JMP #FINIF0-$-2
 IFFALSE0	LDW R0, R0
-	STRING1 string "1"
-	LDW R0, #STRING1
-	STW R0, @WRITE_EXC
-	LDQ WRITE_EXC, WR
-	TRP WR
 FINIF0	LDW R0, R0
-	LDW R0, #0
+	ADQ -4, SP
+	LDW R2, BP
+	ADQ 14, R2
+	LDW R0, (R2)
 	STW R0, -(SP)
-	LDW R0, #0
+	LDW R0, -(R2)
 	STW R0, -(SP)
-	LDW R0, (SP)+
-	JEQ #IFFALSE11-$-2
-	LDW R1, (SP)
-	JEQ #IFFALSE1-$-2
-	JMP #IFTRUE1-$-2
-IFFALSE11	LDW R0, R0
-	LDW R1, (SP)
-	JEQ #IFFALSE1-$-2
-IFTRUE1	LDW R0, R0
-	STRING2 string "2"
-	LDW R0, #STRING2
-	STW R0, @WRITE_EXC
-	LDQ WRITE_EXC, WR
-	TRP WR
-	JMP #FINIF1-$-2
-IFFALSE1	LDW R0, R0
-FINIF1	LDW R0, R0
 	LDW R0, #1
 	STW R0, -(SP)
 	LDW R0, #0
 	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
 	LDW R0, (SP)+
-	JEQ #IFFALSE12-$-2
 	LDW R1, (SP)
-	JEQ #IFFALSE2-$-2
-	JMP #IFTRUE2-$-2
-IFFALSE12	LDW R0, R0
+	ADQ 8, SP
+	STW R1, (SP)
+	STW R0, -(SP)
+	LDW R2, BP
+	ADQ 10, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	LDW R2, BP
+	ADQ 6, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @ADD32
+	LDW R0, (SP)+
 	LDW R1, (SP)
-	JEQ #IFFALSE2-$-2
-IFTRUE2	LDW R0, R0
-	STRING3 string "3"
-	LDW R0, #STRING3
-	STW R0, @WRITE_EXC
-	LDQ WRITE_EXC, WR
-	TRP WR
-	JMP #FINIF2-$-2
-IFFALSE2	LDW R0, R0
-FINIF2	LDW R0, R0
-	STRING4 string "4"
-	LDW R0, #STRING4
-	STW R0, @WRITE_EXC
-	LDQ WRITE_EXC, WR
-	TRP WR
+	ADQ 8, SP
+	STW R1, (SP)
+	STW R0, -(SP)
+	LDW R2, BP
+	ADQ 10, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	JSR @F0_0
+	ADQ 12, SP
+	JMP #FIN_F0_0-$-2
+FIN_F0_0	LDW R0, R0
+	LDW R1, (SP)+
+	LDW R2, (SP)
+	LDW R0, BP
+	ADQ 18, R0
+	STW R2, (R0)
+	STW R1, -(R0)
+	LDW SP, BP
+	LDW BP, (SP)+
+	RTS
+	
+F0_1	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -4, SP
+	LDW R2, BP
+	ADQ 6, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @EQ32
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	ADQ 8, SP
+	STW R1, (SP)
+	STW R0, -(SP)
+	LDW  R0, (SP)+
+	LDW R1,  (SP)+
+	JNE #OU1_1-$-2
+	LDW R0, R0
+	JNE #OU1_1-$-2
+	LDW R2, BP
+	ADQ 6, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	LDW R0, #1
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @EQ32
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	ADQ 8, SP
+	STW R1, (SP)
+	STW R0, -(SP)
+	LDW  R0, (SP)+
+	LDW R1,  (SP)+
+	JNE #OU1_1-$-2
+	LDW R0, R0
+	JNE #OU1_1-$-2
+	LDW R0, #0
+	STW R0, -(SP)
+	STW R0, -(SP)
+	JMP #FIN_OU_1-$-2
+OU1_1	LDW R0, #1
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+FIN_OU_1	LDW R0, R0
+	LDW R0, (SP)+
+	LDW R1, (SP)+
+	JNE #IFTRUE1-$-2
+	LDW R0, R0
+	JEQ #IFFALSE1-$-2
+IFTRUE1	LDW R0, R0
+	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -0, SP
+	LDW R2, BP
+	LDW R2, (R2)
+	ADQ 6, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	LDW R0, (SP)+
+	LDW R1, (SP)+
+	LDW R2, BP
+	LDW R2, (R2)
+	ADQ -2, R2
+	STW R1, (R2)
+	STW R0, -(R2)
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FINFIN_F4-$-2
+FIN_F4	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FIN_F0_1-$-2
+FINFIN_F4	LDW R0, R0
+	JMP #FINIF1-$-2
+IFFALSE1	LDW R0, R0
+	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -0, SP
+	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -0, SP
+	ADQ -4, SP
+	LDW R2, BP
+	LDW R2, (R2)
+	LDW R2, (R2)
+	ADQ 6, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	LDW R0, #2
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	ADQ 8, SP
+	STW R1, (SP)
+	STW R0, -(SP)
+	LDW R0, #1
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	JSR @F0_0
+	ADQ 12, SP
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FINFIN_F6-$-2
+FIN_F6	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FIN_F5-$-2
+FINFIN_F6	LDW R0, R0
+	LDW R0, (SP)+
+	LDW R1, (SP)+
+	LDW R2, BP
+	LDW R2, (R2)
+	ADQ -2, R2
+	STW R1, (R2)
+	STW R0, -(R2)
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FINFIN_F5-$-2
+FIN_F5	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW SP, BP
+	LDW BP, (SP)+
+	STW R1, -(SP)
+	STW R0, -(SP)
+	JMP #FIN_F0_1-$-2
+FINFIN_F5	LDW R0, R0
+FINIF1	LDW R0, R0
+	LDW R2, BP
+	ADQ -2, R2
+	LDW R0, (R2)
+	STW R0, -(SP)
+	LDW R0, -(R2)
+	STW R0, -(SP)
+	JMP #FIN_F0_1-$-2
+FIN_F0_1	LDW R0, R0
+	LDW R1, (SP)+
+	LDW R2, (SP)
+	LDW R0, BP
+	ADQ 10, R0
+	STW R2, (R0)
+	STW R1, -(R0)
+	LDW SP, BP
+	LDW BP, (SP)+
+	RTS
+	
+MAIN	STW BP, -(SP)
+	LDW BP, SP
+	ADQ -0, SP
+	ADQ -4, SP
+	LDW R0, #12
+	STW R0, -(SP)
+	LDW R0, #0
+	STW R0, -(SP)
+	JSR @F0_1
+	ADQ 4, SP
+	JSR @PRINT
+	ADQ 4, SP
+FIN_MAIN	LDW R0, R0
 	LDW SP, BP
 	LDW BP, (SP)+
 	RTS
@@ -541,6 +779,273 @@ AND32	STW BP, -(SP)
 	STW R1, -(R4)
 	STW R0, -(R4)
 	LDW SP, BP
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+NE32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	STW R1, -(R4)
+	STW R0, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+EQ32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R2, #0
+	LDW R3, #0
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	JNE #EQ_FIN-$-2
+	LDW R0, R0
+	JNE #EQ_FIN-$-2
+	LDW R2, #1
+	LDW R3, #1
+EQ_FIN	STW R3, -(R4)
+	STW R2, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+GT32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R2, #0
+	LDW R3, #0
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW R0, R0
+	JLW #GT_FIN-$-2
+	LDW R0, R0
+	JNE #GT_1-$-2
+	LDW R1, R1
+	JEQ #GT_FIN-$-2
+GT_1	LDW R2, #1
+	LDW R3, #1
+GT_FIN	STW R3, -(R4)
+	STW R2, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+LW32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R2, #1
+	LDW R3, #1
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW R0, R0
+	JLW #LW_FIN-$-2
+	LDW R2, #0
+	LDW R3, #0
+LW_FIN	STW R3, -(R4)
+	STW R2, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+GE32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R2, #0
+	LDW R3, #0
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW R0, R0
+	JLW #GE_FIN-$-2
+	LDW R2, #1
+	LDW R3, #1
+GE_FIN	STW R3, -(R4)
+	STW R2, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
+	LDW R4, (SP)+
+	LDW R3, (SP)+
+	LDW R2, (SP)+
+	LDW R1, (SP)+
+	LDW R0, (SP)+
+	LDW BP, (SP)+
+	RTS
+
+LE32	STW BP, -(SP)
+	STW R0, -(SP)
+	STW R1, -(SP)
+	STW R2, -(SP)
+	STW R3, -(SP)
+	STW R4, -(SP)
+	STW R5, -(SP)
+	STW R6, -(SP)
+	STW R7, -(SP)
+	LDW BP, SP
+	LDW R4, BP
+	ADQ 30, R4
+	LDW R1, (R4)
+	LDW R0, -(R4)
+	LDW R3, -(R4)
+	LDW R2, -(R4)
+	STW R1, -(SP)
+	STW R0, -(SP)
+	STW R3, -(SP)
+	STW R2, -(SP)
+	ADQ -4, SP
+	JSR @SUB32
+	LDW R2, #0
+	LDW R3, #0
+	LDW R0, (SP)+
+	LDW R1, (SP)
+	LDW R0, R0
+	JGT #LE_FIN-$-2
+	LDW R0, R0
+	JNE #LE_1-$-2
+	LDW R1, R1
+	JNE #LE_FIN-$-2
+LE_1	LDW R2, #1
+	LDW R3, #1
+LE_FIN	STW R3, -(R4)
+	STW R2, -(R4)
+	LDW SP, BP
+	LDW R7, (SP)+
+	LDW R6, (SP)+
+	LDW R5, (SP)+
 	LDW R4, (SP)+
 	LDW R3, (SP)+
 	LDW R2, (SP)+
